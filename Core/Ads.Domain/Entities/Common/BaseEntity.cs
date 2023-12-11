@@ -8,6 +8,6 @@ namespace Ads.Domain.Entities.Common
 {
     public class BaseEntity
     {
-        public Guid Id { get; set; }
+        public int Id { get; set; }
     }
 }

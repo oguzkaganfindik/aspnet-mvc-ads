@@ -1,15 +1,36 @@
 using Ads.Persistence;
-using Microsoft.Extensions.Options;
+using Ads.Persistence.Service.Abstract;
+using Ads.Persistence.Service.Concrete;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddPersistenceServices();
 
-builder.Services.AddCors(options => options.AddDefaultPolicy(policy =>
-    policy.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin()
-));
-
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddTransient(typeof(IService<>), typeof(Service<>));
+builder.Services.AddTransient<IAdvertService, AdvertService>();
+builder.Services.AddTransient<IUserService, UserService>();
+
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(x =>
+{
+    x.LoginPath = "/Account/Login";
+    x.AccessDeniedPath = "/AccessDenied";
+    x.LogoutPath = "/Account/Logout";
+    x.Cookie.Name = "Admin";
+    x.Cookie.MaxAge = TimeSpan.FromDays(7);
+    x.Cookie.IsEssential = true;
+});
+
+builder.Services.AddAuthorization(x =>
+{
+    x.AddPolicy("AdminPolicy", policy => policy.RequireClaim(ClaimTypes.Role, "Admin"));
+    x.AddPolicy("UserPolicy", policy => policy.RequireClaim(ClaimTypes.Role, "Admin", "User"));
+    x.AddPolicy("CustomerPolicy", policy => policy.RequireClaim(ClaimTypes.Role, "Admin", "User", "Customer"));
+});
 
 var app = builder.Build();
 
@@ -26,9 +47,14 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseCors();
 
+app.UseAuthentication();
 app.UseAuthorization();
+
+app.MapControllerRoute(
+            name: "admin",
+            pattern: "{area:exists}/{controller=Main}/{action=Index}/{id?}"
+          );
 
 app.MapControllerRoute(
     name: "default",

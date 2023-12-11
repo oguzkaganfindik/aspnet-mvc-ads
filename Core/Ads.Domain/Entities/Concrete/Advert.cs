@@ -56,7 +56,7 @@ namespace Ads.Domain.Entities.Concrete
 		public virtual User User { get; set; }
 
 		[ForeignKey("User")] 
-		public Guid UserId { get; set; }
+		public int UserId { get; set; }
 		
 	}
 }

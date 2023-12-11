@@ -77,10 +77,11 @@ namespace Ads.Domain.Entities.Concrete
 
         public virtual Role Role { get; set; }
 		       
-		public Guid RoleId { get; set; }
+		public int RoleId { get; set; }
 
 		public virtual Setting Setting { get; set; }
         
-        public Guid SettingId { get; set; }
-	}
+        public int SettingId { get; set; }
+        public Guid? UserGuid { get; set; } = Guid.NewGuid();
+    }
 }

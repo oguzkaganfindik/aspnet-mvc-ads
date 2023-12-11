@@ -74,8 +74,9 @@ namespace Ads.Persistence.Contexts
 				_ = data.State switch
 				{
 					EntityState.Added => data.Entity.CreatedDate = DateTime.Now,
-					EntityState.Modified => data.Entity.UpdatedDate = DateTime.Now
-				};
+					EntityState.Modified => data.Entity.UpdatedDate = DateTime.Now,
+                    EntityState.Deleted => data.Entity.DeletedDate = DateTime.Now
+                };
 			}
 
             return await base.SaveChangesAsync(cancellationToken);
