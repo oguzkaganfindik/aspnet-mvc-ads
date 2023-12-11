@@ -8,12 +8,12 @@ namespace Ads.Domain.Entities.Concrete
     {
 
         [ForeignKey("Category")]
-        public Guid CategoryId { get; set; }
+        public int CategoryId { get; set; }
 
         public virtual Advert Advert { get; set; }
 
         [ForeignKey("Advert")]
-        public Guid AdvertId { get; set; }
+        public int AdvertId { get; set; }
 
         public virtual Category Category { get; set; }
     }

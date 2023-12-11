@@ -8,13 +8,13 @@ namespace Ads.Domain.Entities.Concrete
     {
 
         [ForeignKey("SubCategory")]
-        public Guid SubCategoryId { get; set; }
+        public int SubCategoryId { get; set; }
 
         public virtual SubCategory SubCategory { get; set; }
 
         public virtual Advert Advert { get; set; }
 
         [ForeignKey("Advert")]
-        public Guid AdvertId { get; set; }
+        public int AdvertId { get; set; }
     }
 }

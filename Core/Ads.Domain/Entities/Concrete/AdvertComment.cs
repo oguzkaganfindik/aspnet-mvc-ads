@@ -23,12 +23,12 @@ namespace Ads.Domain.Entities.Concrete
         public virtual Advert Advert { get; set; }
 
         [ForeignKey("Advert")]
-        public Guid AdvertId { get; set; }
+        public int AdvertId { get; set; }
 
         public virtual User User { get; set; }
 
         [ForeignKey("User")]
-        public Guid UserId { get; set; }
+        public int UserId { get; set; }
 
         public DateTime CreatedDate { get; set; }
 

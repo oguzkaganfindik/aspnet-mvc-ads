@@ -8,10 +8,10 @@ namespace Ads.Domain.Entities.Concrete
     public class AdvertRating : BaseEntity, IAuiditEntity
     {
         [Key, Column(Order = 0)]
-        public Guid UserId { get; set; }
+        public int UserId { get; set; }
 
         [Key, Column(Order = 1)]
-        public Guid AdvertId { get; set; } 
+        public int AdvertId { get; set; } 
 
         public int? Rating { get; set; }
 

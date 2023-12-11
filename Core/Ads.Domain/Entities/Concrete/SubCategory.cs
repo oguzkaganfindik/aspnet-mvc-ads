@@ -18,7 +18,7 @@ namespace Ads.Domain.Entities.Concrete
 		public virtual Category Category { get;}
 
 		[ForeignKey("Category")]
-		public Guid CategoryId { get; set; }
+		public int CategoryId { get; set; }
 
 		public virtual ICollection<SubCategoryAdvert> SubCategoryAdverts { get; set; }
 
