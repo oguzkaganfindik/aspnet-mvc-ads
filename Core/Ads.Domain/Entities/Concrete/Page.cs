@@ -1,0 +1,42 @@
+﻿using Ads.Domain.Entities.Abstract;
+using Ads.Domain.Entities.Common;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+
+namespace Ads.Domain.Entities.Concrete
+{
+    public class Page : BaseEntity, IAuiditEntity
+    {
+
+        [DisplayName("Title")]
+        [Required(ErrorMessage = "{0} boş geçilemez.")]
+        [StringLength(200, ErrorMessage = "{0} {1} karakterden fazla olamaz!")]
+        [MinLength(5, ErrorMessage = "{0} en az {1} karakter olabilir!")]
+        public string Title { get; set; }
+
+        [DisplayName("Content")]
+        //[Required(ErrorMessage = "{0} boş geçilemez.")]
+        [StringLength(3000, ErrorMessage = "{0} {1} karakterden fazla olamaz!")]
+        [MinLength(5, ErrorMessage = "{0} en az {1} karakter olabilir!")]
+        public string Content { get; set; }
+
+		[DisplayName("Image Path")]
+		//[Required(ErrorMessage = "{0} boş geçilemez.")]
+		[StringLength(200, ErrorMessage = "{0} {1} karakterden fazla olamaz!")]
+		[MinLength(10, ErrorMessage = "{0} en az {1} karakter olabilir!")]
+		public string ImagePath { get; set; }
+
+		[DisplayName("Is it Active?")]
+        public bool IsActive { get; set; }
+
+		[DisplayName("Is it Active?")]
+		public string IsActiveString => IsActive ? "Active" : "Passive";
+
+		public DateTime CreatedDate { get; set; }
+
+        public DateTime? UpdatedDate { get; set; }
+
+        public DateTime? DeletedDate { get; set; }
+    }
+
+}
