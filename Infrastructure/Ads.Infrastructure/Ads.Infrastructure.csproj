@@ -10,4 +10,8 @@
     <ProjectReference Include="..\..\Core\Ads.Application\Ads.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="EmailServices\" />
+  </ItemGroup>
+
 </Project>
