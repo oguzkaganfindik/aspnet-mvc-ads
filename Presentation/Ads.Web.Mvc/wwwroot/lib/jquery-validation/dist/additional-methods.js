@@ -125,7 +125,8 @@ $.validator.addMethod( "bankorgiroaccountNL", function( value, element ) {
 /**
  * BIC is the business identifier code (ISO 9362). This BIC check is not a guarantee for authenticity.
  *
- * BIC pattern: BBBBCCLLbbb (8 or 11 characters long; bbb is optional)
+ * BIC pattern: BBBBCCLLbbb (8 or 11 ch
+ * ters long; bbb is optional)
  *
  * Validation is case-insensitive. Please make sure to normalize input yourself.
  *

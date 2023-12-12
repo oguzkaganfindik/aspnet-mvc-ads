@@ -1,6 +1,6 @@
+using Ads.Application.Services;
 using Ads.Persistence;
-using Ads.Persistence.Service.Abstract;
-using Ads.Persistence.Service.Concrete;
+using Ads.Persistence.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
 
