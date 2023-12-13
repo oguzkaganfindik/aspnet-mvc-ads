@@ -1,9 +1,9 @@
-﻿using Ads.Domain.Entities.Common;
+﻿using Ads.Domain.Entities.Abstract;
 using System.Linq.Expressions;
 
 namespace Ads.Application.Repositories
 {
-    public interface IRepository<T> where T : BaseEntity
+    public interface IRepository<T> where T : class, IEntity, IAuiditEntity
     {
         List<T> GetAll();
         List<T> GetAll(Expression<Func<T, bool>> expression);

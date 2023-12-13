@@ -1,13 +1,13 @@
 ﻿using Ads.Domain.Entities.Abstract;
-using Ads.Domain.Entities.Common;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Ads.Domain.Entities.Concrete
 {
-	public class Advert : BaseEntity, IAuiditEntity
+    public class Advert : IEntity, IAuiditEntity
 	{
+        public int Id { get; set; }
 
         [DisplayName("Title")]
 		[Required(ErrorMessage = "{0} boş geçilemez.")]

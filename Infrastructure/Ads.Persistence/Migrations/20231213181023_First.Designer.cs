@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Ads.Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231212195543_First")]
+    [Migration("20231213181023_First")]
     partial class First
     {
         /// <inheritdoc />
@@ -152,9 +152,6 @@ namespace Ads.Persistence.Migrations
                     b.Property<DateTime?>("DeletedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
                     b.Property<int?>("Rating")
                         .HasColumnType("int");
 
@@ -267,14 +264,31 @@ namespace Ads.Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("Id");
 
                     b.ToTable("Roles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Admin"
+                        });
                 });
 
             modelBuilder.Entity("Ads.Domain.Entities.Concrete.Setting", b =>
@@ -298,6 +312,14 @@ namespace Ads.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Settings");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Theme = "Deneme deneme denemem",
+                            Value = "MErhaba merhaba merhaba"
+                        });
                 });
 
             modelBuilder.Entity("Ads.Domain.Entities.Concrete.SubCategory", b =>
@@ -376,7 +398,6 @@ namespace Ads.Persistence.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("ImagePath")
-                        .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
@@ -422,6 +443,25 @@ namespace Ads.Persistence.Migrations
                     b.HasIndex("SettingId");
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Address = "Ankara",
+                            CreatedDate = new DateTime(2023, 12, 13, 21, 10, 23, 193, DateTimeKind.Local).AddTicks(7705),
+                            Email = "admin@test.com",
+                            FirstName = "Admin",
+                            ImagePath = "Ankara Ankara Ankara",
+                            IsActive = true,
+                            LastName = "Admin",
+                            Password = "123",
+                            Phone = "0850",
+                            RoleId = 1,
+                            SettingId = 1,
+                            UserGuid = new Guid("de7ca284-0004-4ff0-91f9-7cb19f9a5156"),
+                            Username = "admin"
+                        });
                 });
 
             modelBuilder.Entity("Ads.Domain.Entities.Concrete.Advert", b =>

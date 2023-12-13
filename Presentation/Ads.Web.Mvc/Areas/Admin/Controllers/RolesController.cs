@@ -1,14 +1,24 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Ads.Application.Services;
+using Ads.Domain.Entities.Concrete;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ads.Web.Mvc.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class RolesController : Controller
     {
-        // GET: RolesController
-        public ActionResult Index()
+        private readonly IService<Role> _service;
+
+        public RolesController(IService<Role> service)
         {
-            return View();
+            _service = service;
+        }
+
+        // GET: RolesController
+        public async Task<ActionResult> IndexAsync()
+        {
+            var model = await _service.GetAllAsync();
+            return View(model);
         }
 
         // GET: RolesController/Details/5
@@ -30,7 +40,7 @@ namespace Ads.Web.Mvc.Areas.Admin.Controllers
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(IndexAsync));
             }
             catch
             {
@@ -51,7 +61,7 @@ namespace Ads.Web.Mvc.Areas.Admin.Controllers
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(IndexAsync));
             }
             catch
             {
@@ -72,7 +82,7 @@ namespace Ads.Web.Mvc.Areas.Admin.Controllers
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(IndexAsync));
             }
             catch
             {

@@ -1,13 +1,13 @@
 ﻿using Ads.Domain.Entities.Abstract;
-using Ads.Domain.Entities.Common;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Ads.Domain.Entities.Concrete
 {
-    public class AdvertComment : BaseEntity, IAuiditEntity
+    public class AdvertComment : IEntity, IAuiditEntity
     {
+        public int Id { get; set; }
 
         [DisplayName("Comment")]
         [StringLength(500, ErrorMessage = "{0} {1} karakterden fazla olamaz!")]
