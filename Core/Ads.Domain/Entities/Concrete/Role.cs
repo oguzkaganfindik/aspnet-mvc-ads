@@ -1,12 +1,12 @@
 ﻿using Ads.Domain.Entities.Abstract;
-using Ads.Domain.Entities.Common;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace Ads.Domain.Entities.Concrete
 {
-	public class Role : BaseEntity
-	{
+    public class Role : IEntity, IAuiditEntity
+    {
+        public int Id { get; set; }
 
         [DisplayName("Name")]
 		[Required(ErrorMessage = "{0} boş geçilemez.")]
@@ -15,5 +15,8 @@ namespace Ads.Domain.Entities.Concrete
 		public string Name { get; set; }
 
 		public virtual ICollection<User> Users { get; set; }
-	}
+        public DateTime CreatedDate { get; set; }
+        public DateTime? UpdatedDate { get; set; }
+        public DateTime? DeletedDate { get; set; }
+    }
 }

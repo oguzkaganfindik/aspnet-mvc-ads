@@ -7,10 +7,15 @@ namespace Ads.Persistence.Contexts
 {
 	public class AppDbContext : DbContext
 	{
-		public AppDbContext(DbContextOptions options) : base(options)
-		{
-		}
-		public DbSet<Advert> Adverts { get; set; }
+        //public AppDbContext(DbContextOptions options) : base(options)
+        //{
+        //}
+
+        //public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
+        //{
+        //}
+
+        public DbSet<Advert> Adverts { get; set; }
 		public DbSet<AdvertComment> AdvertComments { get; set; }
 		public DbSet<AdvertImage> AdvertImages { get; set; }
 		public DbSet<AdvertRating> AdvertRatings { get; set; }
@@ -23,9 +28,16 @@ namespace Ads.Persistence.Contexts
 		public DbSet<SubCategory> SubCategories { get; set; }
 		public DbSet<SubCategoryAdvert> SubCategoryAdverts { get; set; }
 
-		protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer(@"Server=(localDb)\MSSQLLocalDb;Database=DbAdsApp;Persist Security Info=True;User ID=sa;Password=123;Trusted_Connection=True;TrustServerCertificate=Yes;MultipleActiveResultSets=true");
+            base.OnConfiguring(optionsBuilder);
+        }
+
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
-			modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+			//modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 		
 			modelBuilder.Entity<User>()
 				.HasOne(u => u.Role)
@@ -60,8 +72,42 @@ namespace Ads.Persistence.Contexts
 				.HasForeignKey(ar => ar.AdvertId)
 				.OnDelete(DeleteBehavior.Restrict);
 
+            modelBuilder.Entity<Role>().HasData(new Role
+            {
+				Id = 1,
+				Name = "Admin"
+            });
 
-		}
+            modelBuilder.Entity<User>().HasData(new User
+            {
+				Id = 1,
+				FirstName = "Admin",
+				LastName = "Admin",
+                IsActive = true,
+				CreatedDate = DateTime.Now,
+				Email = "admin@test.com",
+                Username = "admin",
+                Password = "123",
+                //Rol = new Rol { Id = 1},
+                RoleId = 1,
+                Phone = "0850",
+				Address = "Ankara",
+				ImagePath = "Ankara Ankara Ankara",
+				SettingId = 1,
+				
+            });
+
+            modelBuilder.Entity<Setting>().HasData(new Setting
+            {
+                Id = 1,
+				Theme = "Selam Selam Selam",
+				Value = "Merhaba merhaba merhaba"
+            });
+
+            base.OnModelCreating(modelBuilder);
+
+
+        }
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
@@ -81,6 +127,8 @@ namespace Ads.Persistence.Contexts
 
             return await base.SaveChangesAsync(cancellationToken);
         }
+
+
 
     }
 }

@@ -1,19 +1,21 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿//using Microsoft.Extensions.Configuration;
 
-namespace Ads.Persistence
-{
-    static class Configuration
-    {
-        static public string ConnectionString
-        {
-            get
-            {
-                ConfigurationManager configurationManager = new();
-                configurationManager.SetBasePath(Path.Combine(Directory.GetCurrentDirectory(), "../../Presentation/Ads.Web.Mvc"));
-                configurationManager.AddJsonFile("appsettings.json");
+//namespace Ads.Persistence
+//{
+//    static class Configuration
+//    {
+//        static public string ConnectionString
+//        {
+//            get
+//            {
+//                IConfigurationBuilder configurationBuilder = new ConfigurationBuilder()
+//                    .SetBasePath(Path.Combine(Directory.GetCurrentDirectory(), "../../Presentation/Ads.Web.Mvc"))
+//                    .AddJsonFile("appsettings.json");
 
-                return configurationManager.GetConnectionString("DBConStr");
-            }
-        }
-    }
-}
+//                IConfiguration configuration = configurationBuilder.Build();
+
+//                return configuration.GetConnectionString("DBConStr");
+//            }
+//        }
+//    }
+//}

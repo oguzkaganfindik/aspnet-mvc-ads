@@ -1,18 +1,18 @@
 ﻿using Ads.Domain.Entities.Abstract;
-using Ads.Domain.Entities.Common;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace Ads.Domain.Entities.Concrete
 {
-    public class User : BaseEntity, IAuiditEntity
+    public class User : IEntity, IAuiditEntity
     {
+        public int Id { get; set; }
 
         [DisplayName("Profile Picture")]
 		//[Required(ErrorMessage = "{0} boş geçilemez.")]
 		[StringLength(200, ErrorMessage = "{0} {1} karakterden fazla olamaz!")]
 		[MinLength(10, ErrorMessage = "{0} en az {1} karakter olabilir!")]
-		public string ImagePath { get; set; }
+		public string? ImagePath { get; set; }
 
 		[DisplayName("Email")]
         [Required(ErrorMessage = "{0} boş geçilemez.")]
@@ -53,7 +53,6 @@ namespace Ads.Domain.Entities.Concrete
         [DisplayName("Phone Number")]
         [StringLength(50, ErrorMessage = "{0} {1} karakterden fazla olamaz!")]
         [MinLength(1, ErrorMessage = "{0} en az {1} karakter olabilir!")]
-        //[RegularExpression("^[0-9]*$", ErrorMessage = "{0} sadece rakamlardan oluşmalıdır.")]
         [Required(ErrorMessage = "{0} boş geçilemez.")]
         public string Phone { get; set; }
 

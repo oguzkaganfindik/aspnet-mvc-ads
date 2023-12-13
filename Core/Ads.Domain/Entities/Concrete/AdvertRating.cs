@@ -1,11 +1,10 @@
 ﻿using Ads.Domain.Entities.Abstract;
-using Ads.Domain.Entities.Common;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Ads.Domain.Entities.Concrete
 {
-    public class AdvertRating : BaseEntity, IAuiditEntity
+    public class AdvertRating : IAuiditEntity
     {
         [Key, Column(Order = 0)]
         public int UserId { get; set; }

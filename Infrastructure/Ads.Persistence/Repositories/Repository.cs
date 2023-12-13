@@ -1,12 +1,12 @@
 ﻿using Ads.Application.Repositories;
-using Ads.Domain.Entities.Common;
+using Ads.Domain.Entities.Abstract;
 using Ads.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
 namespace Ads.Persistence.Repositories
 {
-    public class Repository<T> : IRepository<T> where T : BaseEntity, new()
+    public class Repository<T> : IRepository<T> where T : class, IEntity, IAuiditEntity, new()
     {
         internal AppDbContext _context;
         internal DbSet<T> _dbSet;

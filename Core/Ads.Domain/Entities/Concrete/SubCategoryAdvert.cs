@@ -1,11 +1,11 @@
 ﻿using Ads.Domain.Entities.Abstract;
-using Ads.Domain.Entities.Common;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Ads.Domain.Entities.Concrete
 {
-    public class SubCategoryAdvert : BaseEntity
+    public class SubCategoryAdvert : IEntity
     {
+        public int Id { get; set; }
 
         [ForeignKey("SubCategory")]
         public int SubCategoryId { get; set; }

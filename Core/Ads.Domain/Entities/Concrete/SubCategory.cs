@@ -1,13 +1,13 @@
 ﻿using Ads.Domain.Entities.Abstract;
-using Ads.Domain.Entities.Common;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Ads.Domain.Entities.Concrete
 {
-	public class SubCategory : BaseEntity
+    public class SubCategory : IEntity
 	{
+        public int Id { get; set; }
 
         [DisplayName("Name")]
 		[Required(ErrorMessage = "{0} boş geçilemez.")]

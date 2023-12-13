@@ -1,12 +1,12 @@
 ﻿using Ads.Domain.Entities.Abstract;
-using Ads.Domain.Entities.Common;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace Ads.Domain.Entities.Concrete
 {
-    public class Page : BaseEntity, IAuiditEntity
+    public class Page : IEntity, IAuiditEntity
     {
+        public int Id { get; set; }
 
         [DisplayName("Title")]
         [Required(ErrorMessage = "{0} boş geçilemez.")]
