@@ -14,12 +14,17 @@ namespace Ads.Persistence.Repositories
 
         public async Task<List<User>> GetCustomList()
         {
-            return await _dbSet.AsNoTracking().Include(x => x.Role).ToListAsync();
+            return await _dbSet.Include(x => x.Role)
+                .Include(x => x.Setting)
+                .ToListAsync();
         }
 
         public async Task<List<User>> GetCustomList(Expression<Func<User, bool>> expression)
         {
-            return await _dbSet.Where(expression).AsNoTracking().Include(x => x.Role).ToListAsync();
+            return await _dbSet.Where(expression)
+                .Include(x => x.Role)
+                .Include(x => x.Setting)
+                .ToListAsync();
         }
     }
 }

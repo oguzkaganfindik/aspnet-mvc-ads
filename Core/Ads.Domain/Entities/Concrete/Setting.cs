@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Ads.Domain.Entities.Concrete
 {
-    public class Setting : IEntity
+    public class Setting : IEntity, IAuiditEntity
     {
         public int Id { get; set; }
 
@@ -21,6 +21,9 @@ namespace Ads.Domain.Entities.Concrete
         public string Value { get; set; }
 
         public virtual ICollection<User> Users { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public DateTime? UpdatedDate { get; set; }
+        public DateTime? DeletedDate { get; set; }
 
-	}
+    }
 }

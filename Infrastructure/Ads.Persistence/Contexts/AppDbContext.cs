@@ -124,14 +124,14 @@ namespace Ads.Persistence.Contexts
                         data.Entity.UpdatedDate = currentTime;
                         break;
 
-                    case EntityState.Deleted:
-                        // İstersen silinen kaydı kalıcı olarak silmek yerine, bir "Soft Delete" işlemi uygulayabilirsin.
-                        // data.State = EntityState.Modified;
-                        // data.Entity.DeletedDate = currentTime;
-                        // data.Entity.IsDeleted = true;
-                        // veya tamamen kaldırmak için şu satırı açabilirsin:
-                        // data.State = EntityState.Detached;
-                        break;
+                    //case EntityState.Deleted:
+                    //    // İstersen silinen kaydı kalıcı olarak silmek yerine, bir "Soft Delete" işlemi uygulayabilirsin.
+                    //    // data.State = EntityState.Modified;
+                    //    // data.Entity.DeletedDate = currentTime;
+                    //    // data.Entity.IsDeleted = true;
+                    //    // veya tamamen kaldırmak için şu satırı açabilirsin:
+                    //    // data.State = EntityState.Detached;
+                    //    break;
                 }
             }
 

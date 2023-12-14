@@ -14,17 +14,17 @@ namespace Ads.Persistence.Repositories
 
         public async Task<Advert> GetCustomAdvert(int id)
         {
-            return await _dbSet.AsNoTracking().Include(x => x.CategoryAdverts).Include(y => y.SubCategoryAdverts).FirstOrDefaultAsync(c => c.Id == id);
+            return await _dbSet.Include(x => x.CategoryAdverts).Include(y => y.SubCategoryAdverts).FirstOrDefaultAsync(c => c.Id == id);
         }
 
         public async Task<List<Advert>> GetCustomAdvertList()
         {
-            return await _dbSet.AsNoTracking().Include(x => x.CategoryAdverts).Include(y => y.SubCategoryAdverts).ToListAsync();
+            return await _dbSet.Include(x => x.CategoryAdverts).Include(y => y.SubCategoryAdverts).ToListAsync();
         }
 
         public async Task<List<Advert>> GetCustomAdvertList(Expression<Func<Advert, bool>> expression)
         {
-            return await _dbSet.Where(expression).AsNoTracking().Include(x => x.CategoryAdverts).Include(y => y.SubCategoryAdverts).ToListAsync();
+            return await _dbSet.Where(expression).Include(x => x.CategoryAdverts).Include(y => y.SubCategoryAdverts).ToListAsync();
         }
     }
 }
