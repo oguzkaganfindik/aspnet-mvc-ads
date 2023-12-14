@@ -4,17 +4,21 @@
 //{
 //    static class Configuration
 //    {
+//        static IConfiguration ConfigurationInstance { get; }
+
+//        static Configuration()
+//        {
+//            ConfigurationInstance = new ConfigurationBuilder()
+//                .SetBasePath(Path.Combine(Directory.GetCurrentDirectory(), "../../Presentation/Ads.Web.Mvc"))
+//                .AddJsonFile("appsettings.json")
+//                .Build();
+//        }
+
 //        static public string ConnectionString
 //        {
 //            get
 //            {
-//                IConfigurationBuilder configurationBuilder = new ConfigurationBuilder()
-//                    .SetBasePath(Path.Combine(Directory.GetCurrentDirectory(), "../../Presentation/Ads.Web.Mvc"))
-//                    .AddJsonFile("appsettings.json");
-
-//                IConfiguration configuration = configurationBuilder.Build();
-
-//                return configuration.GetConnectionString("DBConStr");
+//                return ConfigurationInstance.GetConnectionString("DBConStr");
 //            }
 //        }
 //    }

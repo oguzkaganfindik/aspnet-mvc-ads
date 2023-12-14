@@ -296,17 +296,17 @@ namespace Ads.Persistence.Migrations
             migrationBuilder.InsertData(
                 table: "Roles",
                 columns: new[] { "Id", "CreatedDate", "DeletedDate", "Name", "UpdatedDate" },
-                values: new object[] { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Admin", null });
+                values: new object[] { 1, new DateTime(2023, 12, 14, 4, 23, 59, 910, DateTimeKind.Local).AddTicks(8132), null, "Admin", null });
 
             migrationBuilder.InsertData(
                 table: "Settings",
                 columns: new[] { "Id", "Theme", "Value" },
-                values: new object[] { 1, "Deneme deneme denemem", "MErhaba merhaba merhaba" });
+                values: new object[] { 1, "Dark Theme", "Black" });
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "Address", "CreatedDate", "DeletedDate", "Email", "FirstName", "ImagePath", "IsActive", "LastName", "Password", "Phone", "RoleId", "SettingId", "UpdatedDate", "UserGuid", "Username" },
-                values: new object[] { 1, "Ankara", new DateTime(2023, 12, 13, 21, 10, 23, 193, DateTimeKind.Local).AddTicks(7705), null, "admin@test.com", "Admin", "Ankara Ankara Ankara", true, "Admin", "123", "0850", 1, 1, null, new Guid("de7ca284-0004-4ff0-91f9-7cb19f9a5156"), "admin" });
+                values: new object[] { 1, "Ankara", new DateTime(2023, 12, 14, 4, 23, 59, 910, DateTimeKind.Local).AddTicks(8304), null, "admin@test.com", "Admin", "Ankara Ankara Ankara", true, "Admin", "123", "0850", 1, 1, null, new Guid("fe3417c6-ab4a-45f1-8f7d-074962d6192f"), "admin" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AdvertComments_AdvertId",

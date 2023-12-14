@@ -3,20 +3,15 @@ using Ads.Persistence;
 using Ads.Persistence.Contexts;
 using Ads.Persistence.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 
+//builder.Services.AddPersistenceServices();
+
 builder.Services.AddDbContext<AppDbContext>();
-
-//builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DBConStr"))); 2
-
-//builder.Services.AddPersistenceServices(builder.Configuration); 1
-
-
 
 builder.Services.AddTransient(typeof(IService<>), typeof(Service<>));
 builder.Services.AddTransient<IAdvertService, AdvertService>();
