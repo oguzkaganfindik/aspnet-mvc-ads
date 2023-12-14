@@ -68,7 +68,10 @@ namespace Ads.Persistence.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Theme = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    Value = table.Column<string>(type: "nvarchar(400)", maxLength: 400, nullable: false)
+                    Value = table.Column<string>(type: "nvarchar(400)", maxLength: 400, nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedDate = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -296,17 +299,17 @@ namespace Ads.Persistence.Migrations
             migrationBuilder.InsertData(
                 table: "Roles",
                 columns: new[] { "Id", "CreatedDate", "DeletedDate", "Name", "UpdatedDate" },
-                values: new object[] { 1, new DateTime(2023, 12, 14, 4, 23, 59, 910, DateTimeKind.Local).AddTicks(8132), null, "Admin", null });
+                values: new object[] { 1, new DateTime(2023, 12, 14, 19, 23, 13, 304, DateTimeKind.Local).AddTicks(2160), null, "Admin", null });
 
             migrationBuilder.InsertData(
                 table: "Settings",
-                columns: new[] { "Id", "Theme", "Value" },
-                values: new object[] { 1, "Dark Theme", "Black" });
+                columns: new[] { "Id", "CreatedDate", "DeletedDate", "Theme", "UpdatedDate", "Value" },
+                values: new object[] { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Dark Theme", null, "Black" });
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "Address", "CreatedDate", "DeletedDate", "Email", "FirstName", "ImagePath", "IsActive", "LastName", "Password", "Phone", "RoleId", "SettingId", "UpdatedDate", "UserGuid", "Username" },
-                values: new object[] { 1, "Ankara", new DateTime(2023, 12, 14, 4, 23, 59, 910, DateTimeKind.Local).AddTicks(8304), null, "admin@test.com", "Admin", "Ankara Ankara Ankara", true, "Admin", "123", "0850", 1, 1, null, new Guid("fe3417c6-ab4a-45f1-8f7d-074962d6192f"), "admin" });
+                values: new object[] { 1, "Ankara", new DateTime(2023, 12, 14, 19, 23, 13, 304, DateTimeKind.Local).AddTicks(2324), null, "admin@test.com", "Admin", "Ankara Ankara Ankara", true, "Admin", "123", "0850", 1, 1, null, new Guid("7525740d-1527-428d-a881-c1fcdf402918"), "admin" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AdvertComments_AdvertId",

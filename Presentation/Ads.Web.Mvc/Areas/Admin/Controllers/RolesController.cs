@@ -51,18 +51,21 @@ namespace Ads.Web.Mvc.Areas.Admin.Controllers
         }
 
         // GET: RolesController/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<ActionResult> EditAsync(int id)
         {
-            return View();
+            var model = await _service.FindAsync(id);
+            return View(model);
         }
 
         // POST: RolesController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, Role rol)
         {
             try
             {
+                _service.Update(rol);
+                _service.Save();
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -72,18 +75,21 @@ namespace Ads.Web.Mvc.Areas.Admin.Controllers
         }
 
         // GET: RolesController/Delete/5
-        public ActionResult Delete(int id)
+        public async Task<ActionResult> DeleteAsync(int id)
         {
-            return View();
+            var model = await _service.FindAsync(id);
+            return View(model);
         }
 
         // POST: RolesController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(int id, Role rol)
         {
             try
             {
+                _service.Delete(rol);
+                _service.Save();
                 return RedirectToAction(nameof(Index));
             }
             catch
