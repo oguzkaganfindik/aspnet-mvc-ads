@@ -283,7 +283,7 @@ namespace Ads.Persistence.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedDate = new DateTime(2023, 12, 14, 4, 23, 59, 910, DateTimeKind.Local).AddTicks(8132),
                             Name = "Admin"
                         });
                 });
@@ -314,8 +314,8 @@ namespace Ads.Persistence.Migrations
                         new
                         {
                             Id = 1,
-                            Theme = "Deneme deneme denemem",
-                            Value = "MErhaba merhaba merhaba"
+                            Theme = "Dark Theme",
+                            Value = "Black"
                         });
                 });
 
@@ -446,7 +446,7 @@ namespace Ads.Persistence.Migrations
                         {
                             Id = 1,
                             Address = "Ankara",
-                            CreatedDate = new DateTime(2023, 12, 13, 21, 10, 23, 193, DateTimeKind.Local).AddTicks(7705),
+                            CreatedDate = new DateTime(2023, 12, 14, 4, 23, 59, 910, DateTimeKind.Local).AddTicks(8304),
                             Email = "admin@test.com",
                             FirstName = "Admin",
                             ImagePath = "Ankara Ankara Ankara",
@@ -456,7 +456,7 @@ namespace Ads.Persistence.Migrations
                             Phone = "0850",
                             RoleId = 1,
                             SettingId = 1,
-                            UserGuid = new Guid("de7ca284-0004-4ff0-91f9-7cb19f9a5156"),
+                            UserGuid = new Guid("fe3417c6-ab4a-45f1-8f7d-074962d6192f"),
                             Username = "admin"
                         });
                 });

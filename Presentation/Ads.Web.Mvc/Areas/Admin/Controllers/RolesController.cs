@@ -36,11 +36,13 @@ namespace Ads.Web.Mvc.Areas.Admin.Controllers
         // POST: RolesController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(Role rol)
         {
             try
             {
-                return RedirectToAction(nameof(IndexAsync));
+                _service.Add(rol);
+                _service.Save();
+                return RedirectToAction(nameof(Index));
             }
             catch
             {
@@ -61,7 +63,7 @@ namespace Ads.Web.Mvc.Areas.Admin.Controllers
         {
             try
             {
-                return RedirectToAction(nameof(IndexAsync));
+                return RedirectToAction(nameof(Index));
             }
             catch
             {
@@ -82,7 +84,7 @@ namespace Ads.Web.Mvc.Areas.Admin.Controllers
         {
             try
             {
-                return RedirectToAction(nameof(IndexAsync));
+                return RedirectToAction(nameof(Index));
             }
             catch
             {

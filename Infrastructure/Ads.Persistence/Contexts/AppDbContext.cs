@@ -7,15 +7,11 @@ namespace Ads.Persistence.Contexts
 {
 	public class AppDbContext : DbContext
 	{
-        //public AppDbContext(DbContextOptions options) : base(options)
-        //{
-        //}
+		//public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
+		//{
+		//}
 
-        //public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
-        //{
-        //}
-
-        public DbSet<Advert> Adverts { get; set; }
+		public DbSet<Advert> Adverts { get; set; }
 		public DbSet<AdvertComment> AdvertComments { get; set; }
 		public DbSet<AdvertImage> AdvertImages { get; set; }
 		public DbSet<AdvertRating> AdvertRatings { get; set; }
@@ -28,17 +24,18 @@ namespace Ads.Persistence.Contexts
 		public DbSet<SubCategory> SubCategories { get; set; }
 		public DbSet<SubCategoryAdvert> SubCategoryAdverts { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer(@"Server=(localDb)\MSSQLLocalDb;Database=DbAdsApp;Persist Security Info=True;User ID=sa;Password=123;Trusted_Connection=True;TrustServerCertificate=Yes;MultipleActiveResultSets=true");
-            base.OnConfiguring(optionsBuilder);
-        }
+		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+		{
+			optionsBuilder.UseSqlServer(@"Server=(localDb)\MSSQLLocalDb;Database=DbAdsApp;Persist Security Info=True;User ID=sa;Password=123;Trusted_Connection=True;TrustServerCertificate=Yes;MultipleActiveResultSets=true");
 
+			//optionsBuilder.UseSqlServer(Configuration.ConnectionString);
+			base.OnConfiguring(optionsBuilder);
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
-			//modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-		
+			modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+
 			modelBuilder.Entity<User>()
 				.HasOne(u => u.Role)
 				.WithMany(u => u.Users)
@@ -75,7 +72,8 @@ namespace Ads.Persistence.Contexts
             modelBuilder.Entity<Role>().HasData(new Role
             {
 				Id = 1,
-				Name = "Admin"
+				Name = "Admin",
+                CreatedDate = DateTime.Now,
             });
 
             modelBuilder.Entity<User>().HasData(new User
@@ -100,13 +98,44 @@ namespace Ads.Persistence.Contexts
             modelBuilder.Entity<Setting>().HasData(new Setting
             {
                 Id = 1,
-				Theme = "Selam Selam Selam",
-				Value = "Merhaba merhaba merhaba"
+				Theme = "Dark Theme",
+				Value = "Black"
             });
 
             base.OnModelCreating(modelBuilder);
 
 
+        }
+
+        public override int SaveChanges()
+        {
+            var datas = ChangeTracker.Entries<IAuiditEntity>();
+            var currentTime = DateTime.Now;
+
+            foreach (var data in datas)
+            {
+                switch (data.State)
+                {
+                    case EntityState.Added:
+                        data.Entity.CreatedDate = currentTime;
+                        break;
+
+                    case EntityState.Modified:
+                        data.Entity.UpdatedDate = currentTime;
+                        break;
+
+                    case EntityState.Deleted:
+                        // İstersen silinen kaydı kalıcı olarak silmek yerine, bir "Soft Delete" işlemi uygulayabilirsin.
+                        // data.State = EntityState.Modified;
+                        // data.Entity.DeletedDate = currentTime;
+                        // data.Entity.IsDeleted = true;
+                        // veya tamamen kaldırmak için şu satırı açabilirsin:
+                        // data.State = EntityState.Detached;
+                        break;
+                }
+            }
+
+            return base.SaveChanges();
         }
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
