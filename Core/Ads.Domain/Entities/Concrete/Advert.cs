@@ -12,13 +12,13 @@ namespace Ads.Domain.Entities.Concrete
         [DisplayName("Title")]
 		[Required(ErrorMessage = "{0} boş geçilemez.")]
 		[StringLength(200, ErrorMessage = "{0} {1} karakterden fazla olamaz!")]
-		[MinLength(3, ErrorMessage = "{0} en az {1} karakter olabilir!")]
+		[MinLength(1, ErrorMessage = "{0} en az {1} karakter olabilir!")]
 		public string Title { get; set; }
 
 		[DisplayName("Description")]
 		[Required(ErrorMessage = "{0} boş geçilemez.")]
 		[StringLength(500, ErrorMessage = "{0} {1} karakterden fazla olamaz!")]
-		[MinLength(10, ErrorMessage = "{0} en az {1} karakter olabilir!")]
+		[MinLength(1, ErrorMessage = "{0} en az {1} karakter olabilir!")]
 		public string Description { get; set; }
 
 		[DisplayName("Advert Type")]
@@ -33,19 +33,19 @@ namespace Ads.Domain.Entities.Concrete
 		[DisplayName("Is it on sale?")]
 		public string OnSaleString => OnSale ? "On Sale" : "Archived";
 
-		public int Price { get; set; }
+		public int? Price { get; set; }
 
-		public int ClickCount { get; set; }
+		public int? ClickCount { get; set; }
 
-		public virtual ICollection<CategoryAdvert> CategoryAdverts { get; set; }
+		public virtual ICollection<CategoryAdvert>? CategoryAdverts { get; set; }
 
-		public virtual ICollection<SubCategoryAdvert> SubCategoryAdverts { get; set; }
+		public virtual ICollection<SubCategoryAdvert>? SubCategoryAdverts { get; set; }
 
-		public virtual ICollection<AdvertImage> AdvertImages { get; set; }
+		public virtual ICollection<AdvertImage>? AdvertImages { get; set; }
 
-		public virtual ICollection<AdvertComment> AdvertComments { get; set; }
+		public virtual ICollection<AdvertComment>? AdvertComments { get; set; }
 
-		public virtual ICollection<AdvertRating> AdvertRatings { get; set; }
+		public virtual ICollection<AdvertRating>? AdvertRatings { get; set; }
 
 		public DateTime CreatedDate { get; set; }
 
@@ -53,10 +53,10 @@ namespace Ads.Domain.Entities.Concrete
 
 		public DateTime? DeletedDate { get; set; }
 
-		public virtual User User { get; set; }
+		public virtual User? User { get; set; }
 
 		[ForeignKey("User")] 
 		public int UserId { get; set; }
-		
-	}
+
+    }
 }

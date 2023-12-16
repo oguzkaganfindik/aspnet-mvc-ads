@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Ads.Domain.Entities.Concrete
 {
-    public class CategoryAdvert : IEntity
+    public class CategoryAdvert : IEntity, IAuiditEntity
     {
         public int Id { get; set; }
 
@@ -16,5 +16,11 @@ namespace Ads.Domain.Entities.Concrete
         public int AdvertId { get; set; }
 
         public virtual Category Category { get; set; }
+
+        public DateTime CreatedDate { get; set; }
+
+        public DateTime? UpdatedDate { get; set; }
+
+        public DateTime? DeletedDate { get; set; }
     }
 }

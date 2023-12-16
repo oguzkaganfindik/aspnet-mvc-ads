@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Ads.Domain.Entities.Concrete
 {
-    public class SubCategoryAdvert : IEntity
+    public class SubCategoryAdvert : IEntity, IAuiditEntity
     {
         public int Id { get; set; }
 
@@ -16,5 +16,10 @@ namespace Ads.Domain.Entities.Concrete
 
         [ForeignKey("Advert")]
         public int AdvertId { get; set; }
+        public DateTime CreatedDate { get; set; }
+
+        public DateTime? UpdatedDate { get; set; }
+
+        public DateTime? DeletedDate { get; set; }
     }
 }

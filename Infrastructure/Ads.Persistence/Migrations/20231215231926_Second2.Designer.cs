@@ -4,6 +4,7 @@ using Ads.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Ads.Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231215231926_Second2")]
+    partial class Second2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -301,7 +304,7 @@ namespace Ads.Persistence.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedDate = new DateTime(2023, 12, 16, 6, 10, 22, 870, DateTimeKind.Local).AddTicks(5959),
+                            CreatedDate = new DateTime(2023, 12, 16, 2, 19, 26, 749, DateTimeKind.Local).AddTicks(3771),
                             Name = "Admin"
                         });
                 });
@@ -492,7 +495,7 @@ namespace Ads.Persistence.Migrations
                         {
                             Id = 1,
                             Address = "Ankara",
-                            CreatedDate = new DateTime(2023, 12, 16, 6, 10, 22, 870, DateTimeKind.Local).AddTicks(6095),
+                            CreatedDate = new DateTime(2023, 12, 16, 2, 19, 26, 749, DateTimeKind.Local).AddTicks(3930),
                             Email = "admin@test.com",
                             FirstName = "Admin",
                             ImagePath = "Ankara Ankara Ankara",
@@ -502,7 +505,7 @@ namespace Ads.Persistence.Migrations
                             Phone = "0850",
                             RoleId = 1,
                             SettingId = 1,
-                            UserGuid = new Guid("b12569f2-f51d-4619-a40a-8528808abb0e"),
+                            UserGuid = new Guid("55b94f30-cbfe-4705-9974-74b068602a31"),
                             Username = "admin"
                         });
                 });
