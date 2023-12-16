@@ -20,10 +20,10 @@
                 @Html.DisplayNameFor(model => model.Description)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CategoryAdverts)
+                Categories
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.SubCategoryAdverts)
+                SubCategories
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Type)
@@ -63,20 +63,32 @@
                     @Html.DisplayFor(modelItem => item.Description)
                 </td>
                 <td>
-                    @foreach (var user in item.CategoryAdverts)
+                    @foreach (var categoryAdvert in item.CategoryAdverts)
                     {
-                        @Html.DisplayFor(modelItem => user.CategoryId)
-                        if (user != item.CategoryAdverts.Last())
+                        <span>
+                            @if (categoryAdvert.Category != null)
+                            {
+                                @Html.DisplayFor(modelItem => categoryAdvert.Category.Name)
+                            }
+                            else
+                            {
+                                <text>No Category</text>
+                            }
+                        </span>
+
+                        if (categoryAdvert != item.CategoryAdverts.Last())
                         {
                             <text>, </text>
                         }
                     }
                 </td>
                 <td>
-                    @foreach (var user in item.SubCategoryAdverts)
+                    @foreach (var subCategoryAdvert in item.SubCategoryAdverts)
                     {
-                        @Html.DisplayFor(modelItem => user.SubCategoryId)
-                        if (user != item.SubCategoryAdverts.Last())
+                        <span>
+                            @Html.DisplayFor(modelItem => subCategoryAdvert.SubCategory.Name)
+                        </span>
+                        if (subCategoryAdvert != item.SubCategoryAdverts.Last())
                         {
                             <text>, </text>
                         }
