@@ -16,6 +16,9 @@ builder.Services.AddDbContext<AppDbContext>();
 builder.Services.AddTransient(typeof(IService<>), typeof(Service<>));
 builder.Services.AddTransient<IAdvertService, AdvertService>();
 builder.Services.AddTransient<IUserService, UserService>();
+builder.Services.AddTransient<ICategoryService, CategoryService>();
+builder.Services.AddTransient<ISubCategoryService, SubCategoryService>();
+builder.Services.AddTransient<ISettingService, SettingService>();
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(x =>
 {

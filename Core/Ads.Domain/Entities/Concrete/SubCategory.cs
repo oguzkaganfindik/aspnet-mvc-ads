@@ -5,23 +5,27 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Ads.Domain.Entities.Concrete
 {
-    public class SubCategory : IEntity
-	{
+    public class SubCategory : IEntity, IAuiditEntity
+    {
         public int Id { get; set; }
 
         [DisplayName("Name")]
 		[Required(ErrorMessage = "{0} boş geçilemez.")]
 		[StringLength(100, ErrorMessage = "{0} {1} karakterden fazla olamaz!")]
-		[MinLength(3, ErrorMessage = "{0} en az {1} karakter olabilir!")]
+		[MinLength(1, ErrorMessage = "{0} en az {1} karakter olabilir!")]
 		public string Name { get; set; }
 
-		public virtual Category Category { get;}
+		public virtual Category Category { get; set; }
 
-		[ForeignKey("Category")]
+        [ForeignKey("Category")]
 		public int CategoryId { get; set; }
 
-		public virtual ICollection<SubCategoryAdvert> SubCategoryAdverts { get; set; }
+		public virtual ICollection<SubCategoryAdvert>? SubCategoryAdverts { get; set; }
 
+        public DateTime CreatedDate { get; set; }
 
-	}
+        public DateTime? UpdatedDate { get; set; }
+
+        public DateTime? DeletedDate { get; set; }
+    }
 }

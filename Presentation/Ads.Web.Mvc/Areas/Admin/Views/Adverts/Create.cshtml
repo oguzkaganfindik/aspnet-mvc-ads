@@ -1,0 +1,69 @@
+﻿@model Ads.Domain.Entities.Concrete.Advert
+
+@{
+    ViewData["Title"] = "Add Advert";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1>Add Advert</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Type" /> Is Business? @Html.DisplayNameFor(model => model.Type)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="OnSale" /> Is On Sale? @Html.DisplayNameFor(model => model.OnSale)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="Price" class="control-label"></label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ClickCount" class="control-label"></label>
+                <input asp-for="ClickCount" class="form-control" />
+                <span asp-validation-for="ClickCount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserId" class="control-label"></label>
+                <select asp-for="UserId" class="form-select" asp-items="ViewBag.UserId"></select>
+                <span asp-validation-for="UserId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CategoryAdverts" class="control-label"></label>
+                <select asp-for="CategoryAdverts" class="form-select" asp-items="ViewBag.CategoryId"></select>
+                <span asp-validation-for="CategoryAdverts" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SubCategoryAdverts" class="control-label"></label>
+                <select asp-for="SubCategoryAdverts" class="form-select" asp-items="ViewBag.SubCategoryId"></select>
+                <span asp-validation-for="SubCategoryAdverts" class="text-danger"></span>
+            </div>
+            <div class="form-group mt-5">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>

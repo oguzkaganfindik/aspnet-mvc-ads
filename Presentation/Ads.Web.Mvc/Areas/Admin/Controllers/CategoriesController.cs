@@ -5,91 +5,93 @@ using Microsoft.AspNetCore.Mvc;
 namespace Ads.Web.Mvc.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class RolesController : Controller
+    public class CategoriesController : Controller
     {
-        private readonly IService<Role> _service;
+        private readonly ICategoryService _service;
 
-        public RolesController(IService<Role> service)
+        public CategoriesController(ICategoryService service)
         {
             _service = service;
         }
 
-        // GET: RolesController
+        // GET: CategoriesController
         public async Task<IActionResult> IndexAsync()
         {
-            var model = await _service.GetAllAsync();
+            var model = await _service.GetCustomCategoryList();
             return View(model);
         }
 
-        // GET: RolesController/Details/5
+        // GET: CategoriesController/Details/5
         public IActionResult Details(int id)
         {
             return View();
         }
 
-        // GET: RolesController/Create
+        // GET: CategoriesController/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: RolesController/Create
+        // POST: CategoriesController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Role rol)
+        public async Task<IActionResult> CreateAsync(Category category)
         {
             try
             {
-                _service.Add(rol);
-                _service.Save();
+                await _service.AddAsync(category);
+                await _service.SaveAsync();
                 return RedirectToAction(nameof(Index));
             }
             catch
             {
-                return View();
+                ModelState.AddModelError("", "Hata Oluştu!");
             }
+            return View(category);
         }
 
-        // GET: RolesController/Edit/5
+        // GET: CategoriesController/Edit/5
         public async Task<IActionResult> EditAsync(int id)
         {
             var model = await _service.FindAsync(id);
             return View(model);
         }
 
-        // POST: RolesController/Edit/5
+        // POST: CategoriesController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, Role rol)
+        public async Task<IActionResult> EditAsync(int id, Category category)
         {
             try
             {
-                _service.Update(rol);
-                _service.Save();
+                _service.Update(category);
+                await _service.SaveAsync();
                 return RedirectToAction(nameof(Index));
             }
             catch
             {
-                return View();
+                ModelState.AddModelError("", "Hata Oluştu!");
             }
+            return View(category);
         }
 
-        // GET: RolesController/Delete/5
+        // GET: CategoriesController/Delete/5
         public async Task<IActionResult> DeleteAsync(int id)
         {
             var model = await _service.FindAsync(id);
             return View(model);
         }
 
-        // POST: RolesController/Delete/5
+        // POST: CategoriesController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Delete(int id, Role rol)
+        public async Task<IActionResult> DeleteAsync(int id, Category category)
         {
             try
             {
-                _service.Delete(rol);
-                _service.Save();
+                _service.Delete(category);
+                await _service.SaveAsync();
                 return RedirectToAction(nameof(Index));
             }
             catch

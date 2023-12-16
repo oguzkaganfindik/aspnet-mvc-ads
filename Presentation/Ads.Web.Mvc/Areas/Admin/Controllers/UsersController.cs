@@ -23,20 +23,20 @@ namespace Ads.Web.Mvc.Areas.Admin.Controllers
 
 
         // GET: UsersController
-        public async Task<ActionResult> IndexAsync()
+        public async Task<IActionResult> IndexAsync()
         {
-            var model = await _service.GetCustomList(); //eklendi
+            var model = await _service.GetCustomList(); 
             return View(model);
         }
 
         // GET: UsersController/Details/5
-        public ActionResult Details(int id)
+        public IActionResult Details(int id)
         {
             return View();
         }
 
         // GET: UsersController/Create
-        public async Task<ActionResult> CreateAsync()
+        public async Task<IActionResult> CreateAsync()
         {
             ViewBag.RoleId = new SelectList(await _serviceRole.GetAllAsync(), "Id", "Name");
             ViewBag.SettingId = new SelectList(await _serviceSetting.GetAllAsync(), "Id", "Theme");
@@ -46,7 +46,7 @@ namespace Ads.Web.Mvc.Areas.Admin.Controllers
         // POST: UsersController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> CreateAsync(User user)
+        public async Task<IActionResult> CreateAsync(User user)
         {
             if (ModelState.IsValid)
             {
@@ -67,7 +67,7 @@ namespace Ads.Web.Mvc.Areas.Admin.Controllers
         }
 
         // GET: UsersController/Edit/5
-        public async Task<ActionResult> EditAsync(int id)
+        public async Task<IActionResult> EditAsync(int id)
         {
             var model = await _service.FindAsync(id);
             ViewBag.RoleId = new SelectList(await _serviceRole.GetAllAsync(), "Id", "Name");
@@ -78,7 +78,7 @@ namespace Ads.Web.Mvc.Areas.Admin.Controllers
         // POST: UsersController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> EditAsync(int id, User user)
+        public async Task<IActionResult> EditAsync(int id, User user)
         {
             if (ModelState.IsValid)
             {
@@ -99,7 +99,7 @@ namespace Ads.Web.Mvc.Areas.Admin.Controllers
         }
 
         // GET: UsersController/Delete/5
-        public async Task<ActionResult> DeleteAsync(int id)
+        public async Task<IActionResult> DeleteAsync(int id)
         {
             var model = await _service.FindAsync(id);
             return View(model);
@@ -108,7 +108,7 @@ namespace Ads.Web.Mvc.Areas.Admin.Controllers
         // POST: UsersController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteAsync(int id, User user)
+        public async Task<IActionResult> DeleteAsync(int id, User user)
         {
             try
             {

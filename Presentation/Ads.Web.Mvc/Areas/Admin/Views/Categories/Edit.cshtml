@@ -1,11 +1,12 @@
-﻿@model Ads.Domain.Entities.Concrete.Role
+﻿@model Ads.Domain.Entities.Concrete.Category
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Category Edit";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h1>Edit</h1>
+<h1>Category Edit</h1>
+
 
 <hr />
 <div class="row">
@@ -13,12 +14,23 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="CreatedDate" />
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IconPath" class="control-label"></label>
+                <input asp-for="IconPath" class="form-control" />
+                <span asp-validation-for="IconPath" class="text-danger"></span>
+            </div>
+            <div class="form-group mt-5">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
@@ -28,3 +40,4 @@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
+

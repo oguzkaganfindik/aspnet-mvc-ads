@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Ads.Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231214162313_First")]
+    [Migration("20231215183748_First")]
     partial class First
     {
         /// <inheritdoc />
@@ -173,6 +173,12 @@ namespace Ads.Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(200)
@@ -187,6 +193,9 @@ namespace Ads.Persistence.Migrations
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -286,7 +295,7 @@ namespace Ads.Persistence.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedDate = new DateTime(2023, 12, 14, 19, 23, 13, 304, DateTimeKind.Local).AddTicks(2160),
+                            CreatedDate = new DateTime(2023, 12, 15, 21, 37, 48, 886, DateTimeKind.Local).AddTicks(4477),
                             Name = "Admin"
                         });
                 });
@@ -343,10 +352,19 @@ namespace Ads.Persistence.Migrations
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -459,7 +477,7 @@ namespace Ads.Persistence.Migrations
                         {
                             Id = 1,
                             Address = "Ankara",
-                            CreatedDate = new DateTime(2023, 12, 14, 19, 23, 13, 304, DateTimeKind.Local).AddTicks(2324),
+                            CreatedDate = new DateTime(2023, 12, 15, 21, 37, 48, 886, DateTimeKind.Local).AddTicks(4625),
                             Email = "admin@test.com",
                             FirstName = "Admin",
                             ImagePath = "Ankara Ankara Ankara",
@@ -469,7 +487,7 @@ namespace Ads.Persistence.Migrations
                             Phone = "0850",
                             RoleId = 1,
                             SettingId = 1,
-                            UserGuid = new Guid("7525740d-1527-428d-a881-c1fcdf402918"),
+                            UserGuid = new Guid("f1d66205-ab78-463a-ad6a-cb479b82976f"),
                             Username = "admin"
                         });
                 });
@@ -555,11 +573,13 @@ namespace Ads.Persistence.Migrations
 
             modelBuilder.Entity("Ads.Domain.Entities.Concrete.SubCategory", b =>
                 {
-                    b.HasOne("Ads.Domain.Entities.Concrete.Category", null)
+                    b.HasOne("Ads.Domain.Entities.Concrete.Category", "Category")
                         .WithMany("SubCategories")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("Ads.Domain.Entities.Concrete.SubCategoryAdvert", b =>

@@ -4,14 +4,14 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Ads.Domain.Entities.Concrete
 {
-    public class Category : IEntity
+    public class Category : IEntity, IAuiditEntity
     {
         public int Id { get; set; }
 
         [DisplayName("Name")]
 		[Required(ErrorMessage = "{0} boş geçilemez.")]
 		[StringLength(100, ErrorMessage = "{0} {1} karakterden fazla olamaz!")]
-		[MinLength(3, ErrorMessage = "{0} en az {1} karakter olabilir!")]
+		[MinLength(1, ErrorMessage = "{0} en az {1} karakter olabilir!")]
 		public string Name { get; set; }
 
 		[DisplayName("Description")]
@@ -28,6 +28,11 @@ namespace Ads.Domain.Entities.Concrete
 
 		public virtual ICollection<CategoryAdvert> CategoryAdverts { get; set; }
 		public virtual ICollection<SubCategory> SubCategories { get; set; }
-	
-	}
+        public DateTime CreatedDate { get; set; }
+
+        public DateTime? UpdatedDate { get; set; }
+
+        public DateTime? DeletedDate { get; set; }
+
+    }
 }
