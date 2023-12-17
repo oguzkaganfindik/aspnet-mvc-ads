@@ -4,12 +4,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Ads.Domain.Entities.Concrete
 {
-    public class AdvertRating : IAuiditEntity
+    public class AdvertRating : IEntity, IAuiditEntity
     {
-        [Key, Column(Order = 0)]
+        [Key]
+        public int Id { get; set; }
+
         public int UserId { get; set; }
 
-        [Key, Column(Order = 1)]
         public int AdvertId { get; set; } 
 
         public int? Rating { get; set; }
@@ -20,9 +21,9 @@ namespace Ads.Domain.Entities.Concrete
 
         public DateTime? DeletedDate { get; set; }
 
-        public virtual Advert Advert { get; set; }
+        public virtual Advert? Advert { get; set; }
 
-        public virtual User User { get; set; }
+        public virtual User? User { get; set; }
     }
 }
 

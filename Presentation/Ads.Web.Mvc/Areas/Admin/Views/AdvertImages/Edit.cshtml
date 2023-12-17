@@ -1,0 +1,38 @@
+﻿@model Ads.Domain.Entities.Concrete.AdvertImage
+
+@{
+    ViewData["Title"] = "Advert Images Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1>Advert Images Edit</h1>
+
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="CreatedDate" />
+            <div class="form-group">
+                <label asp-for="ImagePath" class="control-label"></label>
+                <input asp-for="ImagePath" class="form-control" />
+                <span asp-validation-for="ImagePath" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AdvertId" class="control-label"></label>
+                <select asp-for="AdvertId" class="form-control" asp-items="ViewBag.AdvertId"></select>
+                <span asp-validation-for="AdvertId" class="text-danger"></span>
+            </div>
+            <div class="form-group mt-5">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a class="btn btn-outline-primary mt-2" asp-action="Index">Back to List</a>
+</div>
+

@@ -24,6 +24,7 @@ namespace Ads.Domain.Entities.Concrete
         public DateTime CreatedDate { get; set; }
         public DateTime? UpdatedDate { get; set; }
         public DateTime? DeletedDate { get; set; }
+        public virtual Page? Page { get; set; }
 
     }
 }

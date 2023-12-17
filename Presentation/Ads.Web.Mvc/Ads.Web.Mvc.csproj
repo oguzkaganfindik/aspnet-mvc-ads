@@ -16,12 +16,16 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Core\Ads.Application\Ads.Application.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\Ads.Infrastructure\Ads.Infrastructure.csproj" />
     <ProjectReference Include="..\..\Infrastructure\Ads.Persistence\Ads.Persistence.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Admin\Models\" />
+    <Folder Include="wwwroot\Img\Advert\" />
+    <Folder Include="wwwroot\Img\Page\" />
+    <Folder Include="wwwroot\Img\Slider\" />
   </ItemGroup>
 
 </Project>

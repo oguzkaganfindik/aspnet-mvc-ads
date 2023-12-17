@@ -1,4 +1,5 @@
 ﻿using Ads.Domain.Entities.Abstract;
+using OtoServisSatis.Entities;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -37,6 +38,16 @@ namespace Ads.Domain.Entities.Concrete
 
         public int? ClickCount { get; set; }
 
+        public int CategoryId { get; set; }
+
+        public int SubCategoryId { get; set; }
+        public int CustomerId { get; set; }
+
+        public virtual User? User { get; set; }
+
+        [ForeignKey("User")]
+        public int UserId { get; set; }
+
         public virtual ICollection<CategoryAdvert>? CategoryAdverts { get; set; }
 
         public virtual ICollection<SubCategoryAdvert>? SubCategoryAdverts { get; set; }
@@ -47,20 +58,19 @@ namespace Ads.Domain.Entities.Concrete
 
         public virtual ICollection<AdvertRating>? AdvertRatings { get; set; }
 
+        public virtual ICollection<Customer>? Customers { get; set; }
+
+        public int SliderId { get; set; }
+
+        public virtual Slider? Slider { get; set; }
+
         public DateTime CreatedDate { get; set; }
 
         public DateTime? UpdatedDate { get; set; }
 
         public DateTime? DeletedDate { get; set; }
 
-        public virtual User? User { get; set; }
-
-        [ForeignKey("User")]
-        public int UserId { get; set; }
-
-        public int CategoryId { get; set; }
-
-        public int SubCategoryId { get; set; }
+        
 
     }
 }

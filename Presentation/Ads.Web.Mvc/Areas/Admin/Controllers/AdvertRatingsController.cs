@@ -1,88 +1,137 @@
 ﻿using Ads.Application.Services;
 using Ads.Domain.Entities.Concrete;
+using Ads.Persistence.Contexts;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Ads.Web.Mvc.Areas.Admin.Controllers
 {
     [Area("Admin")]
     public class AdvertRatingsController : Controller
     {
+        private readonly IAdvertRatingService _service;
+        private readonly IService<Advert> _serviceAdvert;
+        private readonly IService<User> _serviceUser;
+
+
+
+        public AdvertRatingsController(IService<Advert> serviceAdvert, IService<User> serviceUser, IAdvertRatingService service)
+        {
+            _serviceAdvert = serviceAdvert;
+            _serviceUser = serviceUser;
+            _service = service;
+        }
 
         // GET: AdvertRatingsController
-        public async Task<ActionResult> IndexAsync()
+        public async Task<IActionResult> IndexAsync()
         {
-            return View();
+            ViewBag.UserId = new SelectList(await _serviceUser.GetAllAsync(), "Id", "Username");
+            ViewBag.AdvertId = new SelectList(await _serviceAdvert.GetAllAsync(), "Id", "Title");
+            var model = await _service.GetCustomAdvertRatingList();
+            return View(model);
         }
 
         // GET: AdvertRatingsController/Details/5
-        public ActionResult Details(int id)
+        public async Task<IActionResult> DetailsAsync(int id)
         {
+            ViewBag.UserId = new SelectList(await _serviceUser.GetAllAsync(), "Id", "Username");
+            ViewBag.AdvertId = new SelectList(await _serviceAdvert.GetAllAsync(), "Id", "Title");
             return View();
         }
 
         // GET: AdvertRatingsController/Create
-        public ActionResult Create()
+        public async Task<IActionResult> CreateAsync()
         {
+            ViewBag.UserId = new SelectList(await _serviceUser.GetAllAsync(), "Id", "Username");
+            ViewBag.AdvertId = new SelectList(await _serviceAdvert.GetAllAsync(), "Id", "Title");
             return View();
         }
 
         // POST: AdvertRatingsController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<IActionResult> CreateAsync(AdvertRating advertRating)
         {
-            try
+            if (ModelState.IsValid)
             {
-                return RedirectToAction(nameof(IndexAsync));
+                try
+                {
+
+                    await _service.AddAsync(advertRating);
+                    await _service.SaveAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                catch
+                {
+                    ModelState.AddModelError("", "Hata Oluştu!");
+                }
             }
-            catch
-            {
-                return View();
-            }
+            ViewBag.UserId = new SelectList(await _serviceUser.GetAllAsync(), "Id", "Username");
+            ViewBag.AdvertId = new SelectList(await _serviceAdvert.GetAllAsync(), "Id", "Title");
+
+            return View(advertRating);
         }
 
         // GET: AdvertRatingsController/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<IActionResult> EditAsync(int id)
         {
-            return View();
+            var model = await _service.FindAsync(id);
+            ViewBag.UserId = new SelectList(await _serviceUser.GetAllAsync(), "Id", "Username");
+            ViewBag.AdvertId = new SelectList(await _serviceAdvert.GetAllAsync(), "Id", "Title");
+
+            return View(model);
         }
 
         // POST: AdvertRatingsController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<IActionResult> EditAsync(int id, AdvertRating advertRating)
         {
-            try
+            if (ModelState.IsValid)
             {
-                return RedirectToAction(nameof(IndexAsync));
+                try
+                {
+                    _service.Update(advertRating);
+                    await _service.SaveAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                catch
+                {
+                    ModelState.AddModelError("", "Hata Oluştu!");
+                }
             }
-            catch
-            {
-                return View();
-            }
+            ViewBag.UserId = new SelectList(await _serviceUser.GetAllAsync(), "Id", "Username");
+            ViewBag.AdvertId = new SelectList(await _serviceAdvert.GetAllAsync(), "Id", "Title");
+
+            return View(advertRating);
         }
 
         // GET: AdvertRatingsController/Delete/5
-        public ActionResult Delete(int id)
+        public async Task<IActionResult> DeleteAsync(int id)
         {
-            return View();
+            var model = await _service.FindAsync(id);
+
+            return View(model);
         }
 
         // POST: AdvertRatingsController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<IActionResult> DeleteAsync(int id, AdvertRating advertRating)
         {
             try
             {
-                return RedirectToAction(nameof(IndexAsync));
+                _service.Delete(advertRating);
+                await _service.SaveAsync();
+                return RedirectToAction(nameof(Index));
             }
             catch
             {
                 return View();
             }
         }
+
     }
 }
