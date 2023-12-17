@@ -1,20 +1,26 @@
 ﻿@model IEnumerable<Ads.Domain.Entities.Concrete.AdvertRating>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Advert Ratings";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h1>Advert Rating - Yapım Aşamasında</h1>
+<h1>Advert Ratings</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a class="btn btn-outline-primary" asp-action="Create">Create New</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Rating)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.User)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Advert)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.CreatedDate)
@@ -25,42 +31,40 @@
             <th>
                 @Html.DisplayNameFor(model => model.DeletedDate)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Advert)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.User)
-            </th>
+
+
             <th></th>
         </tr>
     </thead>
-    @* <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Rating)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatedDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UpdatedDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DeletedDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Advert.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.User.Address)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
-        </tr>
-}
-    </tbody> *@
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Rating)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.User.Username)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Advert.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UpdatedDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DeletedDate)
+                </td>
+
+
+                <td>
+                    <a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>

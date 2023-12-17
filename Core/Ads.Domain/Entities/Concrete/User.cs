@@ -62,7 +62,9 @@ namespace Ads.Domain.Entities.Concrete
 		[DisplayName("Is it Active?")]
 		public string IsActiveString => IsActive ? "Active" : "Passive";
 
-		public virtual ICollection<Advert>? Adverts { get; set; }
+        [Display(Name = "Advert")]
+        public int AdvertId { get; set; }
+        public virtual ICollection<Advert>? Adverts { get; set; }
 
         public virtual ICollection<AdvertComment>? AdvertComments { get; set; }
 

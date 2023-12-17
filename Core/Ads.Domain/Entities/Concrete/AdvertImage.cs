@@ -14,7 +14,7 @@ namespace Ads.Domain.Entities.Concrete
         [MinLength(10, ErrorMessage = "{0} en az {1} karakter olabilir!")]
         public string ImagePath { get; set; }
 
-        public virtual Advert Advert { get; set; }
+        public virtual Advert? Advert { get; set; }
 
 		public int AdvertId { get; set; }
         public DateTime CreatedDate { get; set; }

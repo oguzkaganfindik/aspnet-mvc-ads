@@ -1,6 +1,8 @@
 ﻿using Ads.Application.Services;
+using Ads.Domain.Entities.Concrete;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Ads.Web.Mvc.Areas.Admin.Controllers
 {
@@ -8,10 +10,12 @@ namespace Ads.Web.Mvc.Areas.Admin.Controllers
     public class AdvertImagesController : Controller
     {
         private readonly IAdvertImageService _service;
+        private readonly IService<Advert> _serviceAdvert;
 
-        public AdvertImagesController(IAdvertImageService service)
+        public AdvertImagesController(IAdvertImageService service, IService<Advert> serviceAdvert)
         {
             _service = service;
+            _serviceAdvert = serviceAdvert;
         }
 
         // GET: AdvertImagesController
@@ -22,66 +26,86 @@ namespace Ads.Web.Mvc.Areas.Admin.Controllers
         }
 
         // GET: AdvertImagesController/Details/5
-        public ActionResult Details(int id)
+        public IActionResult Details(int id)
         {
             return View();
         }
 
         // GET: AdvertImagesController/Create
-        public ActionResult Create()
+        public async Task<IActionResult> CreateAsync()
         {
+            ViewBag.AdvertId = new SelectList(await _serviceAdvert.GetAllAsync(), "Id", "Title");
             return View();
         }
 
         // POST: AdvertImagesController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<IActionResult> CreateAsync(AdvertImage advertImage)
         {
-            try
+            if (ModelState.IsValid)
             {
-                return RedirectToAction(nameof(Index));
+                try
+                {
+                    await _service.AddAsync(advertImage);
+                    await _service.SaveAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                catch
+                {
+                    ModelState.AddModelError("", "Hata Oluştu!");
+                }
             }
-            catch
-            {
-                return View();
-            }
+            ViewBag.AdvertId = new SelectList(await _serviceAdvert.GetAllAsync(), "Id", "Title");
+            return View(advertImage);
         }
 
         // GET: AdvertImagesController/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<IActionResult> EditAsync(int id)
         {
-            return View();
+            var model = await _service.FindAsync(id);
+            ViewBag.AdvertId = new SelectList(await _serviceAdvert.GetAllAsync(), "Id", "Title");
+            return View(model);
         }
 
         // POST: AdvertImagesController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<IActionResult> EditAsync(int id, AdvertImage advertImage)
         {
-            try
+            if (ModelState.IsValid)
             {
-                return RedirectToAction(nameof(Index));
+                try
+                {
+                    _service.Update(advertImage);
+                    await _service.SaveAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                catch
+                {
+                    ModelState.AddModelError("", "Hata Oluştu!");
+                }
             }
-            catch
-            {
-                return View();
-            }
+            ViewBag.AdvertId = new SelectList(await _serviceAdvert.GetAllAsync(), "Id", "Title");
+            return View(advertImage);
         }
 
         // GET: AdvertImagesController/Delete/5
-        public ActionResult Delete(int id)
+        public async Task<IActionResult> DeleteAsync(int id)
         {
-            return View();
+            var model = await _service.FindAsync(id);
+            return View(model);
         }
 
         // POST: AdvertImagesController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<IActionResult> DeleteAsync(int id, AdvertImage advertImage)
         {
             try
             {
+                _service.Delete(advertImage);
+                await _service.SaveAsync();
                 return RedirectToAction(nameof(Index));
             }
             catch

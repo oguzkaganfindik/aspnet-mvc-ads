@@ -42,7 +42,7 @@ namespace Ads.Web.Mvc.Areas.Admin.Controllers
             return View();
         }
 
-        // POST: AdvertsController/Create
+        // POST: AdvertCommentsController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateAsync(AdvertComment advertComment)
@@ -65,7 +65,7 @@ namespace Ads.Web.Mvc.Areas.Admin.Controllers
             return View(advertComment);
         }
 
-        // GET: AdvertsController/Edit/5
+        // GET: AdvertCommentsController/Edit/5
         public async Task<IActionResult> EditAsync(int id)
         {
             var model = await _service.FindAsync(id);
@@ -74,7 +74,7 @@ namespace Ads.Web.Mvc.Areas.Admin.Controllers
             return View(model);
         }
 
-        // POST: AdvertsController/Edit/5
+        // POST: AdvertCommentsController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditAsync(int id, AdvertComment advertComment)
@@ -97,14 +97,14 @@ namespace Ads.Web.Mvc.Areas.Admin.Controllers
             return View(advertComment);
         }
 
-        // GET: AdvertsController/Delete/5
+        // GET: AdvertCommentsController/Delete/5
         public async Task<IActionResult> DeleteAsync(int id)
         {
             var model = await _service.FindAsync(id);
             return View(model);
         }
 
-        // POST: AdvertsController/Delete/5
+        // POST: AdvertCommentsController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteAsync(int id, AdvertComment advertComment)

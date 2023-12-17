@@ -21,6 +21,7 @@ builder.Services.AddTransient<ISubCategoryService, SubCategoryService>();
 builder.Services.AddTransient<ISettingService, SettingService>();
 builder.Services.AddTransient<IAdvertCommentService, AdvertCommentService>();
 builder.Services.AddTransient<IAdvertImageService, AdvertImageService>();
+builder.Services.AddTransient<IAdvertRatingService, AdvertRatingService>();
 
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(x =>
@@ -41,7 +42,6 @@ builder.Services.AddAuthorization(x =>
 });
 
 var app = builder.Build();
-
 
 if (!app.Environment.IsDevelopment())
 {

@@ -3,28 +3,30 @@ using Ads.Domain.Entities.Concrete;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
+
 namespace Ads.Persistence.Contexts
 {
 	public class AppDbContext : DbContext
 	{
-		//public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
-		//{
-		//}
+        //public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
+        //{
+        //}
 
-		public DbSet<Advert> Adverts { get; set; }
+        public DbSet<Advert> Adverts { get; set; }
 		public DbSet<AdvertComment> AdvertComments { get; set; }
 		public DbSet<AdvertImage> AdvertImages { get; set; }
 		public DbSet<AdvertRating> AdvertRatings { get; set; }
 		public DbSet<Category> Categories { get; set; }
 		public DbSet<CategoryAdvert> CategoryAdverts { get; set; }
 		public DbSet<Page> Pages { get; set; }
+        public DbSet<Slider> Sliders { get; set; }
 		public DbSet<Role> Roles { get; set; }
 		public DbSet<Setting> Settings { get; set; }
 		public DbSet<User> Users { get; set; }
 		public DbSet<SubCategory> SubCategories { get; set; }
 		public DbSet<SubCategoryAdvert> SubCategoryAdverts { get; set; }
 
-		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 		{
 			optionsBuilder.UseSqlServer(@"Server=(localDb)\MSSQLLocalDb;Database=DbAdsApp;Persist Security Info=True;User ID=sa;Password=123;Trusted_Connection=True;TrustServerCertificate=Yes;MultipleActiveResultSets=true");
 
@@ -54,8 +56,8 @@ namespace Ads.Persistence.Contexts
 			   .HasForeignKey(ac => ac.UserId)
 			   .OnDelete(DeleteBehavior.Restrict);
 
-			modelBuilder.Entity<AdvertRating>()
-				.HasKey(ar => new { ar.UserId, ar.AdvertId }); // Bileşik anahtar tanımı
+			//modelBuilder.Entity<AdvertRating>()
+			//	.HasKey(ar => new { ar.UserId, ar.AdvertId }); // Bileşik anahtar tanımı
 
 			modelBuilder.Entity<AdvertRating>()
 				.HasOne(ar => ar.User)
@@ -107,36 +109,36 @@ namespace Ads.Persistence.Contexts
 
         }
 
-        public override int SaveChanges()
-        {
-            var datas = ChangeTracker.Entries<IAuiditEntity>();
-            var currentTime = DateTime.Now;
+        //public override int SaveChanges()
+        //{
+        //    var datas = ChangeTracker.Entries<IAuiditEntity>();
+        //    var currentTime = DateTime.Now;
 
-            foreach (var data in datas)
-            {
-                switch (data.State)
-                {
-                    case EntityState.Added:
-                        data.Entity.CreatedDate = currentTime;
-                        break;
+        //    foreach (var data in datas)
+        //    {
+        //        switch (data.State)
+        //        {
+        //            case EntityState.Added:
+        //                data.Entity.CreatedDate = currentTime;
+        //                break;
 
-                    case EntityState.Modified:
-                        data.Entity.UpdatedDate = currentTime;
-                        break;
+        //            case EntityState.Modified:
+        //                data.Entity.UpdatedDate = currentTime;
+        //                break;
 
-                    //case EntityState.Deleted:
-                    //    // İstersen silinen kaydı kalıcı olarak silmek yerine, bir "Soft Delete" işlemi uygulayabilirsin.
-                    //    // data.State = EntityState.Modified;
-                    //    // data.Entity.DeletedDate = currentTime;
-                    //    // data.Entity.IsDeleted = true;
-                    //    // veya tamamen kaldırmak için şu satırı açabilirsin:
-                    //    // data.State = EntityState.Detached;
-                    //    break;
-                }
-            }
+        //            //case EntityState.Deleted:
+        //            //    // İstersen silinen kaydı kalıcı olarak silmek yerine, bir "Soft Delete" işlemi uygulayabilirsin.
+        //            //    // data.State = EntityState.Modified;
+        //            //    // data.Entity.DeletedDate = currentTime;
+        //            //    // data.Entity.IsDeleted = true;
+        //            //    // veya tamamen kaldırmak için şu satırı açabilirsin:
+        //            //    // data.State = EntityState.Detached;
+        //            //    break;
+        //        }
+        //    }
 
-            return base.SaveChanges();
-        }
+        //    return base.SaveChanges();
+        //}
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
