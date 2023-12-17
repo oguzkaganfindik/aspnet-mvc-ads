@@ -20,12 +20,12 @@ namespace Ads.Domain.Entities.Concrete
         [DisplayName("Is it Active?")]
         public string IsActiveString => IsActive ? "Active" : "Passive";
 
-        public virtual Advert Advert { get; set; }
+        public virtual Advert? Advert { get; set; }
 
         [ForeignKey("Advert")]
         public int AdvertId { get; set; }
 
-        public virtual User User { get; set; }
+        public virtual User? User { get; set; }
 
         [ForeignKey("User")]
         public int UserId { get; set; }

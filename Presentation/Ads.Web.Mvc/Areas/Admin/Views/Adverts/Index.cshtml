@@ -23,10 +23,10 @@
                 @Html.DisplayNameFor(model => model.Description)
             </th>
             <th>
-                Categories
+                @Html.DisplayNameFor(model => model.CategoryId)
             </th>
             <th>
-                SubCategories
+                @Html.DisplayNameFor(model => model.SubCategoryId)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Type)
@@ -41,6 +41,9 @@
                 @Html.DisplayNameFor(model => model.ClickCount)
             </th>
             <th>
+                Comments
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.CreatedDate)
             </th>
             <th>
@@ -49,6 +52,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.DeletedDate)
             </th>
+
 
             <th></th>
         </tr>
@@ -74,35 +78,45 @@
                     @Html.DisplayFor(modelItem => item.Description)
                 </td>
                 <td>
-                    @foreach (var categoryAdvert in item.CategoryAdverts)
+                    @if (ViewBag.CategoryId != null)
                     {
-                        <span>
-                            @if (categoryAdvert.Category != null)
-                            {
-                                @Html.DisplayFor(modelItem => categoryAdvert.Category.Name)
-                            }
-                            else
-                            {
-                                <text>No Category</text>
-                            }
-                        </span>
+                        var categoryId = item.CategoryId.ToString();
+                        var categoryList = ViewBag.CategoryId as SelectList;
+                        var categoryItem = categoryList?.FirstOrDefault(x => x.Value == categoryId);
 
-                        if (categoryAdvert != item.CategoryAdverts.Last())
+                        if (categoryItem != null)
                         {
-                            <text>, </text>
+                            @categoryItem.Text
                         }
+                        else
+                        {
+                            <text>No Category</text>
+                        }
+                    }
+                    else
+                    {
+                        <text>No CategoryId List</text>
                     }
                 </td>
                 <td>
-                    @foreach (var subCategoryAdvert in item.SubCategoryAdverts)
+                    @if (ViewBag.SubCategoryId != null)
                     {
-                        <span>
-                            @Html.DisplayFor(modelItem => subCategoryAdvert.SubCategory.Name)
-                        </span>
-                        if (subCategoryAdvert != item.SubCategoryAdverts.Last())
+                        var subCategoryId = item.SubCategoryId.ToString();
+                        var subCategoryList = ViewBag.SubCategoryId as SelectList;
+                        var subCategoryItem = subCategoryList?.FirstOrDefault(x => x.Value == subCategoryId);
+
+                        if (subCategoryItem != null)
                         {
-                            <text>, </text>
+                            @subCategoryItem.Text
                         }
+                        else
+                        {
+                            <text>No SubCategory</text>
+                        }
+                    }
+                    else
+                    {
+                        <text>No SubCategoryId List</text>
                     }
                 </td>
                 <td>
@@ -116,6 +130,21 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.ClickCount)
+                </td>
+                <td>
+                    @if (item.AdvertComments != null && item.AdvertComments.Any())
+                    {
+                        foreach (var comment in item.AdvertComments)
+                        {
+                            <div>
+                                @Html.DisplayFor(modelItem => comment.Comment)
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <text>No Comments</text>
+                    }
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.CreatedDate)

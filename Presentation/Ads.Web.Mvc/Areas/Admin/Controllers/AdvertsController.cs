@@ -12,25 +12,38 @@ namespace Ads.Web.Mvc.Areas.Admin.Controllers
         private readonly IService<User> _serviceUser;
         private readonly IService<Category> _serviceCategory;
         private readonly IService<SubCategory> _serviceSubCategory;
+        private readonly IService<AdvertComment> _serviceAdvertComment;
 
-        public AdvertsController(IAdvertService service, IService<User> serviceUser, IService<Category> serviceCategory, IService<SubCategory> serviceSubCategory)
+
+        public AdvertsController(IAdvertService service, IService<User> serviceUser, IService<Category> serviceCategory, IService<SubCategory> serviceSubCategory, IService<AdvertComment> serviceAdvertComment)
         {
             _service = service;
             _serviceUser = serviceUser;
             _serviceCategory = serviceCategory;
             _serviceSubCategory = serviceSubCategory;
+            _serviceAdvertComment = serviceAdvertComment;
         }
 
         // GET: AdvertsController
         public async Task<IActionResult> IndexAsync()
         {
+            ViewBag.UserId = new SelectList(await _serviceUser.GetAllAsync(), "Id", "Username");
+            ViewBag.CategoryId = new SelectList(await _serviceCategory.GetAllAsync(), "Id", "Name");
+            ViewBag.SubCategoryId = new SelectList(await _serviceSubCategory.GetAllAsync(), "Id", "Name");
+            ViewBag.AdvertComment = new SelectList(await _serviceAdvertComment.GetAllAsync(), "Id", "Comment");
             var model = await _service.GetCustomAdvertList();
+
             return View(model);
         }
 
         // GET: AdvertsController/Details/5
-        public IActionResult Details(int id)
+        public async Task<IActionResult> DetailsAsync(int id)
         {
+            ViewBag.UserId = new SelectList(await _serviceUser.GetAllAsync(), "Id", "Username");
+            ViewBag.CategoryId = new SelectList(await _serviceCategory.GetAllAsync(), "Id", "Name");
+            ViewBag.SubCategoryId = new SelectList(await _serviceSubCategory.GetAllAsync(), "Id", "Name");
+            ViewBag.AdvertComment = new SelectList(await _serviceAdvertComment.GetAllAsync(), "Id", "Comment");
+
             return View();
         }
 
@@ -40,6 +53,7 @@ namespace Ads.Web.Mvc.Areas.Admin.Controllers
             ViewBag.UserId = new SelectList(await _serviceUser.GetAllAsync(), "Id", "Username");
             ViewBag.CategoryId = new SelectList(await _serviceCategory.GetAllAsync(), "Id", "Name");
             ViewBag.SubCategoryId = new SelectList(await _serviceSubCategory.GetAllAsync(), "Id", "Name");
+
             return View();
         }
 
@@ -52,6 +66,7 @@ namespace Ads.Web.Mvc.Areas.Admin.Controllers
             {
                 try
                 {
+
                     await _service.AddAsync(advert);
                     await _service.SaveAsync();
                     return RedirectToAction(nameof(Index));
@@ -64,9 +79,9 @@ namespace Ads.Web.Mvc.Areas.Admin.Controllers
             ViewBag.UserId = new SelectList(await _serviceUser.GetAllAsync(), "Id", "Username");
             ViewBag.CategoryId = new SelectList(await _serviceCategory.GetAllAsync(), "Id", "Name");
             ViewBag.SubCategoryId = new SelectList(await _serviceSubCategory.GetAllAsync(), "Id", "Name");
+
             return View(advert);
         }
-
 
         // GET: AdvertsController/Edit/5
         public async Task<IActionResult> EditAsync(int id)
@@ -75,6 +90,7 @@ namespace Ads.Web.Mvc.Areas.Admin.Controllers
             ViewBag.UserId = new SelectList(await _serviceUser.GetAllAsync(), "Id", "Username");
             ViewBag.CategoryId = new SelectList(await _serviceCategory.GetAllAsync(), "Id", "Name");
             ViewBag.SubCategoryId = new SelectList(await _serviceSubCategory.GetAllAsync(), "Id", "Name");
+
             return View(model);
         }
 
@@ -99,13 +115,18 @@ namespace Ads.Web.Mvc.Areas.Admin.Controllers
             ViewBag.UserId = new SelectList(await _serviceUser.GetAllAsync(), "Id", "Username");
             ViewBag.CategoryId = new SelectList(await _serviceCategory.GetAllAsync(), "Id", "Name");
             ViewBag.SubCategoryId = new SelectList(await _serviceSubCategory.GetAllAsync(), "Id", "Name");
+
             return View(advert);
         }
 
         // GET: AdvertsController/Delete/5
         public async Task<IActionResult> DeleteAsync(int id)
         {
+            ViewBag.UserId = new SelectList(await _serviceUser.GetAllAsync(), "Id", "Username");
+            ViewBag.CategoryId = new SelectList(await _serviceCategory.GetAllAsync(), "Id", "Name");
+            ViewBag.SubCategoryId = new SelectList(await _serviceSubCategory.GetAllAsync(), "Id", "Name");
             var model = await _service.FindAsync(id);
+
             return View(model);
         }
 
@@ -116,6 +137,9 @@ namespace Ads.Web.Mvc.Areas.Admin.Controllers
         {
             try
             {
+                ViewBag.UserId = new SelectList(await _serviceUser.GetAllAsync(), "Id", "Username");
+                ViewBag.CategoryId = new SelectList(await _serviceCategory.GetAllAsync(), "Id", "Name");
+                ViewBag.SubCategoryId = new SelectList(await _serviceSubCategory.GetAllAsync(), "Id", "Name");
                 _service.Delete(advert);
                 await _service.SaveAsync();
                 return RedirectToAction(nameof(Index));

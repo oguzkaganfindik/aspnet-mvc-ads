@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Ads.Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231216031022_Second3")]
-    partial class Second3
+    [Migration("20231217001511_First")]
+    partial class First
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,6 +33,9 @@ namespace Ads.Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
                     b.Property<int?>("ClickCount")
                         .HasColumnType("int");
 
@@ -51,6 +54,9 @@ namespace Ads.Persistence.Migrations
                         .HasColumnType("bit");
 
                     b.Property<int?>("Price")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SubCategoryId")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
@@ -124,10 +130,19 @@ namespace Ads.Persistence.Migrations
                     b.Property<int>("AdvertId")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("ImagePath")
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -304,7 +319,7 @@ namespace Ads.Persistence.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedDate = new DateTime(2023, 12, 16, 6, 10, 22, 870, DateTimeKind.Local).AddTicks(5959),
+                            CreatedDate = new DateTime(2023, 12, 17, 3, 15, 11, 631, DateTimeKind.Local).AddTicks(9073),
                             Name = "Admin"
                         });
                 });
@@ -495,7 +510,7 @@ namespace Ads.Persistence.Migrations
                         {
                             Id = 1,
                             Address = "Ankara",
-                            CreatedDate = new DateTime(2023, 12, 16, 6, 10, 22, 870, DateTimeKind.Local).AddTicks(6095),
+                            CreatedDate = new DateTime(2023, 12, 17, 3, 15, 11, 631, DateTimeKind.Local).AddTicks(9234),
                             Email = "admin@test.com",
                             FirstName = "Admin",
                             ImagePath = "Ankara Ankara Ankara",
@@ -505,7 +520,7 @@ namespace Ads.Persistence.Migrations
                             Phone = "0850",
                             RoleId = 1,
                             SettingId = 1,
-                            UserGuid = new Guid("b12569f2-f51d-4619-a40a-8528808abb0e"),
+                            UserGuid = new Guid("f2450a78-690c-4f70-bb42-272eab7c6321"),
                             Username = "admin"
                         });
                 });

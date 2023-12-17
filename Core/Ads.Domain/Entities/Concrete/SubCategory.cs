@@ -9,8 +9,8 @@ namespace Ads.Domain.Entities.Concrete
     {
         public int Id { get; set; }
 
-        [DisplayName("Name")]
-		[Required(ErrorMessage = "{0} boş geçilemez.")]
+        [Display(Name = "SubCategory Name")]
+        [Required(ErrorMessage = "{0} boş geçilemez.")]
 		[StringLength(100, ErrorMessage = "{0} {1} karakterden fazla olamaz!")]
 		[MinLength(1, ErrorMessage = "{0} en az {1} karakter olabilir!")]
 		public string Name { get; set; }

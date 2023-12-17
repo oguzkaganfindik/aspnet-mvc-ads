@@ -1,26 +1,29 @@
-﻿@model IEnumerable<Ads.Domain.Entities.Concrete.Setting>
+﻿@model IEnumerable<Ads.Domain.Entities.Concrete.AdvertComment>
 
 @{
-    ViewData["Title"] = "Settings";
+    ViewData["Title"] = "Advert Comments";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h1>Settings</h1>
+<h1>Advert Comments</h1>
 
 <p>
-    <a class="btn btn-outline-primary" asp-action="Create">Create New</a>
+    <a asp-action="Create">Create New</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Theme)
+                @Html.DisplayNameFor(model => model.Comment)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Value)
+                @Html.DisplayNameFor(model => model.IsActive)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Users)
+                @Html.DisplayNameFor(model => model.Advert)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.User.Username)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.CreatedDate)
@@ -39,20 +42,16 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Theme)
+                    @Html.DisplayFor(modelItem => item.Comment)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Value)
+                    @Html.DisplayFor(modelItem => item.IsActive)
                 </td>
                 <td>
-                    @foreach (var user in item.Users)
-                    {
-                        @Html.DisplayFor(modelItem => user.Username)
-                        if (user != item.Users.Last())
-                        {
-                            <text>, </text>
-                        }
-                    }
+                    @Html.DisplayFor(modelItem => item.Advert.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.User.Username)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.CreatedDate)
