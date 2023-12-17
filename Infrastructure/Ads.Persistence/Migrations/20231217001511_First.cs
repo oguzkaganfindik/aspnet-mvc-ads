@@ -153,12 +153,14 @@ namespace Ads.Persistence.Migrations
                     Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
                     Type = table.Column<bool>(type: "bit", nullable: false),
                     OnSale = table.Column<bool>(type: "bit", nullable: false),
-                    Price = table.Column<int>(type: "int", nullable: false),
-                    ClickCount = table.Column<int>(type: "int", nullable: false),
+                    Price = table.Column<int>(type: "int", nullable: true),
+                    ClickCount = table.Column<int>(type: "int", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     DeletedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UserId = table.Column<int>(type: "int", nullable: false)
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    CategoryId = table.Column<int>(type: "int", nullable: false),
+                    SubCategoryId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -209,7 +211,10 @@ namespace Ads.Persistence.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ImagePath = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    AdvertId = table.Column<int>(type: "int", nullable: false)
+                    AdvertId = table.Column<int>(type: "int", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedDate = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -257,7 +262,10 @@ namespace Ads.Persistence.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CategoryId = table.Column<int>(type: "int", nullable: false),
-                    AdvertId = table.Column<int>(type: "int", nullable: false)
+                    AdvertId = table.Column<int>(type: "int", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedDate = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -283,7 +291,10 @@ namespace Ads.Persistence.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     SubCategoryId = table.Column<int>(type: "int", nullable: false),
-                    AdvertId = table.Column<int>(type: "int", nullable: false)
+                    AdvertId = table.Column<int>(type: "int", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedDate = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -305,7 +316,7 @@ namespace Ads.Persistence.Migrations
             migrationBuilder.InsertData(
                 table: "Roles",
                 columns: new[] { "Id", "CreatedDate", "DeletedDate", "Name", "UpdatedDate" },
-                values: new object[] { 1, new DateTime(2023, 12, 15, 21, 37, 48, 886, DateTimeKind.Local).AddTicks(4477), null, "Admin", null });
+                values: new object[] { 1, new DateTime(2023, 12, 17, 3, 15, 11, 631, DateTimeKind.Local).AddTicks(9073), null, "Admin", null });
 
             migrationBuilder.InsertData(
                 table: "Settings",
@@ -315,7 +326,7 @@ namespace Ads.Persistence.Migrations
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "Address", "CreatedDate", "DeletedDate", "Email", "FirstName", "ImagePath", "IsActive", "LastName", "Password", "Phone", "RoleId", "SettingId", "UpdatedDate", "UserGuid", "Username" },
-                values: new object[] { 1, "Ankara", new DateTime(2023, 12, 15, 21, 37, 48, 886, DateTimeKind.Local).AddTicks(4625), null, "admin@test.com", "Admin", "Ankara Ankara Ankara", true, "Admin", "123", "0850", 1, 1, null, new Guid("f1d66205-ab78-463a-ad6a-cb479b82976f"), "admin" });
+                values: new object[] { 1, "Ankara", new DateTime(2023, 12, 17, 3, 15, 11, 631, DateTimeKind.Local).AddTicks(9234), null, "admin@test.com", "Admin", "Ankara Ankara Ankara", true, "Admin", "123", "0850", 1, 1, null, new Guid("f2450a78-690c-4f70-bb42-272eab7c6321"), "admin" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AdvertComments_AdvertId",

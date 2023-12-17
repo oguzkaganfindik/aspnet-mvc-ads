@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Ads.Domain.Entities.Concrete
 {
-    public class AdvertImage : IEntity
+    public class AdvertImage : IEntity, IAuiditEntity
     {
         public int Id { get; set; }
 
@@ -17,5 +17,10 @@ namespace Ads.Domain.Entities.Concrete
         public virtual Advert Advert { get; set; }
 
 		public int AdvertId { get; set; }
-	}
+        public DateTime CreatedDate { get; set; }
+
+        public DateTime? UpdatedDate { get; set; }
+
+        public DateTime? DeletedDate { get; set; }
+    }
 }
