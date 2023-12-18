@@ -1,6 +1,6 @@
 ﻿using Ads.Application.Services;
 using Ads.Domain.Entities.Concrete;
-using Microsoft.AspNetCore.Http;
+using Ads.Infrastructure.Utils;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -21,13 +21,15 @@ namespace Ads.Web.Mvc.Areas.Admin.Controllers
         // GET: AdvertImagesController
         public async Task<IActionResult> IndexAsync()
         {
+            ViewBag.AdvertId = new SelectList(await _serviceAdvert.GetAllAsync(), "Id", "Title");
             var model = await _service.GetCustomAdvertImageList();
             return View(model);
         }
 
         // GET: AdvertImagesController/Details/5
-        public IActionResult Details(int id)
+        public async Task<IActionResult> DetailsAsync(int id)
         {
+            ViewBag.AdvertId = new SelectList(await _serviceAdvert.GetAllAsync(), "Id", "Title");
             return View();
         }
 
@@ -41,70 +43,67 @@ namespace Ads.Web.Mvc.Areas.Admin.Controllers
         // POST: AdvertImagesController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateAsync(AdvertImage advertImage)
+        public async Task<IActionResult> CreateAsync(AdvertImage collection, IFormFile? AdvertImagePath)
         {
-            if (ModelState.IsValid)
+            try
             {
-                try
-                {
-                    await _service.AddAsync(advertImage);
-                    await _service.SaveAsync();
-                    return RedirectToAction(nameof(Index));
-                }
-                catch
-                {
-                    ModelState.AddModelError("", "Hata Oluştu!");
-                }
+                collection.AdvertImagePath = await FileHelper.FileLoaderAsync(AdvertImagePath, "/Img/AdvertImages/");
+                await _service.AddAsync(collection);
+                await _service.SaveAsync();
+                ViewBag.AdvertId = new SelectList(await _serviceAdvert.GetAllAsync(), "Id", "Title");
+                return RedirectToAction(nameof(Index));
             }
-            ViewBag.AdvertId = new SelectList(await _serviceAdvert.GetAllAsync(), "Id", "Title");
-            return View(advertImage);
+            catch
+            {
+                return View();
+            }
         }
 
         // GET: AdvertImagesController/Edit/5
-        public async Task<IActionResult> EditAsync(int id)
+        public async Task<IActionResult> Edit(int id)
         {
-            var model = await _service.FindAsync(id);
+            var data = await _service.FindAsync(id);
             ViewBag.AdvertId = new SelectList(await _serviceAdvert.GetAllAsync(), "Id", "Title");
-            return View(model);
+            return View(data);
         }
 
         // POST: AdvertImagesController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditAsync(int id, AdvertImage advertImage)
+        public async Task<IActionResult> Edit(int id, AdvertImage collection, IFormFile? AdvertImagePath)
         {
-            if (ModelState.IsValid)
+            try
             {
-                try
+                if (AdvertImagePath is not null)
                 {
-                    _service.Update(advertImage);
-                    await _service.SaveAsync();
-                    return RedirectToAction(nameof(Index));
+                    collection.AdvertImagePath = await FileHelper.FileLoaderAsync(AdvertImagePath, "/Img/AdvertImages/");
                 }
-                catch
-                {
-                    ModelState.AddModelError("", "Hata Oluştu!");
-                }
+                _service.Update(collection);
+                await _service.SaveAsync();
+                ViewBag.AdvertId = new SelectList(await _serviceAdvert.GetAllAsync(), "Id", "Title");
+                return RedirectToAction(nameof(Index));
             }
-            ViewBag.AdvertId = new SelectList(await _serviceAdvert.GetAllAsync(), "Id", "Title");
-            return View(advertImage);
+            catch
+            {
+                return View();
+            }
         }
 
         // GET: AdvertImagesController/Delete/5
         public async Task<IActionResult> DeleteAsync(int id)
         {
-            var model = await _service.FindAsync(id);
-            return View(model);
+            var data = await _service.FindAsync(id);
+            return View(data);
         }
 
         // POST: AdvertImagesController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteAsync(int id, AdvertImage advertImage)
+        public async Task<IActionResult> DeleteAsync(int id, AdvertImage collection)
         {
             try
             {
-                _service.Delete(advertImage);
+                _service.Delete(collection);
                 await _service.SaveAsync();
                 return RedirectToAction(nameof(Index));
             }

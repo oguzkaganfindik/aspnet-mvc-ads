@@ -37,7 +37,7 @@ namespace Ads.Persistence.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     Content = table.Column<string>(type: "nvarchar(3000)", maxLength: 3000, nullable: false),
-                    ImagePath = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    PageImagePath = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -64,26 +64,6 @@ namespace Ads.Persistence.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Roles", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Sliders",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    Content = table.Column<string>(type: "nvarchar(3000)", maxLength: 3000, nullable: false),
-                    ImagePath = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Link = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Sliders", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -138,7 +118,7 @@ namespace Ads.Persistence.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ImagePath = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    UserImagePath = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     Password = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
@@ -188,7 +168,6 @@ namespace Ads.Persistence.Migrations
                     SubCategoryId = table.Column<int>(type: "int", nullable: false),
                     CustomerId = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false),
-                    SliderId = table.Column<int>(type: "int", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     DeletedDate = table.Column<DateTime>(type: "datetime2", nullable: true)
@@ -196,12 +175,6 @@ namespace Ads.Persistence.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Adverts", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Adverts_Sliders_SliderId",
-                        column: x => x.SliderId,
-                        principalTable: "Sliders",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Adverts_Users_UserId",
                         column: x => x.UserId,
@@ -247,7 +220,7 @@ namespace Ads.Persistence.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ImagePath = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    AdvertImagePath = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
                     AdvertId = table.Column<int>(type: "int", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -292,6 +265,29 @@ namespace Ads.Persistence.Migrations
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AdvertSliderImage",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    AdvertSliderImagePath = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    AdvertId = table.Column<int>(type: "int", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedDate = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AdvertSliderImage", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AdvertSliderImage_Adverts_AdvertId",
+                        column: x => x.AdvertId,
+                        principalTable: "Adverts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -381,7 +377,7 @@ namespace Ads.Persistence.Migrations
             migrationBuilder.InsertData(
                 table: "Roles",
                 columns: new[] { "Id", "CreatedDate", "DeletedDate", "Name", "UpdatedDate" },
-                values: new object[] { 1, new DateTime(2023, 12, 18, 2, 15, 48, 681, DateTimeKind.Local).AddTicks(1912), null, "Admin", null });
+                values: new object[] { 1, new DateTime(2023, 12, 18, 18, 3, 40, 293, DateTimeKind.Local).AddTicks(3830), null, "Admin", null });
 
             migrationBuilder.InsertData(
                 table: "Settings",
@@ -390,8 +386,8 @@ namespace Ads.Persistence.Migrations
 
             migrationBuilder.InsertData(
                 table: "Users",
-                columns: new[] { "Id", "Address", "AdvertId", "CreatedDate", "DeletedDate", "Email", "FirstName", "ImagePath", "IsActive", "LastName", "Password", "Phone", "RoleId", "SettingId", "UpdatedDate", "UserGuid", "Username" },
-                values: new object[] { 1, "Ankara", 0, new DateTime(2023, 12, 18, 2, 15, 48, 681, DateTimeKind.Local).AddTicks(2101), null, "admin@test.com", "Admin", "Ankara Ankara Ankara", true, "Admin", "123", "0850", 1, 1, null, new Guid("97037cf7-ebb5-4890-8d10-fb0986e3abf4"), "admin" });
+                columns: new[] { "Id", "Address", "AdvertId", "CreatedDate", "DeletedDate", "Email", "FirstName", "IsActive", "LastName", "Password", "Phone", "RoleId", "SettingId", "UpdatedDate", "UserGuid", "UserImagePath", "Username" },
+                values: new object[] { 1, "Ankara", 0, new DateTime(2023, 12, 18, 18, 3, 40, 293, DateTimeKind.Local).AddTicks(3978), null, "admin@test.com", "Admin", true, "Admin", "123", "0850", 1, 1, null, new Guid("0babfa4b-096d-47bd-9360-8ea0c1b29af3"), "Ankara Ankara Ankara", "admin" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AdvertComments_AdvertId",
@@ -419,14 +415,14 @@ namespace Ads.Persistence.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Adverts_SliderId",
-                table: "Adverts",
-                column: "SliderId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Adverts_UserId",
                 table: "Adverts",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AdvertSliderImage_AdvertId",
+                table: "AdvertSliderImage",
+                column: "AdvertId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CategoryAdverts_AdvertId",
@@ -487,6 +483,9 @@ namespace Ads.Persistence.Migrations
                 name: "AdvertRatings");
 
             migrationBuilder.DropTable(
+                name: "AdvertSliderImage");
+
+            migrationBuilder.DropTable(
                 name: "CategoryAdverts");
 
             migrationBuilder.DropTable(
@@ -500,9 +499,6 @@ namespace Ads.Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "SubCategories");
-
-            migrationBuilder.DropTable(
-                name: "Sliders");
 
             migrationBuilder.DropTable(
                 name: "Users");

@@ -36,11 +36,11 @@ namespace Ads.Web.Mvc.Areas.Admin.Models.Settings
         // POST: PagesController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> CreateAsync(Page collection, IFormFile? ImagePath)
+        public async Task<ActionResult> CreateAsync(Page collection, IFormFile? PageImagePath)
         {
             try
             {
-                collection.ImagePath = await FileHelper.FileLoaderAsync(ImagePath, "/Img/Page/");
+                collection.PageImagePath = await FileHelper.FileLoaderAsync(PageImagePath, "/Img/PageImages/");
                 await _service.AddAsync(collection);
                 await _service.SaveAsync();
                 return RedirectToAction(nameof(Index));
@@ -61,13 +61,13 @@ namespace Ads.Web.Mvc.Areas.Admin.Models.Settings
         // POST: PagesController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(int id, Page collection, IFormFile? ImagePath)
+        public async Task<ActionResult> Edit(int id, Page collection, IFormFile? PageImagePath)
         {
             try
             {
-                if (ImagePath is not null)
+                if (PageImagePath is not null)
                 {
-                    collection.ImagePath = await FileHelper.FileLoaderAsync(ImagePath, "/Img/Page/");
+                    collection.PageImagePath = await FileHelper.FileLoaderAsync(PageImagePath, "/Img/PageImages/");
                 }
                 _service.Update(collection);
                 await _service.SaveAsync();

@@ -52,25 +52,21 @@ namespace Ads.Domain.Entities.Concrete
 
         public virtual ICollection<SubCategoryAdvert>? SubCategoryAdverts { get; set; }
 
+        public virtual ICollection<AdvertComment>? AdvertComments { get; set; }
+
         public virtual ICollection<AdvertImage>? AdvertImages { get; set; }
 
-        public virtual ICollection<AdvertComment>? AdvertComments { get; set; }
+        public virtual ICollection<AdvertSliderImage>? AdvertSliderImages { get; set; }
 
         public virtual ICollection<AdvertRating>? AdvertRatings { get; set; }
 
         public virtual ICollection<Customer>? Customers { get; set; }
-
-        public int SliderId { get; set; }
-
-        public virtual Slider? Slider { get; set; }
 
         public DateTime CreatedDate { get; set; }
 
         public DateTime? UpdatedDate { get; set; }
 
         public DateTime? DeletedDate { get; set; }
-
-        
 
     }
 }

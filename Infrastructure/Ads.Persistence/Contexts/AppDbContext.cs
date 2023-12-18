@@ -19,7 +19,6 @@ namespace Ads.Persistence.Contexts
 		public DbSet<Category> Categories { get; set; }
 		public DbSet<CategoryAdvert> CategoryAdverts { get; set; }
 		public DbSet<Page> Pages { get; set; }
-        public DbSet<Slider> Sliders { get; set; }
 		public DbSet<Role> Roles { get; set; }
 		public DbSet<Setting> Settings { get; set; }
 		public DbSet<User> Users { get; set; }
@@ -92,7 +91,7 @@ namespace Ads.Persistence.Contexts
                 RoleId = 1,
                 Phone = "0850",
 				Address = "Ankara",
-				ImagePath = "Ankara Ankara Ankara",
+				UserImagePath = "Ankara Ankara Ankara",
 				SettingId = 1,
 				
             });
