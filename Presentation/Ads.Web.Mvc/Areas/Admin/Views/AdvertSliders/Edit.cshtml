@@ -1,11 +1,11 @@
-﻿@model AdvertImage
+﻿@model AdvertSliderImage
 
 @{
-    ViewData["Title"] = "Edit Advert Image";
+    ViewData["Title"] = "Edit Advert Slide";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h1>Edit Advert Image</h1>
+<h1>Edit Advert Slide</h1>
 
 <hr />
 <div class="row">
@@ -13,7 +13,7 @@
         <form asp-action="Edit" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
-            <input type="hidden" asp-for="AdvertImagePath" />
+            <input type="hidden" asp-for="AdvertSliderImagePath" />
             <input type="hidden" asp-for="CreatedDate" />
             <div class="form-group">
                 <label asp-for="AdvertId" class="control-label">Advert Title</label>
@@ -21,10 +21,10 @@
                 <span asp-validation-for="AdvertId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="AdvertImagePath" class="control-label"></label>
-                <input asp-for="AdvertImagePath" class="form-control" type="file" />
-                <span asp-validation-for="AdvertImagePath" class="text-danger"></span>
-                <img src="/Img/AdvertImages/" alt="" height="75" />
+                <label asp-for="AdvertSliderImagePath" class="control-label"></label>
+                <input asp-for="AdvertSliderImagePath" class="form-control" type="file" />
+                <span asp-validation-for="AdvertSliderImagePath" class="text-danger"></span>
+                <img src="/Img/AdvertSliderImages/" alt="" height="75" />
             </div>
             <div class="form-group mt-5">
                 <input type="submit" value="Save" class="btn btn-primary" />

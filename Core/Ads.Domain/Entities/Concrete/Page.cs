@@ -24,7 +24,7 @@ namespace Ads.Domain.Entities.Concrete
 		//[Required(ErrorMessage = "{0} boş geçilemez.")]
 		[StringLength(200, ErrorMessage = "{0} {1} karakterden fazla olamaz!")]
 		[MinLength(3, ErrorMessage = "{0} en az {1} karakter olabilir!")]
-		public string ImagePath { get; set; }
+		public string PageImagePath { get; set; }
 
 		[DisplayName("Is it Active?")]
         public bool IsActive { get; set; }

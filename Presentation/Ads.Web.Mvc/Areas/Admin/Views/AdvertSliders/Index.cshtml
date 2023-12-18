@@ -1,11 +1,11 @@
-﻿@model IEnumerable<Ads.Domain.Entities.Concrete.AdvertImage>
+﻿@model IEnumerable<Ads.Domain.Entities.Concrete.AdvertSliderImage>
 
 @{
-    ViewData["Title"] = "Image Management";
+    ViewData["Title"] = "Slider Management";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h1>Advert Images</h1>
+<h1>Slider Images</h1>
 
 <p>
     <a class="btn btn-outline-primary" asp-action="Create">Create New</a>
@@ -14,7 +14,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.AdvertImagePath)
+                @Html.DisplayNameFor(model => model.AdvertSliderImagePath)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Advert)
@@ -36,7 +36,7 @@
         {
             <tr>
                 <td>
-                    <img src="/Img/AdvertImages/@item.AdvertImagePath" alt="" height="34" />
+                    <img src="/Img/AdvertSliderImages/@item.AdvertSliderImagePath" alt="" height="34" />
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Advert.Title)

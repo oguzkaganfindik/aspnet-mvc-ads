@@ -12,7 +12,7 @@ namespace Ads.Domain.Entities.Concrete
 		//[Required(ErrorMessage = "{0} boş geçilemez.")]
 		[StringLength(200, ErrorMessage = "{0} {1} karakterden fazla olamaz!")]
 		[MinLength(1, ErrorMessage = "{0} en az {1} karakter olabilir!")]
-		public string? ImagePath { get; set; }
+		public string? UserImagePath { get; set; }
 
 		[DisplayName("Email")]
         [Required(ErrorMessage = "{0} boş geçilemez.")]

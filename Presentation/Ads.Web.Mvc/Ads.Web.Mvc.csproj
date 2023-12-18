@@ -23,9 +23,9 @@
   <ItemGroup>
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Admin\Models\" />
-    <Folder Include="wwwroot\Img\Advert\" />
-    <Folder Include="wwwroot\Img\Page\" />
-    <Folder Include="wwwroot\Img\Slider\" />
+    <Folder Include="wwwroot\Img\AdvertImages\" />
+    <Folder Include="wwwroot\Img\AdvertSliderImages\" />
+    <Folder Include="wwwroot\Img\PageImages\" />
   </ItemGroup>
 
 </Project>
