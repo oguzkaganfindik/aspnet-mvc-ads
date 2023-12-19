@@ -185,37 +185,6 @@ namespace Ads.Persistence.Migrations
                     b.ToTable("AdvertRatings");
                 });
 
-            modelBuilder.Entity("Ads.Domain.Entities.Concrete.AdvertSliderImage", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("AdvertId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("AdvertSliderImagePath")
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DeletedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AdvertId");
-
-                    b.ToTable("AdvertSliderImage");
-                });
-
             modelBuilder.Entity("Ads.Domain.Entities.Concrete.Category", b =>
                 {
                     b.Property<int>("Id")
@@ -362,7 +331,7 @@ namespace Ads.Persistence.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedDate = new DateTime(2023, 12, 18, 18, 3, 40, 293, DateTimeKind.Local).AddTicks(3830),
+                            CreatedDate = new DateTime(2023, 12, 18, 23, 52, 4, 265, DateTimeKind.Local).AddTicks(2161),
                             Name = "Admin"
                         });
                 });
@@ -562,7 +531,7 @@ namespace Ads.Persistence.Migrations
                             Id = 1,
                             Address = "Ankara",
                             AdvertId = 0,
-                            CreatedDate = new DateTime(2023, 12, 18, 18, 3, 40, 293, DateTimeKind.Local).AddTicks(3978),
+                            CreatedDate = new DateTime(2023, 12, 18, 23, 52, 4, 265, DateTimeKind.Local).AddTicks(2440),
                             Email = "admin@test.com",
                             FirstName = "Admin",
                             IsActive = true,
@@ -571,7 +540,7 @@ namespace Ads.Persistence.Migrations
                             Phone = "0850",
                             RoleId = 1,
                             SettingId = 1,
-                            UserGuid = new Guid("0babfa4b-096d-47bd-9360-8ea0c1b29af3"),
+                            UserGuid = new Guid("4981036f-603f-4e72-b84c-7d7a94b79ab0"),
                             UserImagePath = "Ankara Ankara Ankara",
                             Username = "admin"
                         });
@@ -685,17 +654,6 @@ namespace Ads.Persistence.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Ads.Domain.Entities.Concrete.AdvertSliderImage", b =>
-                {
-                    b.HasOne("Ads.Domain.Entities.Concrete.Advert", "Advert")
-                        .WithMany("AdvertSliderImages")
-                        .HasForeignKey("AdvertId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Advert");
-                });
-
             modelBuilder.Entity("Ads.Domain.Entities.Concrete.CategoryAdvert", b =>
                 {
                     b.HasOne("Ads.Domain.Entities.Concrete.Advert", "Advert")
@@ -791,8 +749,6 @@ namespace Ads.Persistence.Migrations
                     b.Navigation("AdvertImages");
 
                     b.Navigation("AdvertRatings");
-
-                    b.Navigation("AdvertSliderImages");
 
                     b.Navigation("CategoryAdverts");
 

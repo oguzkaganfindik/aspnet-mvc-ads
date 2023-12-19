@@ -1,8 +1,7 @@
 ﻿using Ads.Domain.Entities.Abstract;
-using Ads.Domain.Entities.Concrete;
 using System.ComponentModel.DataAnnotations;
 
-namespace OtoServisSatis.Entities
+namespace Ads.Domain.Entities.Concrete
 {
     public class Customer : IEntity
     {

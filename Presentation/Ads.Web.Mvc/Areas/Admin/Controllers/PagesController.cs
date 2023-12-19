@@ -1,11 +1,12 @@
 ﻿using Ads.Application.Services;
 using Ads.Domain.Entities.Concrete;
 using Ads.Infrastructure.Utils;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ads.Web.Mvc.Areas.Admin.Models.Settings
 {
-    [Area("Admin")]
+    [Area("Admin"), Authorize]
     public class PagesController : Controller
     {
         private readonly IService<Page> _service;

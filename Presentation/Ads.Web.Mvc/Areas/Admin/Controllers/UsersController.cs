@@ -1,12 +1,14 @@
 ﻿using Ads.Application.Services;
 using Ads.Domain.Entities.Concrete;
+using Ads.Infrastructure.Utils;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Ads.Web.Mvc.Areas.Admin.Controllers
 {
-    [Area("Admin")]
+    [Area("Admin"), Authorize]
     public class UsersController : Controller
     {
         private readonly IUserService _service;
@@ -46,12 +48,13 @@ namespace Ads.Web.Mvc.Areas.Admin.Controllers
         // POST: UsersController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateAsync(User user)
+        public async Task<IActionResult> CreateAsync(User user, IFormFile? UserImagePath)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
+                    user.UserImagePath = await FileHelper.FileLoaderAsync(UserImagePath, "/Img/UserImages/");
                     await _service.AddAsync(user);
                     await _service.SaveAsync();
                     return RedirectToAction(nameof(Index));
@@ -78,12 +81,17 @@ namespace Ads.Web.Mvc.Areas.Admin.Controllers
         // POST: UsersController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditAsync(int id, User user)
+        public async Task<IActionResult> EditAsync(int id, User user, IFormFile? UserImagePath)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
+                    if (UserImagePath is not null)
+                    {
+                        user.UserImagePath = await FileHelper.FileLoaderAsync(UserImagePath, "/Img/UserImages/");
+                    }
+
                     _service.Update(user);
                     await _service.SaveAsync();
                     return RedirectToAction(nameof(Index));

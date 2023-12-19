@@ -108,38 +108,38 @@ namespace Ads.Persistence.Contexts
 
         }
 
-        //public override int SaveChanges()
-        //{
-        //    var datas = ChangeTracker.Entries<IAuiditEntity>();
-        //    var currentTime = DateTime.Now;
+		//public override int SaveChanges()
+		//{
+		//	var datas = ChangeTracker.Entries<IAuiditEntity>();
+		//	var currentTime = DateTime.Now;
 
-        //    foreach (var data in datas)
-        //    {
-        //        switch (data.State)
-        //        {
-        //            case EntityState.Added:
-        //                data.Entity.CreatedDate = currentTime;
-        //                break;
+		//	foreach (var data in datas)
+		//	{
+		//		switch (data.State)
+		//		{
+		//			case EntityState.Added:
+		//				data.Entity.CreatedDate = currentTime;
+		//				break;
 
-        //            case EntityState.Modified:
-        //                data.Entity.UpdatedDate = currentTime;
-        //                break;
+		//			case EntityState.Modified:
+		//				data.Entity.UpdatedDate = currentTime;
+		//				break;
 
-        //            //case EntityState.Deleted:
-        //            //    // İstersen silinen kaydı kalıcı olarak silmek yerine, bir "Soft Delete" işlemi uygulayabilirsin.
-        //            //    // data.State = EntityState.Modified;
-        //            //    // data.Entity.DeletedDate = currentTime;
-        //            //    // data.Entity.IsDeleted = true;
-        //            //    // veya tamamen kaldırmak için şu satırı açabilirsin:
-        //            //    // data.State = EntityState.Detached;
-        //            //    break;
-        //        }
-        //    }
+		//				//case EntityState.Deleted:
+		//				//    // İstersen silinen kaydı kalıcı olarak silmek yerine, bir "Soft Delete" işlemi uygulayabilirsin.
+		//				//    // data.State = EntityState.Modified;
+		//				//    // data.Entity.DeletedDate = currentTime;
+		//				//    // data.Entity.IsDeleted = true;
+		//				//    // veya tamamen kaldırmak için şu satırı açabilirsin:
+		//				//    // data.State = EntityState.Detached;
+		//				//    break;
+		//		}
+		//	}
 
-        //    return base.SaveChanges();
-        //}
+		//	return base.SaveChanges();
+		//}
 
-        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+		public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
 			//ChangeTracker : Entityler üzerinden yapılan değişikliklerin ya da yeni eklenen verinin yakalanmasını sağlayan propertydir. Update operasyonlarında Track edilen verileri yakalayıp elde etmemizi sağlar.
 

@@ -1,5 +1,4 @@
 ﻿using Ads.Domain.Entities.Abstract;
-using OtoServisSatis.Entities;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -22,10 +21,10 @@ namespace Ads.Domain.Entities.Concrete
         [MinLength(1, ErrorMessage = "{0} en az {1} karakter olabilir!")]
         public string Description { get; set; }
 
-        [DisplayName("Advert Type")]
+        [DisplayName("Is Business?")]
         public bool Type { get; set; }
 
-        [DisplayName("Advert Type")]
+        [DisplayName("Is Business?")]
         public string TypeString => Type ? "Personal" : "Business";
 
         [DisplayName("Is it on sale?")]
@@ -55,8 +54,6 @@ namespace Ads.Domain.Entities.Concrete
         public virtual ICollection<AdvertComment>? AdvertComments { get; set; }
 
         public virtual ICollection<AdvertImage>? AdvertImages { get; set; }
-
-        public virtual ICollection<AdvertSliderImage>? AdvertSliderImages { get; set; }
 
         public virtual ICollection<AdvertRating>? AdvertRatings { get; set; }
 

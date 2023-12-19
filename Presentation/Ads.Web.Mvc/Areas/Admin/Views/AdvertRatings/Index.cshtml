@@ -13,26 +13,12 @@
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Rating)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.User)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Advert)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CreatedDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UpdatedDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DeletedDate)
-            </th>
-
-
+            <th>Rating</th>
+            <th>User</th>
+            <th>Advert</th>
+            <th>Created Date</th>
+            <th>Updated Date</th>
+            <th>Deleted Date</th>
             <th></th>
         </tr>
     </thead>
@@ -41,7 +27,15 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Rating)
+                    <div class="star-rating" data-rating="@item.Rating">
+                        @if (item.Rating.HasValue)
+                        {
+                            for (int i = 1; i <= item.Rating.Value; i++)
+                            {
+                                <span>&#9733;</span> <!-- Yıldız sembolü -->
+                            }
+                        }
+                    </div>
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.User.Username)
@@ -58,8 +52,6 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.DeletedDate)
                 </td>
-
-
                 <td>
                     <a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                     <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
