@@ -13,11 +13,14 @@
                     <form asp-action="Register">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <fieldset class="p-4">
+                                <input asp-for="Email" class="border p-3 w-100 my-2" placeholder="Email*" />
+                                <input type="password" asp-for="Password" class="border p-3 w-100 my-2" placeholder="Password*" />
                                 <input asp-for="FirstName" class="border p-3 w-100 my-2" placeholder="Name*" />
                                 <input asp-for="LastName" class="border p-3 w-100 my-2" placeholder="Surname*" />
-                                <input asp-for="Email" class="border p-3 w-100 my-2" placeholder="Email*" />
+                                <input asp-for="Username" class="border p-3 w-100 my-2" placeholder="Username*" />
                                 <input asp-for="Phone" class="border p-3 w-100 my-2" placeholder="Phone*" />
-                                <input type="password" asp-for="Password" class="border p-3 w-100 my-2" placeholder="Password*" />
+                                <input asp-for="Address" class="border p-3 w-100 my-2" placeholder="Address*" />
+
                             <div class="loggedin-forgot d-inline-flex my-3">
                                 <label for="registering" class="px-2">By registering, you accept our <a class="text-primary font-weight-bold" href="terms-condition.html">Terms & Conditions</a></label>
                             </div>
