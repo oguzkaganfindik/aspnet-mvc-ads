@@ -8,11 +8,11 @@ namespace Ads.Persistence.Contexts
 {
 	public class AppDbContext : DbContext
 	{
-        //public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
-        //{
-        //}
+		public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
+		{
+		}
 
-        public DbSet<Advert> Adverts { get; set; }
+		public DbSet<Advert> Adverts { get; set; }
 		public DbSet<AdvertComment> AdvertComments { get; set; }
 		public DbSet<AdvertImage> AdvertImages { get; set; }
 		public DbSet<AdvertRating> AdvertRatings { get; set; }
@@ -27,9 +27,9 @@ namespace Ads.Persistence.Contexts
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 		{
-			optionsBuilder.UseSqlServer(@"Server=(localDb)\MSSQLLocalDb;Database=DbAdsApp;Persist Security Info=True;User ID=sa;Password=123;Trusted_Connection=True;TrustServerCertificate=Yes;MultipleActiveResultSets=true");
+			//optionsBuilder.UseSqlServer(@"Server=(localDb)\MSSQLLocalDb;Database=DbAdsApp;Persist Security Info=True;User ID=sa;Password=123;Trusted_Connection=True;TrustServerCertificate=Yes;MultipleActiveResultSets=true");
 
-			//optionsBuilder.UseSqlServer(Configuration.ConnectionString);
+			optionsBuilder.UseSqlServer(Configuration.ConnectionString);
 			base.OnConfiguring(optionsBuilder);
         }
 
