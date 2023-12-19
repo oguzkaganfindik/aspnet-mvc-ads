@@ -1,11 +1,12 @@
 ﻿using Ads.Application.Services;
 using Ads.Domain.Entities.Concrete;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Ads.Web.Mvc.Areas.Admin.Models.Settings
 {
-    [Area("Admin")]
+    [Area("Admin"), Authorize]
     public class SettingsController : Controller
     {
         private readonly ISettingService _service;

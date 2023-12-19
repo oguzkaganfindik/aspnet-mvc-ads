@@ -1,11 +1,12 @@
 ﻿using Ads.Application.Services;
 using Ads.Domain.Entities.Concrete;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Ads.Web.Mvc.Areas.Admin.Controllers
 {
-    [Area("Admin")]
+    [Area("Admin"), Authorize]
     public class AdvertsController : Controller
     {
         private readonly IAdvertService _service;
@@ -13,15 +14,17 @@ namespace Ads.Web.Mvc.Areas.Admin.Controllers
         private readonly IService<Category> _serviceCategory;
         private readonly IService<SubCategory> _serviceSubCategory;
         private readonly IService<AdvertComment> _serviceAdvertComment;
+        private readonly IService<AdvertImage> _serviceAdvertImage;
 
 
-        public AdvertsController(IAdvertService service, IService<User> serviceUser, IService<Category> serviceCategory, IService<SubCategory> serviceSubCategory, IService<AdvertComment> serviceAdvertComment)
+        public AdvertsController(IAdvertService service, IService<User> serviceUser, IService<Category> serviceCategory, IService<SubCategory> serviceSubCategory, IService<AdvertComment> serviceAdvertComment, IService<AdvertImage> serviceAdvertImage)
         {
             _service = service;
             _serviceUser = serviceUser;
             _serviceCategory = serviceCategory;
             _serviceSubCategory = serviceSubCategory;
             _serviceAdvertComment = serviceAdvertComment;
+            _serviceAdvertImage = serviceAdvertImage;
         }
 
         // GET: AdvertsController
@@ -122,9 +125,6 @@ namespace Ads.Web.Mvc.Areas.Admin.Controllers
         // GET: AdvertsController/Delete/5
         public async Task<IActionResult> DeleteAsync(int id)
         {
-            ViewBag.UserId = new SelectList(await _serviceUser.GetAllAsync(), "Id", "Username");
-            ViewBag.CategoryId = new SelectList(await _serviceCategory.GetAllAsync(), "Id", "Name");
-            ViewBag.SubCategoryId = new SelectList(await _serviceSubCategory.GetAllAsync(), "Id", "Name");
             var model = await _service.FindAsync(id);
 
             return View(model);
@@ -137,9 +137,6 @@ namespace Ads.Web.Mvc.Areas.Admin.Controllers
         {
             try
             {
-                ViewBag.UserId = new SelectList(await _serviceUser.GetAllAsync(), "Id", "Username");
-                ViewBag.CategoryId = new SelectList(await _serviceCategory.GetAllAsync(), "Id", "Name");
-                ViewBag.SubCategoryId = new SelectList(await _serviceSubCategory.GetAllAsync(), "Id", "Name");
                 _service.Delete(advert);
                 await _service.SaveAsync();
                 return RedirectToAction(nameof(Index));

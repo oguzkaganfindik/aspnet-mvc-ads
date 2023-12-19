@@ -5,62 +5,84 @@
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
+<style>
+
+    .advert-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+        .advert-table th, .advert-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+    .advert-images {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .advert-image {
+        width: 100%; /* Resim genişliği */
+        height: auto; /* Resim yüksekliği otomatik ayarlanacak */
+        border: 1px solid #ddd;
+        margin-bottom: 5px;
+    }
+
+    .btn-container {
+        display: flex;
+        justify-content: center; /* Butonları yatayda ortala */
+        align-items: center; /* Butonları dikeyde ortala */
+        margin-top: 10px; /* İhtiyaca göre ayarla */
+    }
+
+    .btn {
+        margin: 0 5px; /* Butonlar arasındaki boşluk */
+    }
+
+</style>
+
+
 <h1>Adverts</h1>
 
 <p>
     <a class="btn btn-outline-primary" asp-action="Create">Create New</a>
 </p>
-<table class="table">
+<table class="advert-table">
     <thead>
         <tr>
-            <th>
-                Username
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CategoryId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SubCategoryId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Type)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.OnSale)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Price)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ClickCount)
-            </th>
-            <th>
-                Comments
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CreatedDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UpdatedDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DeletedDate)
-            </th>
-
-
-            <th></th>
+            <th>Advert Images</th>
+            <th>Username</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>CategoryId</th>
+            <th>SubCategoryId</th>
+            <th>Type</th>
+            <th>OnSale</th>
+            <th>Price</th>
+            <th>ClickCount</th>
+            <th>Comments</th>
+            <th>CreatedDate</th>
+            <th>UpdatedDate</th>
+            <th>DeletedDate</th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
             <tr>
+                <td>
+                    <div class="advert-images">
+                        @foreach (var image in item.AdvertImages)
+                        {
+                            <img class="advert-image" src="/Img/AdvertImages/@image.AdvertImagePath" alt="" />
+                        }
+                    </div>
+                </td>
                 <td>
                     @if (item.User != null)
                     {
@@ -155,12 +177,12 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.DeletedDate)
                 </td>
-
                 <td>
-                    <a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    <a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.Id">Edit</a> 
+                    <a class="btn btn-danger mt-2" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                 </td>
             </tr>
         }
     </tbody>
 </table>
+

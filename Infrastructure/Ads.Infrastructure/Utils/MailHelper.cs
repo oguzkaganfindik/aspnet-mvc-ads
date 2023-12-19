@@ -1,5 +1,4 @@
 ﻿using Ads.Domain.Entities.Concrete;
-using OtoServisSatis.Entities;
 using System.Net;
 using System.Net.Mail;
 

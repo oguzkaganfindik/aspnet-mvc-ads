@@ -1,6 +1,7 @@
 ﻿using Ads.Application.Services;
 using Ads.Domain.Entities.Concrete;
 using Ads.Persistence.Contexts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -8,7 +9,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Ads.Web.Mvc.Areas.Admin.Controllers
 {
-    [Area("Admin")]
+    [Area("Admin"), Authorize(Policy = "UserPolicy")]
     public class AdvertRatingsController : Controller
     {
         private readonly IAdvertRatingService _service;

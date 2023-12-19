@@ -1,10 +1,12 @@
 ﻿using Ads.Application.Services;
 using Ads.Domain.Entities.Concrete;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Ads.Web.Mvc.Areas.Admin.Controllers
 {
-    [Area("Admin")]
+    [Area("Admin"), Authorize]
     public class RolesController : Controller
     {
         private readonly IService<Role> _service;
@@ -28,20 +30,21 @@ namespace Ads.Web.Mvc.Areas.Admin.Controllers
         }
 
         // GET: RolesController/Create
-        public IActionResult Create()
+        public async Task<IActionResult> CreateAsync()
         {
+
             return View();
         }
 
         // POST: RolesController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Role rol)
+        public async Task<IActionResult> CreateAsync(Role rol)
         {
             try
             {
                 _service.Add(rol);
-                _service.Save();
+                _service.SaveAsync();
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -60,12 +63,12 @@ namespace Ads.Web.Mvc.Areas.Admin.Controllers
         // POST: RolesController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, Role rol)
+        public async Task<IActionResult> EditAsync(int id, Role rol)
         {
             try
             {
                 _service.Update(rol);
-                _service.Save();
+                _service.SaveAsync();
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -84,12 +87,12 @@ namespace Ads.Web.Mvc.Areas.Admin.Controllers
         // POST: RolesController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Delete(int id, Role rol)
+        public async Task<IActionResult> DeleteAsync(int id, Role rol)
         {
             try
             {
                 _service.Delete(rol);
-                _service.Save();
+                _service.SaveAsync();
                 return RedirectToAction(nameof(Index));
             }
             catch

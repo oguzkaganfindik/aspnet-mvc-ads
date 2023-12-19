@@ -1,12 +1,13 @@
 ﻿using Ads.Application.Services;
 using Ads.Domain.Entities.Concrete;
 using Ads.Infrastructure.Utils;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Ads.Web.Mvc.Areas.Admin.Controllers
 {
-    [Area("Admin")]
+    [Area("Admin"), Authorize]
     public class AdvertImagesController : Controller
     {
         private readonly IAdvertImageService _service;
