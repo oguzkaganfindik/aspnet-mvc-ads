@@ -9,7 +9,7 @@ namespace Ads.Web.Mvc.Utils
         public static async Task SendMailAsync(Customer customer)
         {
             SmtpClient smtpClient = new SmtpClient("mail.siteadresi.com", 587);
-            smtpClient.Credentials = new NetworkCredential("emailKullaniciad", "emailsifre");
+            smtpClient.Credentials = new NetworkCredential("emailKullaniciad", "emailPassword");
             smtpClient.EnableSsl = false; //gmail ise true yapılmalı
             MailMessage message = new MailMessage();
             message.From = new MailAddress("info@siteadi.com");
