@@ -10,19 +10,19 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 
-//builder.Services.AddPersistenceServices();
+builder.Services.AddPersistenceServices();
 
-builder.Services.AddDbContext<AppDbContext>();
+//builder.Services.AddDbContext<AppDbContext>();
 
-builder.Services.AddTransient(typeof(IService<>), typeof(Service<>));
-builder.Services.AddTransient<IAdvertService, AdvertService>();
-builder.Services.AddTransient<IUserService, UserService>();
-builder.Services.AddTransient<ICategoryService, CategoryService>();
-builder.Services.AddTransient<ISubCategoryService, SubCategoryService>();
-builder.Services.AddTransient<ISettingService, SettingService>();
-builder.Services.AddTransient<IAdvertCommentService, AdvertCommentService>();
-builder.Services.AddTransient<IAdvertImageService, AdvertImageService>();
-builder.Services.AddTransient<IAdvertRatingService, AdvertRatingService>();
+//builder.Services.AddTransient(typeof(IService<>), typeof(Service<>));
+//builder.Services.AddTransient<IAdvertService, AdvertService>();
+//builder.Services.AddTransient<IUserService, UserService>();
+//builder.Services.AddTransient<ICategoryService, CategoryService>();
+//builder.Services.AddTransient<ISubCategoryService, SubCategoryService>();
+//builder.Services.AddTransient<ISettingService, SettingService>();
+//builder.Services.AddTransient<IAdvertCommentService, AdvertCommentService>();
+//builder.Services.AddTransient<IAdvertImageService, AdvertImageService>();
+//builder.Services.AddTransient<IAdvertRatingService, AdvertRatingService>();
 
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(x =>

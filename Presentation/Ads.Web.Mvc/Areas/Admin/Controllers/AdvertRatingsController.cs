@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Ads.Web.Mvc.Areas.Admin.Controllers
 {
-    [Area("Admin"), Authorize(Policy = "UserPolicy")]
+    [Area("Admin"), Authorize]
     public class AdvertRatingsController : Controller
     {
         private readonly IAdvertRatingService _service;
