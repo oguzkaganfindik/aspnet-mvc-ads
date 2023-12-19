@@ -20,7 +20,7 @@ namespace Ads.Application.FluentValidation
                 .NotEmpty().WithMessage("Content cannot be empty")
                 .Length(5, 3000).WithMessage("Content must be between 5 and 3000 characters");
 
-            RuleFor(dto => dto.ImagePath)
+            RuleFor(dto => dto.PageImagePath)
                 .NotEmpty().WithMessage("Image path cannot be empty")
                 .Length(10, 200).WithMessage("Image path must be between 10 and 200 characters");
 

@@ -39,9 +39,6 @@ namespace Ads.Persistence.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("CustomerId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("DeletedDate")
                         .HasColumnType("datetime2");
 
@@ -331,7 +328,7 @@ namespace Ads.Persistence.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedDate = new DateTime(2023, 12, 18, 23, 52, 4, 265, DateTimeKind.Local).AddTicks(2161),
+                            CreatedDate = new DateTime(2023, 12, 20, 1, 24, 42, 901, DateTimeKind.Local).AddTicks(3955),
                             Name = "Admin"
                         });
                 });
@@ -459,7 +456,7 @@ namespace Ads.Persistence.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
-                    b.Property<int>("AdvertId")
+                    b.Property<int?>("AdvertId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedDate")
@@ -496,10 +493,10 @@ namespace Ads.Persistence.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int>("RoleId")
+                    b.Property<int?>("RoleId")
                         .HasColumnType("int");
 
-                    b.Property<int>("SettingId")
+                    b.Property<int?>("SettingId")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("UpdatedDate")
@@ -530,8 +527,7 @@ namespace Ads.Persistence.Migrations
                         {
                             Id = 1,
                             Address = "Ankara",
-                            AdvertId = 0,
-                            CreatedDate = new DateTime(2023, 12, 18, 23, 52, 4, 265, DateTimeKind.Local).AddTicks(2440),
+                            CreatedDate = new DateTime(2023, 12, 20, 1, 24, 42, 901, DateTimeKind.Local).AddTicks(4155),
                             Email = "admin@test.com",
                             FirstName = "Admin",
                             IsActive = true,
@@ -540,58 +536,10 @@ namespace Ads.Persistence.Migrations
                             Phone = "0850",
                             RoleId = 1,
                             SettingId = 1,
-                            UserGuid = new Guid("4981036f-603f-4e72-b84c-7d7a94b79ab0"),
+                            UserGuid = new Guid("5dca2f6e-1d2e-44f6-b3b8-b31ce85835fd"),
                             UserImagePath = "Ankara Ankara Ankara",
                             Username = "admin"
                         });
-                });
-
-            modelBuilder.Entity("OtoServisSatis.Entities.Customer", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Adress")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<int>("AdvertId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("Notes")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Phone")
-                        .HasMaxLength(15)
-                        .HasColumnType("nvarchar(15)");
-
-                    b.Property<string>("TcNo")
-                        .HasMaxLength(11)
-                        .HasColumnType("nvarchar(11)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AdvertId");
-
-                    b.ToTable("Customer");
                 });
 
             modelBuilder.Entity("Ads.Domain.Entities.Concrete.Advert", b =>
@@ -717,29 +665,16 @@ namespace Ads.Persistence.Migrations
                     b.HasOne("Ads.Domain.Entities.Concrete.Role", "Role")
                         .WithMany("Users")
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Ads.Domain.Entities.Concrete.Setting", "Setting")
                         .WithMany("Users")
                         .HasForeignKey("SettingId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Role");
 
                     b.Navigation("Setting");
-                });
-
-            modelBuilder.Entity("OtoServisSatis.Entities.Customer", b =>
-                {
-                    b.HasOne("Ads.Domain.Entities.Concrete.Advert", "Advert")
-                        .WithMany("Customers")
-                        .HasForeignKey("AdvertId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Advert");
                 });
 
             modelBuilder.Entity("Ads.Domain.Entities.Concrete.Advert", b =>
@@ -751,8 +686,6 @@ namespace Ads.Persistence.Migrations
                     b.Navigation("AdvertRatings");
 
                     b.Navigation("CategoryAdverts");
-
-                    b.Navigation("Customers");
 
                     b.Navigation("SubCategoryAdverts");
                 });

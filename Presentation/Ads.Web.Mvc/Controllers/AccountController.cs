@@ -4,6 +4,7 @@ using Ads.Web.Mvc.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Security.Claims;
 
 namespace Ads.Web.Mvc.Controllers
@@ -12,11 +13,13 @@ namespace Ads.Web.Mvc.Controllers
     {
         private readonly IUserService _service;
         private readonly IService<Role> _serviceRol;
+        private readonly IService<Setting> _serviceSetting;
 
-        public AccountController(IUserService service, IService<Role> serviceRol)
+        public AccountController(IUserService service, IService<Role> serviceRol, IService<Setting> serviceSetting)
         {
             _service = service;
             _serviceRol = serviceRol;
+            _serviceSetting = serviceSetting;
         }
 
         [Authorize(Policy = "CustomerPolicy")]
@@ -70,8 +73,9 @@ namespace Ads.Web.Mvc.Controllers
             return RedirectToAction("Index");
         }
 
-        public IActionResult Register()
+        public async Task<IActionResult> RegisterAsync()
         {
+            ViewBag.SettingId = new SelectList(await _serviceSetting.GetAllAsync(), "Id", "Theme");
             return View();
         }
 
@@ -82,6 +86,7 @@ namespace Ads.Web.Mvc.Controllers
             {
                 try
                 {
+                    ViewBag.SettingId = new SelectList(await _serviceSetting.GetAllAsync(), "Id", "Theme");
                     var role = await _serviceRol.GetAsync(r => r.Name == "Customer");
                     if (role == null)
                     {

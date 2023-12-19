@@ -12,7 +12,7 @@ namespace Ads.Application.FluentValidation
     {
         public AdvertImageDtoValidator()
         {
-            RuleFor(dto => dto.ImagePath)
+            RuleFor(dto => dto.AdvertImagePath)
                 .NotEmpty().WithMessage("Image path cannot be empty")
                 .Length(10, 200).WithMessage("Image path must be between 10 and 200 characters");
 

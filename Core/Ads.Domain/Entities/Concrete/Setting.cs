@@ -12,7 +12,7 @@ namespace Ads.Domain.Entities.Concrete
         [Required(ErrorMessage = "{0} boş geçilemez.")]
         [StringLength(200, ErrorMessage = "{0} {1} karakterden fazla olamaz!")]
         [MinLength(5, ErrorMessage = "{0} en az {1} karakter olabilir!")]
-        public string Theme { get; set; }
+        public string? Theme { get; set; }
 
         [DisplayName("Value")]
         [Required(ErrorMessage = "{0} boş geçilemez.")]
