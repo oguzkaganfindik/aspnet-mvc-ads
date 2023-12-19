@@ -40,7 +40,6 @@ namespace Ads.Domain.Entities.Concrete
         public int CategoryId { get; set; }
 
         public int SubCategoryId { get; set; }
-        public int CustomerId { get; set; }
 
         public virtual User? User { get; set; }
 
@@ -56,8 +55,6 @@ namespace Ads.Domain.Entities.Concrete
         public virtual ICollection<AdvertImage>? AdvertImages { get; set; }
 
         public virtual ICollection<AdvertRating>? AdvertRatings { get; set; }
-
-        public virtual ICollection<Customer>? Customers { get; set; }
 
         public DateTime CreatedDate { get; set; }
 
