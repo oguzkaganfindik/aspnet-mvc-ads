@@ -113,7 +113,7 @@ namespace Ads.Web.Mvc.Controllers
         {
             try
             {
-                var account = await _service.GetAsync(k => k.Email == customerLoginViewModel.Email && k.Password == customerLoginViewModel.Sifre && k.IsActive == true);
+                var account = await _service.GetAsync(k => k.Email == customerLoginViewModel.Email && k.Password == customerLoginViewModel.Password && k.IsActive == true);
                 if (account == null)
                 {
                     ModelState.AddModelError("", "Giriş Başarısız!");

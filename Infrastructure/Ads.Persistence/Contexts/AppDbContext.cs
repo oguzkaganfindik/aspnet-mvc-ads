@@ -27,8 +27,6 @@ namespace Ads.Persistence.Contexts
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 		{
-			//optionsBuilder.UseSqlServer(@"Server=(localDb)\MSSQLLocalDb;Database=DbAdsApp;Persist Security Info=True;User ID=sa;Password=123;Trusted_Connection=True;TrustServerCertificate=Yes;MultipleActiveResultSets=true");
-
 			optionsBuilder.UseSqlServer(Configuration.ConnectionString);
 			base.OnConfiguring(optionsBuilder);
         }

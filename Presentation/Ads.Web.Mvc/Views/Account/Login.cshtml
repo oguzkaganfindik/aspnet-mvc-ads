@@ -1,7 +1,7 @@
 ﻿@model CustomerLoginViewModel
 
 @{
-    ViewData["Title"] = "Üye Girişi";
+    ViewData["Title"] = "User Login";
 }
 <section class="login py-5 border-top-1">
     <div class="container">
@@ -13,7 +13,7 @@
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <fieldset class="p-4">
                             <input asp-for="Email" class="border p-3 w-100 my-2" placeholder="Email" />
-                            <input type="password" asp-for="Sifre" class="border p-3 w-100 my-2" placeholder="Password" />
+                            <input type="password" asp-for="Password" class="border p-3 w-100 my-2" placeholder="Password" />
                             <div class="loggedin-forgot">
                                 <input type="checkbox" id="keep-me-logged-in">
                                 <label for="keep-me-logged-in" class="pt-3 pb-2">Keep me logged in</label>
