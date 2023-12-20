@@ -1,6 +1,6 @@
 ﻿using Ads.Application.DTOs.Advert;
 
-namespace Ads.Application.DTOs.Advertmage
+namespace Ads.Application.DTOs.AdvertImage
 {
 	public class AdvertImageDto
 	{

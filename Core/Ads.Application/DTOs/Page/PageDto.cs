@@ -1,14 +1,8 @@
-﻿using Ads.Application.DTOs.Advertmage;
-using Ads.Application.DTOs.Setting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Ads.Application.DTOs.Setting;
 
 namespace Ads.Application.DTOs.Page
 {
-	public class PageDto
+    public class PageDto
 	{
 		public int Id { get; set; }
 		public string Title { get; set; }

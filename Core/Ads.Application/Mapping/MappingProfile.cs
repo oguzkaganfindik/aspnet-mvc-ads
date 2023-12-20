@@ -1,6 +1,6 @@
 ﻿using Ads.Application.DTOs.Advert;
 using Ads.Application.DTOs.AdvertComment;
-using Ads.Application.DTOs.Advertmage;
+using Ads.Application.DTOs.AdvertImage;
 using Ads.Application.DTOs.AdvertRating;
 using Ads.Application.DTOs.Category;
 using Ads.Application.DTOs.CategoryAdvert;

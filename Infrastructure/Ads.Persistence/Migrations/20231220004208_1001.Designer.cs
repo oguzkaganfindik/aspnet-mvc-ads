@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Ads.Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231219222443_First2")]
-    partial class First2
+    [Migration("20231220004208_1001")]
+    partial class _1001
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -131,6 +131,7 @@ namespace Ads.Persistence.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("AdvertImagePath")
+                        .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
@@ -331,7 +332,7 @@ namespace Ads.Persistence.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedDate = new DateTime(2023, 12, 20, 1, 24, 42, 901, DateTimeKind.Local).AddTicks(3955),
+                            CreatedDate = new DateTime(2023, 12, 20, 3, 42, 8, 634, DateTimeKind.Local).AddTicks(2384),
                             Name = "Admin"
                         });
                 });
@@ -530,7 +531,7 @@ namespace Ads.Persistence.Migrations
                         {
                             Id = 1,
                             Address = "Ankara",
-                            CreatedDate = new DateTime(2023, 12, 20, 1, 24, 42, 901, DateTimeKind.Local).AddTicks(4155),
+                            CreatedDate = new DateTime(2023, 12, 20, 3, 42, 8, 634, DateTimeKind.Local).AddTicks(2890),
                             Email = "admin@test.com",
                             FirstName = "Admin",
                             IsActive = true,
@@ -539,7 +540,7 @@ namespace Ads.Persistence.Migrations
                             Phone = "0850",
                             RoleId = 1,
                             SettingId = 1,
-                            UserGuid = new Guid("5dca2f6e-1d2e-44f6-b3b8-b31ce85835fd"),
+                            UserGuid = new Guid("4be21e03-d4dc-42f7-ba34-7032cf8c760e"),
                             UserImagePath = "Ankara Ankara Ankara",
                             Username = "admin"
                         });

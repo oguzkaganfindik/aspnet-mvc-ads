@@ -1,8 +1,8 @@
-﻿@model AdvertImage
+﻿@model Ads.Application.DTOs.AdvertImage.AdvertImageDto
 
 @{
     ViewData["Title"] = "Create Advert Image";
-    // Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
 <h1>Create Advert Image</h1>
@@ -14,9 +14,9 @@
         <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="AdvertId" class="control-label">Advert Title</label>
-                <select asp-for="AdvertId" class="form-control" asp-items="ViewBag.AdvertId"></select>
-                <span asp-validation-for="AdvertId" class="text-danger"></span>
+                <label asp-for="Advert.Id" class="control-label">Advert Title</label>
+                <select asp-for="Advert.Id" class="form-control" asp-items="ViewBag.AdvertId"></select>
+                <span asp-validation-for="Advert.Id" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="AdvertImagePath" class="control-label"></label>

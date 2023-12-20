@@ -1,4 +1,4 @@
-﻿using Ads.Application.DTOs.Advertmage;
+﻿using Ads.Application.DTOs.AdvertImage;
 using FluentValidation;
 using System;
 using System.Collections.Generic;
@@ -14,7 +14,7 @@ namespace Ads.Application.FluentValidation
         {
             RuleFor(dto => dto.AdvertImagePath)
                 .NotEmpty().WithMessage("Image path cannot be empty")
-                .Length(10, 200).WithMessage("Image path must be between 10 and 200 characters");
+                .Length(1, 200).WithMessage("Image path must be between 1 and 200 characters");
 
             RuleFor(dto => dto.AdvertId)
                 .GreaterThan(0).WithMessage("A valid advert ID is required");

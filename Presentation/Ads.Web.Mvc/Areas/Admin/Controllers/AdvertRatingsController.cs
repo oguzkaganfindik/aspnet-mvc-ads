@@ -1,58 +1,66 @@
 ﻿using Ads.Application.Services;
 using Ads.Domain.Entities.Concrete;
+using Ads.Persistence.Contexts;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace Ads.Web.Mvc.Controllers
+namespace Ads.Web.Mvc.Areas.Admin.Controllers
 {
-    [Area("Admin"), Authorize(Policy = "UserPolicy")]
-    public class AdvertCommentsController : Controller
+    [Area("Admin"), Authorize]
+    public class AdvertRatingsController : Controller
     {
-        private readonly IAdvertCommentService _service;
+        private readonly IAdvertRatingService _service;
         private readonly IService<Advert> _serviceAdvert;
         private readonly IService<User> _serviceUser;
 
-        public AdvertCommentsController(IAdvertCommentService service, IService<Advert> serviceAdvert, IService<User> serviceUser)
+
+
+        public AdvertRatingsController(IService<Advert> serviceAdvert, IService<User> serviceUser, IAdvertRatingService service)
         {
-            _service = service;
             _serviceAdvert = serviceAdvert;
             _serviceUser = serviceUser;
+            _service = service;
         }
 
-
-        // GET: AdvertCommentsController
+        // GET: AdvertRatingsController
         public async Task<IActionResult> IndexAsync()
         {
-            var model = await _service.GetCustomAdvertCommentList();
+            ViewBag.UserId = new SelectList(await _serviceUser.GetAllAsync(), "Id", "Username");
+            ViewBag.AdvertId = new SelectList(await _serviceAdvert.GetAllAsync(), "Id", "Title");
+            var model = await _service.GetCustomAdvertRatingList();
             return View(model);
         }
 
-        // GET: AdvertCommentsController/Details/5
-        public IActionResult Details(int id)
+        // GET: AdvertRatingsController/Details/5
+        public async Task<IActionResult> DetailsAsync(int id)
         {
+            ViewBag.UserId = new SelectList(await _serviceUser.GetAllAsync(), "Id", "Username");
+            ViewBag.AdvertId = new SelectList(await _serviceAdvert.GetAllAsync(), "Id", "Title");
             return View();
         }
 
-        // GET: AdvertCommentsController/Create
+        // GET: AdvertRatingsController/Create
         public async Task<IActionResult> CreateAsync()
         {
-            ViewBag.AdvertId = new SelectList(await _serviceAdvert.GetAllAsync(), "Id", "Title");
             ViewBag.UserId = new SelectList(await _serviceUser.GetAllAsync(), "Id", "Username");
+            ViewBag.AdvertId = new SelectList(await _serviceAdvert.GetAllAsync(), "Id", "Title");
             return View();
         }
 
-        // POST: AdvertCommentsController/Create
+        // POST: AdvertRatingsController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateAsync(AdvertComment advertComment)
+        public async Task<IActionResult> CreateAsync(AdvertRating advertRating)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    await _service.AddAsync(advertComment);
+
+                    await _service.AddAsync(advertRating);
                     await _service.SaveAsync();
                     return RedirectToAction(nameof(Index));
                 }
@@ -61,30 +69,32 @@ namespace Ads.Web.Mvc.Controllers
                     ModelState.AddModelError("", "Hata Oluştu!");
                 }
             }
-            ViewBag.AdvertId = new SelectList(await _serviceAdvert.GetAllAsync(), "Id", "Title");
             ViewBag.UserId = new SelectList(await _serviceUser.GetAllAsync(), "Id", "Username");
-            return View(advertComment);
+            ViewBag.AdvertId = new SelectList(await _serviceAdvert.GetAllAsync(), "Id", "Title");
+
+            return View(advertRating);
         }
 
-        // GET: AdvertCommentsController/Edit/5
+        // GET: AdvertRatingsController/Edit/5
         public async Task<IActionResult> EditAsync(int id)
         {
             var model = await _service.FindAsync(id);
-            ViewBag.AdvertId = new SelectList(await _serviceAdvert.GetAllAsync(), "Id", "Title");
             ViewBag.UserId = new SelectList(await _serviceUser.GetAllAsync(), "Id", "Username");
+            ViewBag.AdvertId = new SelectList(await _serviceAdvert.GetAllAsync(), "Id", "Title");
+
             return View(model);
         }
 
-        // POST: AdvertCommentsController/Edit/5
+        // POST: AdvertRatingsController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditAsync(int id, AdvertComment advertComment)
+        public async Task<IActionResult> EditAsync(int id, AdvertRating advertRating)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _service.Update(advertComment);
+                    _service.Update(advertRating);
                     await _service.SaveAsync();
                     return RedirectToAction(nameof(Index));
                 }
@@ -93,26 +103,28 @@ namespace Ads.Web.Mvc.Controllers
                     ModelState.AddModelError("", "Hata Oluştu!");
                 }
             }
-            ViewBag.AdvertId = new SelectList(await _serviceAdvert.GetAllAsync(), "Id", "Title");
             ViewBag.UserId = new SelectList(await _serviceUser.GetAllAsync(), "Id", "Username");
-            return View(advertComment);
+            ViewBag.AdvertId = new SelectList(await _serviceAdvert.GetAllAsync(), "Id", "Title");
+
+            return View(advertRating);
         }
 
-        // GET: AdvertCommentsController/Delete/5
+        // GET: AdvertRatingsController/Delete/5
         public async Task<IActionResult> DeleteAsync(int id)
         {
             var model = await _service.FindAsync(id);
+
             return View(model);
         }
 
-        // POST: AdvertCommentsController/Delete/5
+        // POST: AdvertRatingsController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteAsync(int id, AdvertComment advertComment)
+        public async Task<IActionResult> DeleteAsync(int id, AdvertRating advertRating)
         {
             try
             {
-                _service.Delete(advertComment);
+                _service.Delete(advertRating);
                 await _service.SaveAsync();
                 return RedirectToAction(nameof(Index));
             }
@@ -121,5 +133,6 @@ namespace Ads.Web.Mvc.Controllers
                 return View();
             }
         }
+
     }
 }

@@ -6,12 +6,12 @@ using System.Diagnostics;
 
 namespace Ads.Web.Mvc.Controllers
 {
-    public class PagesController : Controller
+    public class PageController : Controller
     {
         private readonly IService<Page> _service;
         private readonly IAdvertService _serviceAdvert;
 
-        public PagesController(IService<Page> service, IAdvertService serviceAdvert)
+        public PageController(IService<Page> service, IAdvertService serviceAdvert)
         {
             _service = service;
             _serviceAdvert = serviceAdvert;
