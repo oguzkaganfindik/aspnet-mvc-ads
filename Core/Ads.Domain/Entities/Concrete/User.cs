@@ -9,12 +9,12 @@ namespace Ads.Domain.Entities.Concrete
         public int Id { get; set; }
 
         [DisplayName("Profile Picture")]
-		//[Required(ErrorMessage = "{0} boş geçilemez.")]
-		[StringLength(200, ErrorMessage = "{0} {1} karakterden fazla olamaz!")]
-		[MinLength(1, ErrorMessage = "{0} en az {1} karakter olabilir!")]
-		public string? UserImagePath { get; set; }
+        //[Required(ErrorMessage = "{0} boş geçilemez.")]
+        [StringLength(200, ErrorMessage = "{0} {1} karakterden fazla olamaz!")]
+        [MinLength(1, ErrorMessage = "{0} en az {1} karakter olabilir!")]
+        public string? UserImagePath { get; set; }
 
-		[DisplayName("Email")]
+        [DisplayName("Email")]
         [Required(ErrorMessage = "{0} boş geçilemez.")]
         [StringLength(200, ErrorMessage = "{0} {1} karakterden fazla olamaz!")]
         [MinLength(5, ErrorMessage = "{0} en az {1} karakter olabilir!")]
@@ -32,19 +32,19 @@ namespace Ads.Domain.Entities.Concrete
         [MinLength(1, ErrorMessage = "{0} en az {1} karakter olabilir!")]
         public string FirstName { get; set; }
 
-		[DisplayName("Last Name")]
-		[Required(ErrorMessage = "{0} boş geçilemez.")]
-		[StringLength(100, ErrorMessage = "{0} {1} karakterden fazla olamaz!")]
-		[MinLength(1, ErrorMessage = "{0} en az {1} karakter olabilir!")]
-		public string LastName { get; set; }
+        [DisplayName("Last Name")]
+        [Required(ErrorMessage = "{0} boş geçilemez.")]
+        [StringLength(100, ErrorMessage = "{0} {1} karakterden fazla olamaz!")]
+        [MinLength(1, ErrorMessage = "{0} en az {1} karakter olabilir!")]
+        public string LastName { get; set; }
 
-		[DisplayName("Username")]
-		[Required(ErrorMessage = "{0} boş geçilemez.")]
-		[StringLength(100, ErrorMessage = "{0} {1} karakterden fazla olamaz!")]
-		[MinLength(1, ErrorMessage = "{0} en az {1} karakter olabilir!")]
-		public string Username { get; set; }
+        [DisplayName("Username")]
+        [Required(ErrorMessage = "{0} boş geçilemez.")]
+        [StringLength(100, ErrorMessage = "{0} {1} karakterden fazla olamaz!")]
+        [MinLength(1, ErrorMessage = "{0} en az {1} karakter olabilir!")]
+        public string Username { get; set; }
 
-		[DisplayName("Adress")]
+        [DisplayName("Adress")]
         [Required(ErrorMessage = "{0} boş geçilemez.")]
         [StringLength(200, ErrorMessage = "{0} {1} karakterden fazla olamaz!")]
         [MinLength(1, ErrorMessage = "{0} en az {1} karakter olabilir!")]
@@ -56,11 +56,11 @@ namespace Ads.Domain.Entities.Concrete
         [Required(ErrorMessage = "{0} boş geçilemez.")]
         public string? Phone { get; set; }
 
-		[DisplayName("Is it Active?")]
-		public bool IsActive { get; set; }
+        [DisplayName("Is it Active?")]
+        public bool IsActive { get; set; }
 
-		[DisplayName("Is it Active?")]
-		public string IsActiveString => IsActive ? "Active" : "Passive";
+        [DisplayName("Is it Active?")]
+        public string IsActiveString => IsActive ? "Active" : "Passive";
 
         [Display(Name = "Advert")]
         public int? AdvertId { get; set; }
@@ -68,20 +68,20 @@ namespace Ads.Domain.Entities.Concrete
 
         public virtual ICollection<AdvertComment>? AdvertComments { get; set; }
 
-		public virtual ICollection<AdvertRating>? AdvertRatings { get; set; }
+        public virtual ICollection<AdvertRating>? AdvertRatings { get; set; }
 
-		public DateTime CreatedDate { get; set; }
+        public DateTime CreatedDate { get; set; }
 
         public DateTime? UpdatedDate { get; set; }
 
         public DateTime? DeletedDate { get; set; }
 
         public virtual Role? Role { get; set; }
-		       
-		public int? RoleId { get; set; }
 
-		public virtual Setting? Setting { get; set; }
-        
+        public int? RoleId { get; set; }
+
+        public virtual Setting? Setting { get; set; }
+
         public int? SettingId { get; set; }
         public Guid? UserGuid { get; set; } = Guid.NewGuid();
     }

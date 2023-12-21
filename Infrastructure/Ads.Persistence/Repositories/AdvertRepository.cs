@@ -15,13 +15,13 @@ namespace Ads.Persistence.Repositories
         public async Task<Advert> GetCustomAdvert(int id)
         {
             return await _dbSet
-                  .Include(x => x.User)
-                  .Include(x => x.CategoryAdverts)
-                  .ThenInclude(ca => ca.Category)
-                  .Include(y => y.SubCategoryAdverts)
-                  .ThenInclude(sa => sa.SubCategory)
-                  .Include(z => z.AdvertImages)
-                  .FirstOrDefaultAsync(c => c.Id == id);
+                 .Include(x => x.User)
+        .Include(x => x.CategoryAdverts)
+            .ThenInclude(ca => ca.Category)
+        .Include(y => y.SubCategoryAdverts)
+            .ThenInclude(sa => sa.SubCategory)
+        .Include(z => z.AdvertImages)
+        .FirstOrDefaultAsync(c => c.Id == id);
         }
 
         public async Task<List<Advert>> GetCustomAdvertList()
@@ -40,12 +40,12 @@ namespace Ads.Persistence.Repositories
         {
             return await _dbSet
                 .Include(x => x.User)
-                .Include(x => x.CategoryAdverts)
-                .ThenInclude(ca => ca.Category)
-                .Include(y => y.SubCategoryAdverts)
-                .ThenInclude(sa => sa.SubCategory)
-                .Include(z => z.AdvertImages)
-                .ToListAsync();
+        .Include(x => x.CategoryAdverts)
+            .ThenInclude(ca => ca.Category)
+        .Include(y => y.SubCategoryAdverts)
+            .ThenInclude(sa => sa.SubCategory)
+        .Include(z => z.AdvertImages)
+        .ToListAsync();
         }
     }
 }

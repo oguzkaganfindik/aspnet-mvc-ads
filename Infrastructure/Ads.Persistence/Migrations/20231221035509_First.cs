@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Ads.Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class _1001 : Migration
+    public partial class First : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -164,9 +164,9 @@ namespace Ads.Persistence.Migrations
                     OnSale = table.Column<bool>(type: "bit", nullable: false),
                     Price = table.Column<int>(type: "int", nullable: true),
                     ClickCount = table.Column<int>(type: "int", nullable: true),
-                    CategoryId = table.Column<int>(type: "int", nullable: false),
-                    SubCategoryId = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false),
+                    CategoryId = table.Column<int>(type: "int", nullable: true),
+                    SubCategoryId = table.Column<int>(type: "int", nullable: true),
+                    UserId = table.Column<int>(type: "int", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     DeletedDate = table.Column<DateTime>(type: "datetime2", nullable: true)
@@ -178,8 +178,7 @@ namespace Ads.Persistence.Migrations
                         name: "FK_Adverts_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -327,7 +326,7 @@ namespace Ads.Persistence.Migrations
             migrationBuilder.InsertData(
                 table: "Roles",
                 columns: new[] { "Id", "CreatedDate", "DeletedDate", "Name", "UpdatedDate" },
-                values: new object[] { 1, new DateTime(2023, 12, 20, 3, 42, 8, 634, DateTimeKind.Local).AddTicks(2384), null, "Admin", null });
+                values: new object[] { 1, new DateTime(2023, 12, 21, 6, 55, 9, 419, DateTimeKind.Local).AddTicks(7791), null, "Admin", null });
 
             migrationBuilder.InsertData(
                 table: "Settings",
@@ -337,7 +336,7 @@ namespace Ads.Persistence.Migrations
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "Address", "AdvertId", "CreatedDate", "DeletedDate", "Email", "FirstName", "IsActive", "LastName", "Password", "Phone", "RoleId", "SettingId", "UpdatedDate", "UserGuid", "UserImagePath", "Username" },
-                values: new object[] { 1, "Ankara", null, new DateTime(2023, 12, 20, 3, 42, 8, 634, DateTimeKind.Local).AddTicks(2890), null, "admin@test.com", "Admin", true, "Admin", "123", "0850", 1, 1, null, new Guid("4be21e03-d4dc-42f7-ba34-7032cf8c760e"), "Ankara Ankara Ankara", "admin" });
+                values: new object[] { 1, "Ankara", null, new DateTime(2023, 12, 21, 6, 55, 9, 419, DateTimeKind.Local).AddTicks(8119), null, "admin@test.com", "Admin", true, "Admin", "123", "0850", 1, 1, null, new Guid("15dda157-2fd1-4219-882f-e50075e3d831"), "Ankara Ankara Ankara", "admin" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AdvertComments_AdvertId",

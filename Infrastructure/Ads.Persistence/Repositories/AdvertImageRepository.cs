@@ -15,6 +15,7 @@ namespace Ads.Persistence.Repositories
         {
             return await _dbSet
               .Include(x => x.Advert)
+               .ThenInclude(ai => ai.Title)
               .FirstOrDefaultAsync(c => c.Id == id);
         }
 
@@ -22,6 +23,7 @@ namespace Ads.Persistence.Repositories
         {
             return await _dbSet
                 .Include(x => x.Advert)
+                 .ThenInclude(ai => ai.Title)
                 .ToListAsync();
         }
 
@@ -30,6 +32,7 @@ namespace Ads.Persistence.Repositories
             return await _dbSet
                .Where(expression)
                .Include(x => x.Advert)
+                .ThenInclude(ai => ai.Title)
                .ToListAsync();
         }
     }

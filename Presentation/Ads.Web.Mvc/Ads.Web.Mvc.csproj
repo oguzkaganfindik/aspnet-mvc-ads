@@ -25,6 +25,7 @@
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="wwwroot\Img\AdvertImages\" />
     <Folder Include="wwwroot\Img\PageImages\" />
+    <Folder Include="wwwroot\Img\UserImages\" />
   </ItemGroup>
 
 </Project>

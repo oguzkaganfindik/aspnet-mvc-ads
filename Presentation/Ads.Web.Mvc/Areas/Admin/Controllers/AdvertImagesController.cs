@@ -2,10 +2,12 @@
 using Ads.Application.Services;
 using Ads.Domain.Entities.Concrete;
 using Ads.Infrastructure.Utils;
+using Ads.Persistence.Services;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Diagnostics;
 
 namespace Ads.Web.Mvc.Areas.Admin.Controllers
 {
@@ -15,6 +17,7 @@ namespace Ads.Web.Mvc.Areas.Admin.Controllers
         private readonly IAdvertImageService _service;
         private readonly IService<Advert> _serviceAdvert;
         private readonly IMapper _mapper;
+
 
         public AdvertImagesController(IAdvertImageService service, IService<Advert> serviceAdvert, IMapper mapper)
         {
@@ -26,6 +29,7 @@ namespace Ads.Web.Mvc.Areas.Admin.Controllers
         // GET: AdvertImagesController
         public async Task<IActionResult> IndexAsync()
         {
+            ViewBag.AdvertId = new SelectList(await _serviceAdvert.GetAllAsync(), "Id", "Title");
             var advertImages = await _service.GetAllAsync();
             var model = _mapper.Map<IEnumerable<AdvertImageDto>>(advertImages);
             return View(model);
@@ -34,10 +38,12 @@ namespace Ads.Web.Mvc.Areas.Admin.Controllers
         // GET: AdvertImagesController/Details/5
         public async Task<IActionResult> DetailsAsync(int id)
         {
+            ViewBag.AdvertId = new SelectList(await _serviceAdvert.GetAllAsync(), "Id", "Title");
             var advertImage = await _service.FindAsync(id);
             var model = _mapper.Map<AdvertImageDto>(advertImage);
             return View(model);
         }
+
 
         // GET: AdvertImagesController/Create
         public async Task<IActionResult> CreateAsync()
@@ -46,35 +52,29 @@ namespace Ads.Web.Mvc.Areas.Admin.Controllers
             return View();
         }
 
-        // POST: AdvertImagesController/Create
+
+        // POST: PagesController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateAsync(AdvertImageDto advertImageDTO, IFormFile? AdvertImagePath)
+        public async Task<ActionResult> CreateAsync(AdvertImageDto advertImageDto, IFormFile? AdvertImagePath)
         {
-            if (!ModelState.IsValid)
-            {
-                ViewBag.AdvertId = new SelectList(await _serviceAdvert.GetAllAsync(), "Id", "Title");
-                return View(advertImageDTO);
-            }
-
             try
             {
-                var advertImage = _mapper.Map<AdvertImage>(advertImageDTO);
+                var advertImage = _mapper.Map<AdvertImage>(advertImageDto);
+
                 advertImage.AdvertImagePath = await FileHelper.FileLoaderAsync(AdvertImagePath, "/Img/AdvertImages/");
                 await _service.AddAsync(advertImage);
                 await _service.SaveAsync();
-                return RedirectToAction(nameof(IndexAsync));
+                return RedirectToAction(nameof(Index));
             }
             catch
             {
-                ViewBag.AdvertId = new SelectList(await _serviceAdvert.GetAllAsync(), "Id", "Title");
-                return View(advertImageDTO);
+                return View();
             }
         }
-    
 
-    // GET: AdvertImagesController/Edit/5
-    public async Task<IActionResult> EditAsync(int id)
+        // GET: AdvertImagesController/Edit/5
+        public async Task<IActionResult> EditAsync(int id)
         {
             var advertImage = await _service.FindAsync(id);
             var model = _mapper.Map<AdvertImageDto>(advertImage);
@@ -89,7 +89,6 @@ namespace Ads.Web.Mvc.Areas.Admin.Controllers
         {
             if (!ModelState.IsValid)
             {
-                ViewBag.AdvertId = new SelectList(await _serviceAdvert.GetAllAsync(), "Id", "Title");
                 return View(advertImageDTO);
             }
 
@@ -103,11 +102,10 @@ namespace Ads.Web.Mvc.Areas.Admin.Controllers
                     advertImage.AdvertImagePath = await FileHelper.FileLoaderAsync(AdvertImagePath, "/Img/AdvertImages/");
                 }
                 await _service.SaveAsync();
-                return RedirectToAction(nameof(IndexAsync));
+                return RedirectToAction(nameof(Index));
             }
             catch
             {
-                ViewBag.AdvertId = new SelectList(await _serviceAdvert.GetAllAsync(), "Id", "Title");
                 return View(advertImageDTO);
             }
         }
@@ -117,18 +115,27 @@ namespace Ads.Web.Mvc.Areas.Admin.Controllers
         {
             var advertImage = await _service.FindAsync(id);
             var model = _mapper.Map<AdvertImageDto>(advertImage);
+            ViewBag.AdvertId = new SelectList(await _serviceAdvert.GetAllAsync(), "Id", "Title");
             return View(model);
         }
 
         // POST: AdvertImagesController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmedAsync(int id)
+        public async Task<ActionResult> DeleteAsync(AdvertImageDto advertImageDto)
         {
-            var advertImage = await _service.FindAsync(id);
-            _service.Delete(advertImage);
-            await _service.SaveAsync();
-            return RedirectToAction(nameof(IndexAsync));
+            try
+            {
+                var advertImage = _mapper.Map<AdvertImage>(advertImageDto);
+                _service.Delete(advertImage);
+                await _service.SaveAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+            
         }
     }
 }

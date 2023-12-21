@@ -3,7 +3,7 @@ using Ads.Application.DTOs.Category;
 
 namespace Ads.Application.DTOs.CategoryAdvert
 {
-	public class CategoryAdvertDto
+    public class CategoryAdvertDto
 	{
 		public int Id { get; set; }
 		public int CategoryId { get; set; }

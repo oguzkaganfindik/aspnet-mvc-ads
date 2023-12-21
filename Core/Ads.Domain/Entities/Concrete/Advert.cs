@@ -13,13 +13,13 @@ namespace Ads.Domain.Entities.Concrete
         [Required(ErrorMessage = "{0} boş geçilemez.")]
         [StringLength(200, ErrorMessage = "{0} {1} karakterden fazla olamaz!")]
         [MinLength(1, ErrorMessage = "{0} en az {1} karakter olabilir!")]
-        public string Title { get; set; }
+        public string? Title { get; set; }
 
         [DisplayName("Description")]
         [Required(ErrorMessage = "{0} boş geçilemez.")]
         [StringLength(500, ErrorMessage = "{0} {1} karakterden fazla olamaz!")]
         [MinLength(1, ErrorMessage = "{0} en az {1} karakter olabilir!")]
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         [DisplayName("Is Business?")]
         public bool Type { get; set; }
@@ -37,14 +37,14 @@ namespace Ads.Domain.Entities.Concrete
 
         public int? ClickCount { get; set; }
 
-        public int CategoryId { get; set; }
+        public int? CategoryId { get; set; }
 
-        public int SubCategoryId { get; set; }
+        public int? SubCategoryId { get; set; }
 
         public virtual User? User { get; set; }
 
         [ForeignKey("User")]
-        public int UserId { get; set; }
+        public int? UserId { get; set; }
 
         public virtual ICollection<CategoryAdvert>? CategoryAdverts { get; set; }
 

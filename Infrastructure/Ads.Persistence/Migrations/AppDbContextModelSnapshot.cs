@@ -30,7 +30,7 @@ namespace Ads.Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CategoryId")
+                    b.Property<int?>("CategoryId")
                         .HasColumnType("int");
 
                     b.Property<int?>("ClickCount")
@@ -53,7 +53,7 @@ namespace Ads.Persistence.Migrations
                     b.Property<int?>("Price")
                         .HasColumnType("int");
 
-                    b.Property<int>("SubCategoryId")
+                    b.Property<int?>("SubCategoryId")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
@@ -67,7 +67,7 @@ namespace Ads.Persistence.Migrations
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("UserId")
+                    b.Property<int?>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -329,7 +329,7 @@ namespace Ads.Persistence.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedDate = new DateTime(2023, 12, 20, 3, 42, 8, 634, DateTimeKind.Local).AddTicks(2384),
+                            CreatedDate = new DateTime(2023, 12, 21, 6, 55, 9, 419, DateTimeKind.Local).AddTicks(7791),
                             Name = "Admin"
                         });
                 });
@@ -528,7 +528,7 @@ namespace Ads.Persistence.Migrations
                         {
                             Id = 1,
                             Address = "Ankara",
-                            CreatedDate = new DateTime(2023, 12, 20, 3, 42, 8, 634, DateTimeKind.Local).AddTicks(2890),
+                            CreatedDate = new DateTime(2023, 12, 21, 6, 55, 9, 419, DateTimeKind.Local).AddTicks(8119),
                             Email = "admin@test.com",
                             FirstName = "Admin",
                             IsActive = true,
@@ -537,7 +537,7 @@ namespace Ads.Persistence.Migrations
                             Phone = "0850",
                             RoleId = 1,
                             SettingId = 1,
-                            UserGuid = new Guid("4be21e03-d4dc-42f7-ba34-7032cf8c760e"),
+                            UserGuid = new Guid("15dda157-2fd1-4219-882f-e50075e3d831"),
                             UserImagePath = "Ankara Ankara Ankara",
                             Username = "admin"
                         });
@@ -547,9 +547,7 @@ namespace Ads.Persistence.Migrations
                 {
                     b.HasOne("Ads.Domain.Entities.Concrete.User", "User")
                         .WithMany("Adverts")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("User");
                 });

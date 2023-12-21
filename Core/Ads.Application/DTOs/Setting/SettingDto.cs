@@ -3,7 +3,7 @@ using Ads.Application.DTOs.User;
 
 namespace Ads.Application.DTOs.Setting
 {
-	public class SettingDto
+    public class SettingDto
 	{
 		public int Id { get; set; }
 		public string Theme { get; set; }
