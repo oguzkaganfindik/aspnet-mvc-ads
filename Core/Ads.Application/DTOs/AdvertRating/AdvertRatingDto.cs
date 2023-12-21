@@ -3,7 +3,7 @@ using Ads.Application.DTOs.User;
 
 namespace Ads.Application.DTOs.AdvertRating
 {
-	public class AdvertRatingDto
+    public class AdvertRatingDto
 	{
 		public int Id { get; set; }
 		public int UserId { get; set; }

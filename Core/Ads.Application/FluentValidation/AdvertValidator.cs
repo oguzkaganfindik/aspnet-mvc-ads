@@ -3,7 +3,7 @@ using FluentValidation;
 
 namespace Ads.Application.FluentValidation
 {
-	public class AdvertDtoValidator : AbstractValidator<AdvertDto>
+    public class AdvertDtoValidator : AbstractValidator<AdvertDto>
     {
         public AdvertDtoValidator()
         {

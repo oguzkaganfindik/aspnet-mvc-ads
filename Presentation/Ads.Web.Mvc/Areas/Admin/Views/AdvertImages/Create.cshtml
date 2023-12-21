@@ -14,15 +14,16 @@
         <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Advert.Id" class="control-label">Advert Title</label>
-                <select asp-for="Advert.Id" class="form-control" asp-items="ViewBag.AdvertId"></select>
-                <span asp-validation-for="Advert.Id" class="text-danger"></span>
+                <label asp-for="AdvertId" class="control-label">Advert Title</label>
+                <select asp-for="AdvertId" class="form-control" asp-items="ViewBag.AdvertId"></select>
+                <span asp-validation-for="AdvertId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="AdvertImagePath" class="control-label"></label>
                 <input asp-for="AdvertImagePath" class="form-control" type="file" />
                 <span asp-validation-for="AdvertImagePath" class="text-danger"></span>
             </div>
+
             <div class="form-group mt-5">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>

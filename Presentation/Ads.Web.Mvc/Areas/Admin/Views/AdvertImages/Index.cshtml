@@ -1,4 +1,5 @@
-﻿@model IEnumerable<Ads.Application.DTOs.AdvertImage.AdvertImageDto>
+﻿@using Ads.Application.DTOs.AdvertImage
+@model IEnumerable<AdvertImageDto>
 
 @{
     ViewData["Title"] = "Advert Images";
@@ -66,6 +67,7 @@
                     </tfoot>
 
                     <tbody>
+
                         @foreach (var item in Model)
                         {
                             <tr>
@@ -73,7 +75,14 @@
                                     <img src="/Img/AdvertImages/@item.AdvertImagePath" alt="" width="250" height="250" />
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Advert.Title)
+                                    @if (item.Advert != null)
+                                    {
+                                        @Html.DisplayFor(modelItem => item.Advert.Title)
+                                    }
+                                    else
+                                    {
+                                        <span>Advert not available</span>
+                                    }
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.CreatedDate)

@@ -2,7 +2,7 @@
 
 namespace Ads.Application.DTOs.Role
 {
-	public class RoleDto
+    public class RoleDto
 	{
 		public int Id { get; set; }
 

@@ -2,7 +2,6 @@
 using Ads.Domain.Entities.Concrete;
 using Ads.Infrastructure.Utils;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 

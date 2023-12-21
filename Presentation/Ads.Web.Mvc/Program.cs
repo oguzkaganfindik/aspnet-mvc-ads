@@ -1,5 +1,5 @@
 using Ads.Application.FluentValidation;
-using Ads.Application.MappingProfile;
+using Ads.Application.Mapping;
 using Ads.Persistence;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -10,6 +10,28 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddPersistenceServices();
+
+builder.Services.AddAutoMapper(typeof(MappingProfile));
+
+builder.Services.AddControllers().AddFluentValidation(fv =>
+{
+    fv.RegisterValidatorsFromAssemblyContaining<AdvertDtoValidator>();
+    fv.RegisterValidatorsFromAssemblyContaining<AdvertCommentDtoValidator>();
+    fv.RegisterValidatorsFromAssemblyContaining<AdvertImageDtoValidator>();
+    fv.RegisterValidatorsFromAssemblyContaining<AdvertRatingDtoValidator>();
+    fv.RegisterValidatorsFromAssemblyContaining<CategoryDtoValidator>();
+    fv.RegisterValidatorsFromAssemblyContaining<CategoryAdvertDtoValidator>();
+    fv.RegisterValidatorsFromAssemblyContaining<PageDtoValidator>();
+    fv.RegisterValidatorsFromAssemblyContaining<RoleDtoValidator>();
+    fv.RegisterValidatorsFromAssemblyContaining<SettingDtoValidator>();
+    fv.RegisterValidatorsFromAssemblyContaining<SubCategoryDtoValidator>();
+    fv.RegisterValidatorsFromAssemblyContaining<SubCategoryAdvertDtoValidator>();
+    fv.RegisterValidatorsFromAssemblyContaining<UserDtoValidator>();
+    fv.RegisterValidatorsFromAssemblyContaining<LoginDtoValidator>();
+    fv.RegisterValidatorsFromAssemblyContaining<ForgotPasswordDtoValidator>();
+    fv.RegisterValidatorsFromAssemblyContaining<LoginDtoValidator>();
+
+});
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(x =>
 {
@@ -27,26 +49,6 @@ builder.Services.AddAuthorization(x =>
     x.AddPolicy("UserPolicy", policy => policy.RequireClaim(ClaimTypes.Role, "Admin", "User"));
     x.AddPolicy("CustomerPolicy", policy => policy.RequireClaim(ClaimTypes.Role, "Admin", "User", "Customer"));
 });
-
-builder.Services.AddAutoMapper(typeof(MappingProfile));
-
-builder.Services.AddControllers().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<AdvertDtoValidator>());
-builder.Services.AddControllers().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<AdvertCommentDtoValidator>());
-builder.Services.AddControllers().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<AdvertImageDtoValidator>());
-builder.Services.AddControllers().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<AdvertRatingDtoValidator>());
-builder.Services.AddControllers().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CategoryDtoValidator>());
-builder.Services.AddControllers().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CategoryAdvertDtoValidator>());
-builder.Services.AddControllers().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<PageDtoValidator>());
-builder.Services.AddControllers().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<RoleDtoValidator>());
-builder.Services.AddControllers().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<SettingDtoValidator>());
-builder.Services.AddControllers().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<SubCategoryDtoValidator>());
-builder.Services.AddControllers().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<SubCategoryAdvertDtoValidator>());
-builder.Services.AddControllers().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<UserDtoValidator>());
-builder.Services.AddControllers().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<LoginDtoValidator>());
-builder.Services.AddControllers().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<ForgotPasswordDtoValidator>());
-builder.Services.AddControllers().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<LoginDtoValidator>());
-		
-
 
 var app = builder.Build();
 

@@ -1,16 +1,10 @@
 ﻿using Ads.Application.DTOs.User;
 using FluentValidation;
-using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ads.Application.FluentValidation
 {
 
-	public class ChangePasswordDtoValidator : AbstractValidator<ChangePasswordDto>
+    public class ChangePasswordDtoValidator : AbstractValidator<ChangePasswordDto>
 	{
 		public ChangePasswordDtoValidator()
 		{

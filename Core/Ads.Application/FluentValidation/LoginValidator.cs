@@ -1,14 +1,9 @@
 ﻿using Ads.Application.DTOs.User;
 using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ads.Application.FluentValidation
 {
-	public class LoginDtoValidator : AbstractValidator<LoginDto>
+    public class LoginDtoValidator : AbstractValidator<LoginDto>
 	{
 		public LoginDtoValidator()
 		{

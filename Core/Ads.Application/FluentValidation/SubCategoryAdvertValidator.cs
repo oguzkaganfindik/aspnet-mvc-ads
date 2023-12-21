@@ -1,14 +1,9 @@
 ﻿using Ads.Application.DTOs.SubCategoryAdvert;
 using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ads.Application.FluentValidation
 {
-	public class SubCategoryAdvertDtoValidator : AbstractValidator<SubCategoryAdvertDto>
+    public class SubCategoryAdvertDtoValidator : AbstractValidator<SubCategoryAdvertDto>
 	{
 		public SubCategoryAdvertDtoValidator()
 		{

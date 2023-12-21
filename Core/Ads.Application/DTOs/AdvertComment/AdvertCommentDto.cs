@@ -3,7 +3,7 @@ using Ads.Application.DTOs.User;
 
 namespace Ads.Application.DTOs.AdvertComment
 {
-	public class AdvertCommentDto
+    public class AdvertCommentDto
 	{
 		public int Id { get; set; }
 		public string Comment { get; set; }
