@@ -7,17 +7,26 @@ namespace Ads.Application.FluentValidation
     {
         public PageDtoValidator()
         {
-            RuleFor(dto => dto.Title)
+            RuleFor(dto => dto.Name)
                 .NotEmpty().WithMessage("Title cannot be empty")
                 .Length(5, 200).WithMessage("Title must be between 5 and 200 characters");
 
-            RuleFor(dto => dto.Content)
+            RuleFor(dto => dto.Title1)
+                .NotEmpty().WithMessage("Title cannot be empty")
+                .Length(5, 200).WithMessage("Title must be between 5 and 200 characters");
+
+            RuleFor(dto => dto.Title2)
+                 .Length(5, 200).WithMessage("Title must be between 5 and 200 characters");
+
+            RuleFor(dto => dto.Content1)
                 .NotEmpty().WithMessage("Content cannot be empty")
                 .Length(5, 3000).WithMessage("Content must be between 5 and 3000 characters");
 
+            RuleFor(dto => dto.Content2)
+                .Length(5, 3000).WithMessage("Content must be between 5 and 3000 characters");
+
             RuleFor(dto => dto.PageImagePath)
-                .NotEmpty().WithMessage("Image path cannot be empty")
-                .Length(10, 200).WithMessage("Image path must be between 10 and 200 characters");
+                .Length(1, 200).WithMessage("Image path must be between 1 and 200 characters");
 
             RuleFor(dto => dto.CreatedDate)
                 .LessThanOrEqualTo(DateTime.Now).WithMessage("Creation date cannot be in the future");
