@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Ads.Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231221035509_First")]
-    partial class First
+    [Migration("20231222030754_First3")]
+    partial class First3
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -194,6 +194,11 @@ namespace Ads.Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("CategoryIconPath")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
@@ -204,11 +209,6 @@ namespace Ads.Persistence.Migrations
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
-
-                    b.Property<string>("IconPath")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -263,7 +263,12 @@ namespace Ads.Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Content")
+                    b.Property<string>("Content1")
+                        .IsRequired()
+                        .HasMaxLength(3000)
+                        .HasColumnType("nvarchar(3000)");
+
+                    b.Property<string>("Content2")
                         .IsRequired()
                         .HasMaxLength(3000)
                         .HasColumnType("nvarchar(3000)");
@@ -289,7 +294,12 @@ namespace Ads.Persistence.Migrations
                     b.Property<int>("SettingId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Title")
+                    b.Property<string>("Title1")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("Title2")
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
@@ -332,7 +342,7 @@ namespace Ads.Persistence.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedDate = new DateTime(2023, 12, 21, 6, 55, 9, 419, DateTimeKind.Local).AddTicks(7791),
+                            CreatedDate = new DateTime(2023, 12, 22, 6, 7, 54, 324, DateTimeKind.Local).AddTicks(7278),
                             Name = "Admin"
                         });
                 });
@@ -404,6 +414,11 @@ namespace Ads.Persistence.Migrations
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("SubCategoryIconPath")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("datetime2");
@@ -531,7 +546,7 @@ namespace Ads.Persistence.Migrations
                         {
                             Id = 1,
                             Address = "Ankara",
-                            CreatedDate = new DateTime(2023, 12, 21, 6, 55, 9, 419, DateTimeKind.Local).AddTicks(8119),
+                            CreatedDate = new DateTime(2023, 12, 22, 6, 7, 54, 324, DateTimeKind.Local).AddTicks(7420),
                             Email = "admin@test.com",
                             FirstName = "Admin",
                             IsActive = true,
@@ -540,7 +555,7 @@ namespace Ads.Persistence.Migrations
                             Phone = "0850",
                             RoleId = 1,
                             SettingId = 1,
-                            UserGuid = new Guid("15dda157-2fd1-4219-882f-e50075e3d831"),
+                            UserGuid = new Guid("ffe5f691-d185-4175-bb05-db176251f582"),
                             UserImagePath = "Ankara Ankara Ankara",
                             Username = "admin"
                         });

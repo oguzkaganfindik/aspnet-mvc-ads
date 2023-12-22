@@ -23,8 +23,8 @@ namespace Ads.Domain.Entities.Concrete
         [DisplayName("Icon")]
         [Required(ErrorMessage = "{0} boş geçilemez.")]
         [StringLength(50, ErrorMessage = "{0} {1} karakterden fazla olamaz!")]
-        [MinLength(10, ErrorMessage = "{0} en az {1} karakter olabilir!")]
-        public string IconPath { get; set; }
+        [MinLength(1, ErrorMessage = "{0} en az {1} karakter olabilir!")]
+        public string CategoryIconPath { get; set; }
 
         public virtual ICollection<CategoryAdvert> CategoryAdverts { get; set; }
         public virtual ICollection<SubCategory> SubCategories { get; set; }

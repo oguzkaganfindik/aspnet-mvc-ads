@@ -1,5 +1,8 @@
-﻿using Ads.Application.Services;
+﻿using Ads.Application.DTOs.Advert;
+using Ads.Application.DTOs.AdvertImage;
+using Ads.Application.Services;
 using Ads.Domain.Entities.Concrete;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -15,9 +18,11 @@ namespace Ads.Web.Mvc.Areas.Models.Adverts
         private readonly IService<SubCategory> _serviceSubCategory;
         private readonly IService<AdvertComment> _serviceAdvertComment;
         private readonly IService<AdvertImage> _serviceAdvertImage;
+        private readonly IService<AdvertRating> _serviceAdvertRating;
+        private readonly IMapper _mapper;
 
 
-        public AdvertsController(IAdvertService service, IService<User> serviceUser, IService<Category> serviceCategory, IService<SubCategory> serviceSubCategory, IService<AdvertComment> serviceAdvertComment, IService<AdvertImage> serviceAdvertImage)
+        public AdvertsController(IAdvertService service, IService<User> serviceUser, IService<Category> serviceCategory, IService<SubCategory> serviceSubCategory, IService<AdvertComment> serviceAdvertComment, IService<AdvertImage> serviceAdvertImage, IMapper mapper, IService<AdvertRating> serviceAdvertRating)
         {
             _service = service;
             _serviceUser = serviceUser;
@@ -25,6 +30,8 @@ namespace Ads.Web.Mvc.Areas.Models.Adverts
             _serviceSubCategory = serviceSubCategory;
             _serviceAdvertComment = serviceAdvertComment;
             _serviceAdvertImage = serviceAdvertImage;
+            _serviceAdvertRating = serviceAdvertRating;
+            _mapper = mapper;
         }
 
         // GET: AdvertsController
@@ -34,8 +41,9 @@ namespace Ads.Web.Mvc.Areas.Models.Adverts
             ViewBag.CategoryId = new SelectList(await _serviceCategory.GetAllAsync(), "Id", "Name");
             ViewBag.SubCategoryId = new SelectList(await _serviceSubCategory.GetAllAsync(), "Id", "Name");
             ViewBag.AdvertComment = new SelectList(await _serviceAdvertComment.GetAllAsync(), "Id", "Comment");
-            var model = await _service.GetCustomAdvertList();
-
+            
+            var advert = await _service.GetCustomAdvertList();
+            var model = _mapper.Map<IEnumerable<AdvertDto>>(advert);
             return View(model);
         }
 
@@ -46,8 +54,9 @@ namespace Ads.Web.Mvc.Areas.Models.Adverts
             ViewBag.CategoryId = new SelectList(await _serviceCategory.GetAllAsync(), "Id", "Name");
             ViewBag.SubCategoryId = new SelectList(await _serviceSubCategory.GetAllAsync(), "Id", "Name");
             ViewBag.AdvertComment = new SelectList(await _serviceAdvertComment.GetAllAsync(), "Id", "Comment");
-
-            return View();
+            var advert = await _service.FindAsync(id);
+            var model = _mapper.Map<AdvertImageDto>(advert);
+            return View(model);
         }
 
         // GET: AdvertsController/Create
@@ -63,14 +72,14 @@ namespace Ads.Web.Mvc.Areas.Models.Adverts
         // POST: AdvertsController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateAsync(Advert advert)
+        public async Task<IActionResult> CreateAsync(AdvertDto advertDto)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-
-                    await _service.AddAsync(advert);
+                    var model = _mapper.Map<Advert>(advertDto);
+                    await _service.AddAsync(model);
                     await _service.SaveAsync();
                     return RedirectToAction(nameof(Index));
                 }
@@ -83,13 +92,14 @@ namespace Ads.Web.Mvc.Areas.Models.Adverts
             ViewBag.CategoryId = new SelectList(await _serviceCategory.GetAllAsync(), "Id", "Name");
             ViewBag.SubCategoryId = new SelectList(await _serviceSubCategory.GetAllAsync(), "Id", "Name");
 
-            return View(advert);
+            return View(advertDto);
         }
 
         // GET: AdvertsController/Edit/5
         public async Task<IActionResult> EditAsync(int id)
         {
-            var model = await _service.FindAsync(id);
+            var advert = await _service.FindAsync(id);
+            var model = _mapper.Map<AdvertDto>(advert);
             ViewBag.UserId = new SelectList(await _serviceUser.GetAllAsync(), "Id", "Username");
             ViewBag.CategoryId = new SelectList(await _serviceCategory.GetAllAsync(), "Id", "Name");
             ViewBag.SubCategoryId = new SelectList(await _serviceSubCategory.GetAllAsync(), "Id", "Name");
@@ -100,13 +110,15 @@ namespace Ads.Web.Mvc.Areas.Models.Adverts
         // POST: AdvertsController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditAsync(int id, Advert advert)
+        public async Task<IActionResult> EditAsync(int id, AdvertDto advertDto)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _service.Update(advert);
+                    var advert = await _service.FindAsync(id);
+                    var model = _mapper.Map(advertDto, advert);
+                    _service.Update(model);
                     await _service.SaveAsync();
                     return RedirectToAction(nameof(Index));
                 }
@@ -119,13 +131,14 @@ namespace Ads.Web.Mvc.Areas.Models.Adverts
             ViewBag.CategoryId = new SelectList(await _serviceCategory.GetAllAsync(), "Id", "Name");
             ViewBag.SubCategoryId = new SelectList(await _serviceSubCategory.GetAllAsync(), "Id", "Name");
 
-            return View(advert);
+            return View(advertDto);
         }
 
         // GET: AdvertsController/Delete/5
         public async Task<IActionResult> DeleteAsync(int id)
         {
-            var model = await _service.FindAsync(id);
+            var advert = await _service.FindAsync(id);
+            var model = _mapper.Map<AdvertDto>(advert);
 
             return View(model);
         }
@@ -133,17 +146,18 @@ namespace Ads.Web.Mvc.Areas.Models.Adverts
         // POST: AdvertsController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteAsync(int id, Advert advert)
+        public async Task<IActionResult> DeleteAsync(int id, AdvertDto advertDto)
         {
             try
             {
-                _service.Delete(advert);
+                var model = _mapper.Map<Advert>(advertDto);
+                _service.Delete(model);
                 await _service.SaveAsync();
                 return RedirectToAction(nameof(Index));
             }
             catch
             {
-                return View();
+                return View(advertDto);
             }
         }
     }

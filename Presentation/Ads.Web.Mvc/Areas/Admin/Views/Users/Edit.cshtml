@@ -18,11 +18,6 @@
             <input type="hidden" asp-for="UserGuid" />
             <input type="hidden" asp-for="UserImagePath" />
             <div class="form-group">
-                <label asp-for="UserImagePath" class="control-label"></label>
-                <input asp-for="UserImagePath" class="form-control" />
-                <span asp-validation-for="UserImagePath" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="Email" class="control-label"></label>
                 <input asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email" class="text-danger"></span>
@@ -61,6 +56,8 @@
                 <label asp-for="UserImagePath" class="control-label"></label>
                 <input asp-for="UserImagePath" class="form-control" type="file" />
                 <span asp-validation-for="UserImagePath" class="text-danger"></span>
+                <br />
+                <img src="/Img/UserImages/@Model.UserImagePath" alt="" height="500" />
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">

@@ -8,19 +8,37 @@ namespace Ads.Domain.Entities.Concrete
     {
         public int Id { get; set; }
 
-        [DisplayName("Title")]
+        [DisplayName("Page Name")]
         [Required(ErrorMessage = "{0} boş geçilemez.")]
         [StringLength(200, ErrorMessage = "{0} {1} karakterden fazla olamaz!")]
         [MinLength(3, ErrorMessage = "{0} en az {1} karakter olabilir!")]
-        public string Title { get; set; }
+        public string Name { get; set; }
 
-        [DisplayName("Content")]
+        [DisplayName("Title 1")]
+        [Required(ErrorMessage = "{0} boş geçilemez.")]
+        [StringLength(200, ErrorMessage = "{0} {1} karakterden fazla olamaz!")]
+        [MinLength(3, ErrorMessage = "{0} en az {1} karakter olabilir!")]
+        public string Title1 { get; set; }
+
+        [DisplayName("Title 2")]
+        [Required(ErrorMessage = "{0} boş geçilemez.")]
+        [StringLength(200, ErrorMessage = "{0} {1} karakterden fazla olamaz!")]
+        [MinLength(3, ErrorMessage = "{0} en az {1} karakter olabilir!")]
+        public string Title2 { get; set; }
+
+        [DisplayName("Content 1")]
         //[Required(ErrorMessage = "{0} boş geçilemez.")]
         [StringLength(3000, ErrorMessage = "{0} {1} karakterden fazla olamaz!")]
         [MinLength(3, ErrorMessage = "{0} en az {1} karakter olabilir!")]
-        public string Content { get; set; }
+        public string Content1 { get; set; }
 
-		[DisplayName("Image Path")]
+        [DisplayName("Content 2")]
+        //[Required(ErrorMessage = "{0} boş geçilemez.")]
+        [StringLength(3000, ErrorMessage = "{0} {1} karakterden fazla olamaz!")]
+        [MinLength(3, ErrorMessage = "{0} en az {1} karakter olabilir!")]
+        public string Content2 { get; set; }
+
+        [DisplayName("Image Path")]
 		//[Required(ErrorMessage = "{0} boş geçilemez.")]
 		[StringLength(200, ErrorMessage = "{0} {1} karakterden fazla olamaz!")]
 		[MinLength(3, ErrorMessage = "{0} en az {1} karakter olabilir!")]
