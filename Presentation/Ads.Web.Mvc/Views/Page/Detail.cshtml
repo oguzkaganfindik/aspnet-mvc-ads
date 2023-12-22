@@ -1,5 +1,4 @@
-﻿@model List<Ads.Domain.Entities.Concrete.Page>
-
+﻿@model IEnumerable<Ads.Application.DTOs.Page.PageDto>
 
 <section class="page-title">
     <div class="container">
@@ -11,9 +10,7 @@
     </div>
 </section>
 
-@if (Model.Any())
-{
-    foreach (var item in Model)
+    @foreach (var item in Model)
     {
         <section class="section">
             <div class="container">
@@ -35,8 +32,4 @@
             </div>
         </section>
     }
-}
-else
-{
-    <p>No data available.</p>
-}
+

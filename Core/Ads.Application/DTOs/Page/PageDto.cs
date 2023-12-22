@@ -5,9 +5,12 @@ namespace Ads.Application.DTOs.Page
     public class PageDto
 	{
 		public int Id { get; set; }
-		public string Title { get; set; }
-		public string Content { get; set; }
-		public string PageImagePath { get; set; }
+        public string Name { get; set; }
+        public string Title1 { get; set; }
+        public string? Title2 { get; set; }
+        public string Content1 { get; set; }
+        public string? Content2 { get; set; }
+        public string? PageImagePath { get; set; }
 		public bool IsActive { get; set; }
 		public string? Link { get; set; }
 		public int SettingId { get; set; }

@@ -266,7 +266,6 @@ namespace Ads.Persistence.Migrations
                         .HasColumnType("nvarchar(3000)");
 
                     b.Property<string>("Content2")
-                        .IsRequired()
                         .HasMaxLength(3000)
                         .HasColumnType("nvarchar(3000)");
 
@@ -289,7 +288,6 @@ namespace Ads.Persistence.Migrations
                         .HasColumnType("nvarchar(200)");
 
                     b.Property<string>("PageImagePath")
-                        .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
@@ -302,7 +300,6 @@ namespace Ads.Persistence.Migrations
                         .HasColumnType("nvarchar(200)");
 
                     b.Property<string>("Title2")
-                        .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
@@ -344,7 +341,7 @@ namespace Ads.Persistence.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedDate = new DateTime(2023, 12, 22, 14, 34, 4, 235, DateTimeKind.Local).AddTicks(4533),
+                            CreatedDate = new DateTime(2023, 12, 22, 21, 39, 48, 889, DateTimeKind.Local).AddTicks(2069),
                             Name = "Admin"
                         });
                 });
@@ -548,7 +545,7 @@ namespace Ads.Persistence.Migrations
                         {
                             Id = 1,
                             Address = "Ankara",
-                            CreatedDate = new DateTime(2023, 12, 22, 14, 34, 4, 235, DateTimeKind.Local).AddTicks(4746),
+                            CreatedDate = new DateTime(2023, 12, 22, 21, 39, 48, 889, DateTimeKind.Local).AddTicks(2254),
                             Email = "admin@test.com",
                             FirstName = "Admin",
                             IsActive = true,
@@ -557,7 +554,7 @@ namespace Ads.Persistence.Migrations
                             Phone = "0850",
                             RoleId = 1,
                             SettingId = 1,
-                            UserGuid = new Guid("7d6b8ecb-15ba-4126-b473-13b46dc3ab85"),
+                            UserGuid = new Guid("40760abe-b6e7-4814-9fe6-c46cedad4289"),
                             UserImagePath = "Ankara Ankara Ankara",
                             Username = "admin"
                         });

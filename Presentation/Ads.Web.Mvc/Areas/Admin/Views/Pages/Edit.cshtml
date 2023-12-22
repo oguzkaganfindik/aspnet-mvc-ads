@@ -18,6 +18,11 @@
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)
+                </label>
+            </div>
             <div class="form-group">
                 <label asp-for="Title1" class="control-label"></label>
                 <input asp-for="Title1" class="form-control" />

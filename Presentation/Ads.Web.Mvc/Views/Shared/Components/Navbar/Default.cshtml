@@ -26,8 +26,8 @@
                                     <!-- Dropdown list -->
                                     <div class="dropdown-menu">
                                             @foreach (var pages in Model.Pages)
-                                            {                                             
-                                            <a class="nav-item nav-link" asp-area="" asp-controller="Page" asp-action="Detail" asp-route-id="@pages.Id">@pages.Title</a>
+                                            {
+                                            <a class="nav-item nav-link" asp-area="" asp-controller="Page" asp-action="Detail" asp-route-id="@pages.Id">@pages.Name</a>
                                             }                                         
                                     </div>
                                 </li>

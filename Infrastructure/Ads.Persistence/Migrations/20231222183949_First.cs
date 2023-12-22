@@ -19,7 +19,7 @@ namespace Ads.Persistence.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    IconPath = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    CategoryIconPath = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     DeletedDate = table.Column<DateTime>(type: "datetime2", nullable: true)
@@ -35,9 +35,12 @@ namespace Ads.Persistence.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    Content = table.Column<string>(type: "nvarchar(3000)", maxLength: 3000, nullable: false),
-                    PageImagePath = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    Title1 = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    Title2 = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    Content1 = table.Column<string>(type: "nvarchar(3000)", maxLength: 3000, nullable: false),
+                    Content2 = table.Column<string>(type: "nvarchar(3000)", maxLength: 3000, nullable: true),
+                    PageImagePath = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -73,6 +76,7 @@ namespace Ads.Persistence.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    SubCategoryIconPath = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     CategoryId = table.Column<int>(type: "int", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -326,7 +330,7 @@ namespace Ads.Persistence.Migrations
             migrationBuilder.InsertData(
                 table: "Roles",
                 columns: new[] { "Id", "CreatedDate", "DeletedDate", "Name", "UpdatedDate" },
-                values: new object[] { 1, new DateTime(2023, 12, 21, 20, 12, 16, 607, DateTimeKind.Local).AddTicks(9955), null, "Admin", null });
+                values: new object[] { 1, new DateTime(2023, 12, 22, 21, 39, 48, 889, DateTimeKind.Local).AddTicks(2069), null, "Admin", null });
 
             migrationBuilder.InsertData(
                 table: "Settings",
@@ -336,7 +340,7 @@ namespace Ads.Persistence.Migrations
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "Address", "AdvertId", "CreatedDate", "DeletedDate", "Email", "FirstName", "IsActive", "LastName", "Password", "Phone", "RoleId", "SettingId", "UpdatedDate", "UserGuid", "UserImagePath", "Username" },
-                values: new object[] { 1, "Ankara", null, new DateTime(2023, 12, 21, 20, 12, 16, 608, DateTimeKind.Local).AddTicks(171), null, "admin@test.com", "Admin", true, "Admin", "123", "0850", 1, 1, null, new Guid("be442ee7-c633-4842-a80f-c2fea348dda6"), "Ankara Ankara Ankara", "admin" });
+                values: new object[] { 1, "Ankara", null, new DateTime(2023, 12, 22, 21, 39, 48, 889, DateTimeKind.Local).AddTicks(2254), null, "admin@test.com", "Admin", true, "Admin", "123", "0850", 1, 1, null, new Guid("40760abe-b6e7-4814-9fe6-c46cedad4289"), "Ankara Ankara Ankara", "admin" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AdvertComments_AdvertId",
