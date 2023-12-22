@@ -12,10 +12,22 @@ namespace Ads.Persistence.Repositories
         {
         }
 
+        public async Task<User> GetCustomUser(int id)
+        {
+            return await _dbSet.Include(x => x.Role)
+                        .Include(u => u.Adverts)
+        .Include(u => u.AdvertComments)
+        .Include(u => u.AdvertRatings)
+            .ThenInclude(ar => ar.Advert)
+                .FirstOrDefaultAsync(c => c.Id == id);
+        }
         public async Task<List<User>> GetCustomList()
         {
             return await _dbSet.Include(x => x.Role)
-                .Include(x => x.Setting)
+                        .Include(u => u.Adverts)
+        .Include(u => u.AdvertComments)
+        .Include(u => u.AdvertRatings)
+            .ThenInclude(ar => ar.Advert)
                 .ToListAsync();
         }
 
@@ -23,7 +35,10 @@ namespace Ads.Persistence.Repositories
         {
             return await _dbSet.Where(expression)
                 .Include(x => x.Role)
-                .Include(x => x.Setting)
+                        .Include(u => u.Adverts)
+        .Include(u => u.AdvertComments)
+        .Include(u => u.AdvertRatings)
+            .ThenInclude(ar => ar.Advert)
                 .ToListAsync();
         }
     }

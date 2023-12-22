@@ -1,0 +1,42 @@
+﻿@model List<Ads.Domain.Entities.Concrete.Page>
+
+
+<section class="page-title">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 offset-md-2 text-center">
+                <h3>About Us</h3>
+            </div>
+        </div>
+    </div>
+</section>
+
+@if (Model.Any())
+{
+    foreach (var item in Model)
+    {
+        <section class="section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="about-img">
+                            <img src="/Img/PageImages/@item.PageImagePath" class="img-fluid w-100 rounded" alt="">
+                        </div>
+                    </div>
+                    <div class="col-lg-6 pt-5 pt-lg-0">
+                        <div class="about-content">
+                            <h3 class="font-weight-bold">@item.Title1</h3>
+                            <p>@item.Content1</p>
+                            <h3 class="font-weight-bold">@item.Title2</h3>
+                            <p>@item.Content2</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    }
+}
+else
+{
+    <p>No data available.</p>
+}

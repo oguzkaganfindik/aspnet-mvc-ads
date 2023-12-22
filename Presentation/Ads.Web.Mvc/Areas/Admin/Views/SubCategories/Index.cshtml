@@ -14,6 +14,9 @@
     <thead>
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model.SubCategoryIconPath)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Name)
             </th>
             <th>
@@ -35,6 +38,9 @@
         @foreach (var item in Model)
         {
             <tr>
+                <td>
+                    <img src="/Img/SubCategoryIconImages/@item.SubCategoryIconPath" alt="" height="34" />
+                </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>

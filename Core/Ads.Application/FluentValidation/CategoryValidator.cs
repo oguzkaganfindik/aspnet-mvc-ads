@@ -15,7 +15,7 @@ namespace Ads.Application.FluentValidation
                 .NotEmpty().WithMessage("Description cannot be empty")
                 .Length(5, 200).WithMessage("Description must be between 5 and 200 characters");
 
-            RuleFor(dto => dto.IconPath)
+            RuleFor(dto => dto.CategoryIconPath)
                 .NotEmpty().WithMessage("Icon path cannot be empty")
                 .Length(10, 50).WithMessage("Icon path must be between 10 and 50 characters");
 

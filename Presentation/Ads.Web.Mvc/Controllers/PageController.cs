@@ -3,39 +3,29 @@ using Ads.Domain.Entities.Concrete;
 using Ads.Web.Mvc.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace Ads.Web.Mvc.Controllers
 {
     public class PageController : Controller
     {
-        private readonly IService<Page> _service;
-        private readonly IAdvertService _serviceAdvert;
+        private readonly IService<Page> _pageService;
 
-        public PageController(IService<Page> service, IAdvertService serviceAdvert)
+        public PageController(IService<Page> service)
         {
-            _service = service;
-            _serviceAdvert = serviceAdvert;
+            _pageService = service;
         }
 
-        public async Task<IActionResult> IndexAsync()
+        public IActionResult Index()
         {
-            var model = new HomePageViewModel()
-            {
-                Pages = await _service.GetAllAsync(),
-                //Adverts = await _serviceAdvert.GetCustomAdvertList(a => a.Anasayfa)
-            };
-            return View(model);
+            var pages = _pageService.GetAll();
+            return View(pages);
         }
 
-        public IActionResult Privacy()
+        public IActionResult AboutUs()
         {
-            return View();
-        }
-
-        [Route("AccessDenied")]
-        public IActionResult AccessDenied()
-        {
-            return View();
+            var pages = _pageService.GetAll();
+            return View(pages);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

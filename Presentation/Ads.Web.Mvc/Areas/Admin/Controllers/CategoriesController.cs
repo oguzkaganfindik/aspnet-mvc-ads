@@ -1,5 +1,6 @@
 ﻿using Ads.Application.Services;
 using Ads.Domain.Entities.Concrete;
+using Ads.Infrastructure.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -37,10 +38,11 @@ namespace Ads.Web.Mvc.Areas.Admin.Controllers
         // POST: CategoriesController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateAsync(Category category)
+        public async Task<IActionResult> CreateAsync(Category category, IFormFile? CategoryIconPath)
         {
             try
             {
+                category.CategoryIconPath = await FileHelper.FileLoaderAsync(CategoryIconPath, "/Img/CategoryIconImages/");
                 await _service.AddAsync(category);
                 await _service.SaveAsync();
                 return RedirectToAction(nameof(Index));
@@ -49,7 +51,8 @@ namespace Ads.Web.Mvc.Areas.Admin.Controllers
             {
                 ModelState.AddModelError("", "Hata Oluştu!");
             }
-            return View(category);
+            
+                return View(category);
         }
 
         // GET: CategoriesController/Edit/5
@@ -62,10 +65,14 @@ namespace Ads.Web.Mvc.Areas.Admin.Controllers
         // POST: CategoriesController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditAsync(int id, Category category)
+        public async Task<IActionResult> EditAsync(int id, Category category, IFormFile? CategoryIconPath)
         {
             try
             {
+                if (CategoryIconPath is not null)
+                {
+                    category.CategoryIconPath = await FileHelper.FileLoaderAsync(CategoryIconPath, "/Img/CategoryIconImages/");
+                }
                 _service.Update(category);
                 await _service.SaveAsync();
                 return RedirectToAction(nameof(Index));
@@ -74,7 +81,8 @@ namespace Ads.Web.Mvc.Areas.Admin.Controllers
             {
                 ModelState.AddModelError("", "Hata Oluştu!");
             }
-            return View(category);
+            
+                return View(category);
         }
 
         // GET: CategoriesController/Delete/5

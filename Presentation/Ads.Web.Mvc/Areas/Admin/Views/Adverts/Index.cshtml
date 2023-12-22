@@ -1,4 +1,5 @@
-﻿@model IEnumerable<Ads.Domain.Entities.Concrete.Advert>
+﻿@using Ads.Application.DTOs.Advert
+@model IEnumerable<AdvertDto>
 
 @{
     ViewData["Title"] = "Adverts";
@@ -47,6 +48,9 @@
                             </th>
                             <th>
                                 Price
+                            </th>
+                            <th>
+                                Advert Rating
                             </th>
                             <th>
                                 ClickCount
@@ -98,6 +102,9 @@
                                 Price
                             </th>
                             <th>
+                                Advert Rating
+                            </th>
+                            <th>
                                 ClickCount
                             </th>
                             <th>
@@ -146,6 +153,7 @@
                                     @Html.DisplayFor(modelItem => item.Description)
                                 </td>
                                 <td>
+
                                     @if (ViewBag.CategoryId != null)
                                     {
                                         var categoryId = item.CategoryId.ToString();
@@ -196,6 +204,24 @@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Price)
                                 </td>
+                                <td>
+                                    
+                                    @if (item.AdvertRatings != null && item.AdvertRatings.Any()) //dto mappingden sonra burası güncellenecek
+                                    {
+                                        var averageRating = (int)item.AdvertRatings.Average(r => r.Rating ?? 0);
+                                        <div class="star-rating" data-rating="@averageRating">
+                                            @for (int i = 1; i <= averageRating; i++)
+                                            {
+                                                <span>&#9733;</span> <!-- Yıldız sembolü -->
+                                            }
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <text>Puan Yok</text>
+                                    }
+                                </td>
+
                                 <td>
                                     @Html.DisplayFor(modelItem => item.ClickCount)
                                 </td>
