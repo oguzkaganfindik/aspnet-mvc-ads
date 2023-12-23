@@ -2,6 +2,7 @@
 using Ads.Application.DTOs.AdvertImage;
 using Ads.Application.Services;
 using Ads.Domain.Entities.Concrete;
+using Ads.Web.Mvc.Areas.Admin.Models;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -41,9 +42,13 @@ namespace Ads.Web.Mvc.Areas.Models.Adverts
             ViewBag.CategoryId = new SelectList(await _serviceCategory.GetAllAsync(), "Id", "Name");
             ViewBag.SubCategoryId = new SelectList(await _serviceSubCategory.GetAllAsync(), "Id", "Name");
             ViewBag.AdvertComment = new SelectList(await _serviceAdvertComment.GetAllAsync(), "Id", "Comment");
-            
-            var advert = await _service.GetCustomAdvertList();
-            var model = _mapper.Map<IEnumerable<AdvertDto>>(advert);
+
+            var adverts = await _service.GetCustomAdvertList();
+            var model = new AdvertViewModel
+            {
+                Adverts = _mapper.Map<IEnumerable<AdvertDto>>(adverts)
+            };
+
             return View(model);
         }
 

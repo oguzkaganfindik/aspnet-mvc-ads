@@ -37,9 +37,9 @@ namespace Ads.Domain.Entities.Concrete
 
         public int? ClickCount { get; set; }
 
-        //public int? CategoryId { get; set; }      23.12.2023
+        public int? CategoryId { get; set; }
 
-        //public int? SubCategoryId { get; set; }   23.12.2023
+        public int? SubCategoryId { get; set; }
 
         public virtual User? User { get; set; }
 

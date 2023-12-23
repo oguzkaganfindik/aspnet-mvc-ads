@@ -1,5 +1,4 @@
-﻿@using Ads.Application.DTOs.Advert
-@model IEnumerable<AdvertDto>
+﻿@model Ads.Web.Mvc.Areas.Admin.Models.AdvertViewModel
 
 @{
     ViewData["Title"] = "Adverts";
@@ -127,19 +126,28 @@
                     </tfoot>
 
                     <tbody>
-                        @foreach (var item in Model)
+                        @foreach (var advert in Model.Adverts)
                         {
                             <tr>
                                 <td>
-                                        @foreach (var image in item.AdvertImages)
+                                    @if (advert.AdvertImages == null || !advert.AdvertImages.Any())
+                                    {
+                                        <div class="form-group">
+                                            <a class="btn btn-outline-primary" asp-area="Admin" asp-controller="AdvertImages" asp-action="Create">Create Image</a>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        foreach (var image in advert.AdvertImages)
                                         {
-                                        <img src="/Img/AdvertImages/@image.AdvertImagePath" alt="" width="75" height="75" />
+                                            <img src="/Img/AdvertImages/@image.AdvertImagePath" alt="" width="75" height="75" />
                                         }
+                                    }
                                 </td>
                                 <td>
-                                    @if (item.User != null)
+                                    @if (advert.User != null)
                                     {
-                                        @Html.DisplayFor(modelItem => item.User.Username)
+                                        @Html.DisplayFor(modelItem => advert.User.Username)
                                     }
                                     else
                                     {
@@ -147,16 +155,16 @@
                                     }
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Title)
+                                    @Html.DisplayFor(modelItem => advert.Title)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Description)
+                                    @Html.DisplayFor(modelItem => advert.Description)
                                 </td>
                                 <td>
 
                                     @if (ViewBag.CategoryId != null)
                                     {
-                                        var categoryId = item.CategoryId.ToString();
+                                        var categoryId = advert.CategoryId.ToString();
                                         var categoryList = ViewBag.CategoryId as SelectList;
                                         var categoryItem = categoryList?.FirstOrDefault(x => x.Value == categoryId);
 
@@ -177,7 +185,7 @@
                                 <td>
                                     @if (ViewBag.SubCategoryId != null)
                                     {
-                                        var subCategoryId = item.SubCategoryId.ToString();
+                                        var subCategoryId = advert.SubCategoryId.ToString();
                                         var subCategoryList = ViewBag.SubCategoryId as SelectList;
                                         var subCategoryItem = subCategoryList?.FirstOrDefault(x => x.Value == subCategoryId);
 
@@ -196,19 +204,19 @@
                                     }
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Type)
+                                    @Html.DisplayFor(modelItem => advert.Type)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.OnSale)
+                                    @Html.DisplayFor(modelItem => advert.OnSale)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Price)
+                                    @Html.DisplayFor(modelItem => advert.Price)
                                 </td>
                                 <td>
-                                    
-                                    @if (item.AdvertRatings != null && item.AdvertRatings.Any()) //dto mappingden sonra burası güncellenecek
+
+                                    @if (advert.AdvertRatings != null && advert.AdvertRatings.Any()) //dto mappingden sonra burası güncellenecek
                                     {
-                                        var averageRating = (int)item.AdvertRatings.Average(r => r.Rating ?? 0);
+                                        var averageRating = (int)advert.AdvertRatings.Average(r => r.Rating ?? 0);
                                         <div class="star-rating" data-rating="@averageRating">
                                             @for (int i = 1; i <= averageRating; i++)
                                             {
@@ -223,12 +231,12 @@
                                 </td>
 
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.ClickCount)
+                                    @Html.DisplayFor(modelItem => advert.ClickCount)
                                 </td>
                                 <td>
-                                    @if (item.AdvertComments != null && item.AdvertComments.Any())
+                                    @if (advert.AdvertComments != null && advert.AdvertComments.Any())
                                     {
-                                        foreach (var comment in item.AdvertComments)
+                                        foreach (var comment in advert.AdvertComments)
                                         {
                                             <div>
                                                 @Html.DisplayFor(modelItem => comment.Comment)
@@ -241,16 +249,16 @@
                                     }
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.CreatedDate)
+                                    @Html.DisplayFor(modelItem => advert.CreatedDate)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.UpdatedDate)
+                                    @Html.DisplayFor(modelItem => advert.UpdatedDate)
                                 </td>
                                 <td>
-                                    <a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                                    <a class="btn btn-primary" asp-action="Edit" asp-route-id="@advert.Id">Edit</a>
                                 </td>
                                 <td>
-                                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@advert.Id">Delete</a>
                                 </td>
                             </tr>
                         }

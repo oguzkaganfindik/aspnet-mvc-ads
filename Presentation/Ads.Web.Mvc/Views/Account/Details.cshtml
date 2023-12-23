@@ -1,25 +1,8 @@
 ﻿@model User
 
 @{
-    ViewData["Title"] = "Kullanıcı Bilgilerim";
+    ViewData["Title"] = "My User Information";
 }
-
-
- <!--==================================
- =            User Profile            =
- ===================================-->
- @*<h1>@Model.Adi @Model.Soyadi</h1>
-
- @Context.User.HasClaim(x=>x.Value == "Admin")
-
- <br />
-
- @Context.User.FindFirst(System.Security.Claims.ClaimTypes.UserData)?.Value
-
- <br />
-
- @Context.User.FindFirst(System.Security.Claims.ClaimTypes.Email)?.Value*@
-
 
 <section class="user-profile section">
     <div class="container">
@@ -30,10 +13,10 @@
                     <div class="widget user">
                         <!-- User Image -->
                         <div class="image d-flex justify-content-center">
-                            <img src="images/user/user-thumb.jpg" alt="" class="">
+                            <img src="/Img/UserImages/@Model.UserImagePath" alt="" class="">
                         </div>
                         <!-- User Name -->
-                        <h5 class="text-center">@* @Model.FirstName *@</h5>
+                        <h5 class="text-center">@Model.FirstName</h5>
                     </div>
                     <!-- Dashboard Links -->
                     <div class="widget dashboard-links">
@@ -57,12 +40,13 @@
                     <div class="col-lg-6 col-md-6">
                         <div class="widget personal-info">
                             <h3 class="widget-header user">Edit Personal Information</h3>
-                            <form asp-action="UserUpdate">
+                            <form asp-action="UserUpdate" enctype="multipart/form-data">
                                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                                 <input type="hidden" asp-for="Id" />
                                 <input type="hidden" asp-for="CreatedDate" />
                                 <input type="hidden" asp-for="UserGuid" />
                                 <input type="hidden" asp-for="RoleId" />
+                                <input type="hidden" asp-for="UserImagePath" />
                                 <!-- First Name -->
                                 <div class="form-group">
                                     <span asp-validation-for="FirstName" class="text-danger"></span>
@@ -83,10 +67,11 @@
                                 </div>
 
                                 <!-- File chooser -->
-                                @*<div class="form-group choose-file d-inline-flex">
+                                <label asp-for="UserImagePath" class="control-label"></label>
+                                <div class="form-group choose-file d-inline-flex">
                                 <i class="fa fa-user text-center px-3"></i>
-                                <input type="file" class="form-control-file mt-2 pt-1" id="input-file">
-                                </div>*@
+                                <input asp-for="UserImagePath" class="form-control-file mt-2 pt-1" type="file" id="input-file" />
+                                </div>
                                 <!-- Comunity Name -->
                                 @*<div class="form-group">
                                 <label for="comunity-name">Comunity Name</label>
@@ -105,7 +90,8 @@
                                 <input type="text" class="form-control" id="zip-code">
                                 </div>*@
                                 <!-- Submit button -->
-                                <button class="btn btn-transparent">Save My Changes</button>
+                                @* <button class="btn btn-transparent">Save My Changes</button> *@
+                                <input type="submit" value="Save My Changes" class="btn btn-transparent" />
                             </form>
                         </div>
                     </div>

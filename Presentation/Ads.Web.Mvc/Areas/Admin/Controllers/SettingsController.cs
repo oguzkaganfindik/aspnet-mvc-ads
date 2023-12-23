@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Ads.Web.Mvc.Areas.Admin.Models.Settings
 {
-    [Area("Admin"), Authorize]
+    [Area("Admin"), Authorize(Policy = "AdminPolicy")]
     public class SettingsController : Controller
     {
         private readonly ISettingService _service;

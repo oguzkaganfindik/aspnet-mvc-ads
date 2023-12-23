@@ -31,8 +31,9 @@ namespace Ads.Application.Mapping
 			CreateMap<SettingDto, Setting>().ReverseMap();
 			CreateMap<RoleDto, Role>().ReverseMap();
 			CreateMap<UserDto, User>().ReverseMap();
-			
-		}
+            CreateMap<AdvertImageDto, AdvertDto>().ReverseMap();
+
+        }
 
 	}
 }

@@ -68,24 +68,42 @@ namespace Ads.Persistence.Contexts
 				.HasForeignKey(ar => ar.AdvertId)
 				.OnDelete(DeleteBehavior.Restrict);
 
-			modelBuilder.Entity<CategoryAdvert>()
-		.HasKey(ca => new { ca.CategoryId, ca.AdvertId });
-
-			modelBuilder.Entity<CategoryAdvert>()
-				.HasOne(ca => ca.Category)
-				.WithMany(c => c.CategoryAdverts)
-				.HasForeignKey(ca => ca.CategoryId);
-
-			modelBuilder.Entity<CategoryAdvert>()
-				.HasOne(ca => ca.Advert)
-				.WithMany(a => a.CategoryAdverts)
-				.HasForeignKey(ca => ca.AdvertId);
-
-
-			modelBuilder.Entity<Role>().HasData(new Role
+            modelBuilder.Entity<Role>().HasData(new Role
             {
 				Id = 1,
 				Name = "Admin",
+                CreatedDate = DateTime.Now,
+            });
+
+            modelBuilder.Entity<Role>().HasData(new Role
+            {
+                Id = 2,
+                Name = "User",
+                CreatedDate = DateTime.Now,
+            });
+
+            modelBuilder.Entity<Role>().HasData(new Role
+            {
+                Id = 3,
+                Name = "Customer",
+                CreatedDate = DateTime.Now,
+            });
+
+            modelBuilder.Entity<Category>().HasData(new Category
+            {
+                Id = 1,
+                Name = "Elektronik",
+				CategoryIconPath = "Elektronik.jpg",
+				Description = "Elektronik ürünleri",
+                CreatedDate = DateTime.Now,
+            });
+
+            modelBuilder.Entity<SubCategory>().HasData(new SubCategory
+            {
+                Id = 1,
+                Name = "Telefon",
+				CategoryId = 1,
+                SubCategoryIconPath = "Telefon.jpg",
                 CreatedDate = DateTime.Now,
             });
 
