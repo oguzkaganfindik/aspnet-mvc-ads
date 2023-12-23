@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Ads.Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class First : Migration
+    public partial class _1001 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -273,17 +273,16 @@ namespace Ads.Persistence.Migrations
                 name: "CategoryAdverts",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
                     CategoryId = table.Column<int>(type: "int", nullable: false),
                     AdvertId = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     DeletedDate = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CategoryAdverts", x => x.Id);
+                    table.PrimaryKey("PK_CategoryAdverts", x => new { x.CategoryId, x.AdvertId });
                     table.ForeignKey(
                         name: "FK_CategoryAdverts_Adverts_AdvertId",
                         column: x => x.AdvertId,
@@ -330,7 +329,7 @@ namespace Ads.Persistence.Migrations
             migrationBuilder.InsertData(
                 table: "Roles",
                 columns: new[] { "Id", "CreatedDate", "DeletedDate", "Name", "UpdatedDate" },
-                values: new object[] { 1, new DateTime(2023, 12, 22, 21, 39, 48, 889, DateTimeKind.Local).AddTicks(2069), null, "Admin", null });
+                values: new object[] { 1, new DateTime(2023, 12, 23, 0, 43, 59, 634, DateTimeKind.Local).AddTicks(6418), null, "Admin", null });
 
             migrationBuilder.InsertData(
                 table: "Settings",
@@ -340,7 +339,7 @@ namespace Ads.Persistence.Migrations
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "Address", "AdvertId", "CreatedDate", "DeletedDate", "Email", "FirstName", "IsActive", "LastName", "Password", "Phone", "RoleId", "SettingId", "UpdatedDate", "UserGuid", "UserImagePath", "Username" },
-                values: new object[] { 1, "Ankara", null, new DateTime(2023, 12, 22, 21, 39, 48, 889, DateTimeKind.Local).AddTicks(2254), null, "admin@test.com", "Admin", true, "Admin", "123", "0850", 1, 1, null, new Guid("40760abe-b6e7-4814-9fe6-c46cedad4289"), "Ankara Ankara Ankara", "admin" });
+                values: new object[] { 1, "Ankara", null, new DateTime(2023, 12, 23, 0, 43, 59, 634, DateTimeKind.Local).AddTicks(6882), null, "admin@test.com", "Admin", true, "Admin", "123", "0850", 1, 1, null, new Guid("b734e254-e1b4-4073-86c8-1ed45b868ff6"), "Ankara Ankara Ankara", "admin" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AdvertComments_AdvertId",
@@ -376,11 +375,6 @@ namespace Ads.Persistence.Migrations
                 name: "IX_CategoryAdverts_AdvertId",
                 table: "CategoryAdverts",
                 column: "AdvertId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_CategoryAdverts_CategoryId",
-                table: "CategoryAdverts",
-                column: "CategoryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Settings_PageId",

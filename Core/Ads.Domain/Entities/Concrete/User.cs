@@ -62,8 +62,8 @@ namespace Ads.Domain.Entities.Concrete
         [DisplayName("Is it Active?")]
         public string IsActiveString => IsActive ? "Active" : "Passive";
 
-        [Display(Name = "Advert")]
-        public int? AdvertId { get; set; }
+        //[Display(Name = "Advert")]
+        //public int? AdvertId { get; set; }
         public virtual ICollection<Advert>? Adverts { get; set; }
 
         public virtual ICollection<AdvertComment>? AdvertComments { get; set; }
@@ -78,6 +78,7 @@ namespace Ads.Domain.Entities.Concrete
 
         public virtual Role? Role { get; set; }
 
+        [Display(Name = "Kullanıcı Rolü"), Required(ErrorMessage = "{0} Boş Bırakılamaz!")]
         public int? RoleId { get; set; }
 
         public virtual Setting? Setting { get; set; }

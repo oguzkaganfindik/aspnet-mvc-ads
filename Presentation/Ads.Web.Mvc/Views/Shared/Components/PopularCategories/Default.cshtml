@@ -1,0 +1,22 @@
+﻿@model List<Ads.Application.ViewModels.PopularCategoryViewModel>
+
+<div class="short-popular-category-list text-center">
+    <h2>Popular Categories</h2>
+    <ul>
+        @foreach (var category in Model)
+        {
+            <li class="list-inline-item">
+                <i class="fa fa-star" style="color: khaki;"></i>
+                <a href="@Url.Action("Index", "Category", new { id = category.CategoryId })">
+                    @category.CategoryName
+                </a>
+                <div class="average-rating-box">@category.AverageRating / 5,0</div>
+            </li>
+        }
+    </ul>
+</div>
+
+
+
+
+
