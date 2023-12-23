@@ -2,10 +2,13 @@
 using Ads.Domain.Entities.Concrete;
 using Ads.Infrastructure.Utils;
 using Ads.Web.Mvc.Models;
+using Bogus.DataSets;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using NuGet.Configuration;
+using System.Diagnostics;
 using System.Security.Claims;
 
 namespace Ads.Web.Mvc.Controllers
@@ -23,26 +26,58 @@ namespace Ads.Web.Mvc.Controllers
             _serviceSetting = serviceSetting;
         }
 
-        //[Authorize(Policy = "CustomerPolicy")]
-        public IActionResult Index()
+        [Authorize(Policy = "CustomerPolicy")]
+        public IActionResult Details()
         {
-            //var email = User.FindFirst(ClaimTypes.Email)?.Value;
-            //var uguid = User.FindFirst(ClaimTypes.UserData)?.Value;
-            //if (!string.IsNullOrEmpty(email) || !string.IsNullOrEmpty(uguid))
-            //{
-            //    var user = _service.Get(k => k.Email == email && k.UserGuid.ToString() == uguid);
-            //    if (user != null)
-            //    {
-            //        return View(user);
-            //    }
+            var email = User.FindFirst(ClaimTypes.Email)?.Value;
+            var uguid = User.FindFirst(ClaimTypes.UserData)?.Value;
+            if (!string.IsNullOrEmpty(email) || !string.IsNullOrEmpty(uguid))
+            {
+                var user = _service.Get(k => k.Email == email && k.UserGuid.ToString() == uguid);
+                if (user != null)
+                {
+                    return View(user);
+                }
+            }
+            return NotFound();
+        }
 
-            //}
-            //return NotFound();
+
+        public IActionResult Register()
+        {
             return View();
         }
 
         [HttpPost]
-        public IActionResult UserUpdate(User user)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RegisterAsync(User user)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    user.IsActive = true;
+                    user.CreatedDate = DateTime.Now;
+                    user.RoleId = 3;
+                    user.UserImagePath = "user.jpg";
+                    user.SettingId = 1;
+                    await _service.AddAsync(user);
+                    await _service.SaveAsync();
+                    return RedirectToAction(nameof(Details));
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine($"Hata Oluştu: {ex.Message}");
+                    ModelState.AddModelError("", "Kayıt sırasında bir hata oluştu.");
+                }
+            }
+            return View(user);
+        }
+
+
+
+        [HttpPost]
+        public IActionResult UserUpdate(User users)
         {
             try
             {
@@ -50,7 +85,7 @@ namespace Ads.Web.Mvc.Controllers
                 var uguid = User.FindFirst(ClaimTypes.UserData)?.Value;
                 if (!string.IsNullOrEmpty(email) || !string.IsNullOrEmpty(uguid))
                 {
-                    var users = _service.Get(k => k.Email == email && k.UserGuid.ToString() == uguid);
+                    var user = _service.Get(k => k.Email == email && k.UserGuid.ToString() == uguid);
                     if (user != null)
                     {
                         user.FirstName = users.FirstName;
@@ -59,7 +94,6 @@ namespace Ads.Web.Mvc.Controllers
                         user.Password = users.Password;
                         user.IsActive = users.IsActive;
                         user.UserGuid = users.UserGuid;
-                        //user.CreatedDate = users.CreatedDate;
                         user.Phone = users.Phone;
                         _service.Update(user);
                         _service.Save();
@@ -72,46 +106,10 @@ namespace Ads.Web.Mvc.Controllers
                 ModelState.AddModelError("", "Hata Oluştu!");
             }
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Details");
         }
 
-        public async Task<IActionResult> RegisterAsync()
-        {
-            ViewBag.RoleId = new SelectList(await _serviceRole.GetAllAsync(), "Id", "Name");
-            ViewBag.SettingId = new SelectList(await _serviceSetting.GetAllAsync(), "Id", "Theme");
-            return View();
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> RegisterAsync(User user)
-        {
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    ViewBag.RoleId = new SelectList(await _serviceRole.GetAllAsync(), "Id", "Name");
-                    ViewBag.SettingId = new SelectList(await _serviceSetting.GetAllAsync(), "Id", "Theme");
-                    //var role = await _serviceRole.GetAsync(r => r.Name == "Customer");
-                    //if (role == null)
-                    //{
-                    //    ModelState.AddModelError("", "Kayıt Başarısız!");
-                    //    return View();
-                    //}
-                    //user.RoleId = role.Id;
-                    //user.IsActive = true;
-                    await _service.AddAsync(user);
-                    await _service.SaveAsync();
-                    return RedirectToAction(nameof(Index));
-                }
-                catch
-                {
-                    ModelState.AddModelError("", "Hata Oluştu!");
-                }
-            }
-            ViewBag.RoleId = new SelectList(await _serviceRole.GetAllAsync(), "Id", "Name");
-            ViewBag.SettingId = new SelectList(await _serviceSetting.GetAllAsync(), "Id", "Theme");
-            return View(user);
-        }
+       
 
 
         public IActionResult Login()
@@ -150,7 +148,7 @@ namespace Ads.Web.Mvc.Controllers
                     {
                         return Redirect("/Admin");
                     }
-                    return Redirect("/Account");
+                    return Redirect("/Account/Details");
 
                 }
             }
@@ -160,6 +158,10 @@ namespace Ads.Web.Mvc.Controllers
             }
             return View();
         }
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
 
         public async Task<IActionResult> Logout()
         {
@@ -167,9 +169,5 @@ namespace Ads.Web.Mvc.Controllers
             return Redirect("/");
         }
 
-        public IActionResult ForgotPassword()
-        {
-            return View();
-        }
     }
 }

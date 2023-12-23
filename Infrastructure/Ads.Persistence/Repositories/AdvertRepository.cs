@@ -23,6 +23,8 @@ namespace Ads.Persistence.Repositories
             .Include(i => i.AdvertImages)
             .Include(r => r.AdvertRatings)
             .ThenInclude(r => r.User)
+            .Include(a => a.AdvertImages)
+
                         .FirstOrDefaultAsync(c => c.Id == id);
         }
 
@@ -37,6 +39,7 @@ namespace Ads.Persistence.Repositories
            .Include(i => i.AdvertImages)
            .Include(r => r.AdvertRatings)
            .ThenInclude(r => r.User)
+           .Include(a => a.AdvertImages)
                  .ToListAsync();
         }
 
@@ -51,6 +54,7 @@ namespace Ads.Persistence.Repositories
             .Include(i => i.AdvertImages)
             .Include(r => r.AdvertRatings)
             .ThenInclude(r => r.User)
+            .Include(a => a.AdvertImages)
         .ToListAsync();
         }
     }

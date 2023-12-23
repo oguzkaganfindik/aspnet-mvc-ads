@@ -7,12 +7,11 @@ namespace Ads.Domain.Entities.Concrete
 {
     public class AdvertRating : IEntity, IAuiditEntity
     {
+        [Key]
         public int Id { get; set; }
 
-        [Key, Column(Order = 0)]
         public int UserId { get; set; }
 
-        [Key, Column(Order = 1)]
         public int AdvertId { get; set; }
 
         [DisplayName("Rating")]

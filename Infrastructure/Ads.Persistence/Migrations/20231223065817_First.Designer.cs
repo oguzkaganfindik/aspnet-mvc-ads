@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Ads.Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231222214359_1001")]
-    partial class _1001
+    [Migration("20231223065817_First")]
+    partial class First
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -221,14 +221,30 @@ namespace Ads.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CategoryIconPath = "Elektronik.jpg",
+                            CreatedDate = new DateTime(2023, 12, 23, 9, 58, 17, 93, DateTimeKind.Local).AddTicks(5733),
+                            Description = "Elektronik ürünleri",
+                            Name = "Elektronik"
+                        });
                 });
 
             modelBuilder.Entity("Ads.Domain.Entities.Concrete.CategoryAdvert", b =>
                 {
-                    b.Property<int>("CategoryId")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
                     b.Property<int>("AdvertId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedDate")
@@ -237,15 +253,14 @@ namespace Ads.Persistence.Migrations
                     b.Property<DateTime?>("DeletedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("CategoryId", "AdvertId");
+                    b.HasKey("Id");
 
                     b.HasIndex("AdvertId");
+
+                    b.HasIndex("CategoryId");
 
                     b.ToTable("CategoryAdverts");
                 });
@@ -339,8 +354,20 @@ namespace Ads.Persistence.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedDate = new DateTime(2023, 12, 23, 0, 43, 59, 634, DateTimeKind.Local).AddTicks(6418),
+                            CreatedDate = new DateTime(2023, 12, 23, 9, 58, 17, 93, DateTimeKind.Local).AddTicks(5679),
                             Name = "Admin"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedDate = new DateTime(2023, 12, 23, 9, 58, 17, 93, DateTimeKind.Local).AddTicks(5710),
+                            Name = "User"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CreatedDate = new DateTime(2023, 12, 23, 9, 58, 17, 93, DateTimeKind.Local).AddTicks(5719),
+                            Name = "Customer"
                         });
                 });
 
@@ -425,6 +452,16 @@ namespace Ads.Persistence.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("SubCategories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CategoryId = 1,
+                            CreatedDate = new DateTime(2023, 12, 23, 9, 58, 17, 93, DateTimeKind.Local).AddTicks(5748),
+                            Name = "Telefon",
+                            SubCategoryIconPath = "Telefon.jpg"
+                        });
                 });
 
             modelBuilder.Entity("Ads.Domain.Entities.Concrete.SubCategoryAdvert", b =>
@@ -543,7 +580,7 @@ namespace Ads.Persistence.Migrations
                         {
                             Id = 1,
                             Address = "Ankara",
-                            CreatedDate = new DateTime(2023, 12, 23, 0, 43, 59, 634, DateTimeKind.Local).AddTicks(6882),
+                            CreatedDate = new DateTime(2023, 12, 23, 9, 58, 17, 93, DateTimeKind.Local).AddTicks(5780),
                             Email = "admin@test.com",
                             FirstName = "Admin",
                             IsActive = true,
@@ -552,7 +589,7 @@ namespace Ads.Persistence.Migrations
                             Phone = "0850",
                             RoleId = 1,
                             SettingId = 1,
-                            UserGuid = new Guid("b734e254-e1b4-4073-86c8-1ed45b868ff6"),
+                            UserGuid = new Guid("31628aa3-502e-45ca-bb3f-2a33d8fa6e79"),
                             UserImagePath = "Ankara Ankara Ankara",
                             Username = "admin"
                         });

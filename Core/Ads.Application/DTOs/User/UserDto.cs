@@ -21,7 +21,7 @@ namespace Ads.Application.DTOs.User
 		public int? RoleId { get; set; }
 		public int? SettingId { get; set; }
 
-		//public int? AdvertId { get; set; }
+		public int? AdvertId { get; set; }
 		public ICollection<AdvertDto>? Adverts { get; set; }
 		public ICollection<AdvertCommentDto>? AdvertComments { get; set; }
 		public ICollection<AdvertRatingDto>? AdvertRatings { get; set; }
