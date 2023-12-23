@@ -68,7 +68,21 @@ namespace Ads.Persistence.Contexts
 				.HasForeignKey(ar => ar.AdvertId)
 				.OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<Role>().HasData(new Role
+			modelBuilder.Entity<CategoryAdvert>()
+		.HasKey(ca => new { ca.CategoryId, ca.AdvertId });
+
+			modelBuilder.Entity<CategoryAdvert>()
+				.HasOne(ca => ca.Category)
+				.WithMany(c => c.CategoryAdverts)
+				.HasForeignKey(ca => ca.CategoryId);
+
+			modelBuilder.Entity<CategoryAdvert>()
+				.HasOne(ca => ca.Advert)
+				.WithMany(a => a.CategoryAdverts)
+				.HasForeignKey(ca => ca.AdvertId);
+
+
+			modelBuilder.Entity<Role>().HasData(new Role
             {
 				Id = 1,
 				Name = "Admin",
