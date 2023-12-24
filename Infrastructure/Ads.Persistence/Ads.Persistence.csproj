@@ -25,6 +25,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Core\Ads.Application\Ads.Application.csproj" />
+    <ProjectReference Include="..\Ads.Infrastructure\Ads.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

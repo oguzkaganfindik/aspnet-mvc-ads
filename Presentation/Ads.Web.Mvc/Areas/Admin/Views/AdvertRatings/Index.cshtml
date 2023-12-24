@@ -5,58 +5,79 @@
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h1>Advert Ratings</h1>
-
-<p>
-    <a class="btn btn-outline-primary" asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>Rating</th>
-            <th>User</th>
-            <th>Advert</th>
-            <th>Created Date</th>
-            <th>Updated Date</th>
-            <th>Deleted Date</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    <div class="star-rating" data-rating="@item.Rating">
-                        @if (item.Rating.HasValue)
+<main>
+    <div class="container-fluid px-4">
+        <h1 class="mt-4">Advert Ratings</h1>
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item active">You can perform @ViewData["Title"] management operations on this page.</li>
+        </ol>
+        <div class="card mb-4">
+            <div class="card-header">
+                <a class="btn btn-outline-primary" asp-action="Create">Create New</a>
+            </div>
+            <div class="card-body">
+                <table id="datatablesSimple">
+                    <thead>
+                        <tr>
+                            <th>Rating</th>
+                            <th>User</th>
+                            <th>Advert</th>
+                            <th>Created Date</th>
+                            <th>Updated Date</th>
+                            <th>Deleted Date</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>Rating</th>
+                            <th>User</th>
+                            <th>Advert</th>
+                            <th>Created Date</th>
+                            <th>Updated Date</th>
+                            <th>Deleted Date</th>
+                            <th></th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        @foreach (var item in Model)
                         {
-                            for (int i = 1; i <= item.Rating.Value; i++)
-                            {
-                                <span>&#9733;</span> <!-- Yıldız sembolü -->
-                            }
+                            <tr>
+                                <td>
+                                    <div class="star-rating" data-rating="@item.Rating">
+                                        @if (item.Rating.HasValue)
+                                        {
+                                            for (int i = 1; i <= item.Rating.Value; i++)
+                                            {
+                                                <span>&#9733;</span> <!-- Yıldız sembolü -->
+                                            }
+                                        }
+                                    </div>
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.User.Username)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Advert.Title)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CreatedDate)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.UpdatedDate)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.DeletedDate)
+                                </td>
+                                <td>
+                                    <a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                                </td>
+                            </tr>
                         }
-                    </div>
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.User.Username)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Advert.Title)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CreatedDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.UpdatedDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DeletedDate)
-                </td>
-                <td>
-                    <a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</main>

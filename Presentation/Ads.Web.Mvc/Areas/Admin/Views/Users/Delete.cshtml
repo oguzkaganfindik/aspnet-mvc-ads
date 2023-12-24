@@ -16,7 +16,6 @@
             @Html.DisplayNameFor(model => model.UserImagePath)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.UserImagePath)
             <br />
             <img src="/Img/UserImages/@Model.UserImagePath" alt="" height="500" />
         </dd>
@@ -25,9 +24,6 @@
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Email)
-        </dd>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Password)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.FirstName)
@@ -94,12 +90,6 @@
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Setting.Theme)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.UserGuid)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.UserGuid)
         </dd>
     </dl>
     

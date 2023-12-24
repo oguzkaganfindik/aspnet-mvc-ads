@@ -1,4 +1,5 @@
-﻿using Ads.Application.Services;
+﻿using Ads.Infrastructure.Services;
+using Ads.Application.Services;
 using Ads.Persistence.Contexts;
 using Ads.Persistence.Services;
 using Microsoft.EntityFrameworkCore;
@@ -22,6 +23,8 @@ namespace Ads.Persistence
             services.AddTransient<IAdvertImageService, AdvertImageService>();
             services.AddTransient<IAdvertRatingService, AdvertRatingService>();
             services.AddScoped<INavbarService, NavbarService>();
+            services.AddScoped<IMailService, MailService>();
+            
         }
     }
 }

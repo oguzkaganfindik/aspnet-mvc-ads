@@ -1,17 +1,15 @@
 ﻿using Ads.Application.DTOs.AdvertImage;
 using Ads.Application.Services;
 using Ads.Domain.Entities.Concrete;
-using Ads.Infrastructure.Utils;
-using Ads.Persistence.Services;
+using Ads.Infrastructure.Services;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Diagnostics;
 
 namespace Ads.Web.Mvc.Areas.Admin.Controllers
 {
-    [Area("Admin"), Authorize(Policy = "AdminPolicy")]
+    [Area("Admin"), Authorize(Policy = "UserPolicy")]
     public class AdvertImagesController : Controller
     {
         private readonly IAdvertImageService _service;

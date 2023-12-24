@@ -7,5 +7,6 @@ namespace Ads.Application.Repositories
     {
         Task<List<User>> GetCustomList();
         Task<List<User>> GetCustomList(Expression<Func<User, bool>> expression);
+        Task<User> FindByIdAsync(int id);
     }
 }

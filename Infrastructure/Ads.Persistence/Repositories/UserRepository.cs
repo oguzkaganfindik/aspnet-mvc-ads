@@ -41,5 +41,10 @@ namespace Ads.Persistence.Repositories
             .ThenInclude(ar => ar.Advert)
                 .ToListAsync();
         }
+
+        public async Task<User> FindByIdAsync(int id)
+        {
+            return await _dbSet.FindAsync(id);
+        }
     }
 }
