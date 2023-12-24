@@ -1,13 +1,13 @@
 ﻿using Ads.Application.Services;
 using Ads.Domain.Entities.Concrete;
-using Ads.Infrastructure.Utils;
+using Ads.Infrastructure.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Ads.Web.Mvc.Areas.Admin.Controllers
 {
-    [Area("Admin"), Authorize(Policy = "AdminPolicy")]
+    [Area("Admin"), Authorize(Policy = "UserPolicy")]
     public class SubCategoriesController : Controller
     {
         private readonly ISubCategoryService _service;

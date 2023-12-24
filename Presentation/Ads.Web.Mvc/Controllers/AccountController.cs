@@ -1,6 +1,6 @@
 ﻿using Ads.Application.Services;
 using Ads.Domain.Entities.Concrete;
-using Ads.Infrastructure.Utils;
+using Ads.Infrastructure.Services;
 using Ads.Web.Mvc.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -117,7 +117,7 @@ namespace Ads.Web.Mvc.Controllers
 
                             user.UserImagePath = await FileHelper.FileLoaderAsync(UserImagePath, "/Img/UserImages/");
 
-                            //var imagePath = "/uploads/" + Guid.NewGuid() + Path.GetExtension(UserImagePath.FileName);
+                            //var imagePath = "/Img/UserImages/" + Guid.NewGuid() + Path.GetExtension(UserImagePath.FileName);
                             //var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", imagePath);
                             //using (var stream = new FileStream(filePath, FileMode.Create))
                             //{

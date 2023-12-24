@@ -49,21 +49,29 @@
                                 @if (Context.User.Identity.IsAuthenticated)
                                 {
                                     <li class="nav-item">
-                                        <a asp-controller="Account" asp-action="Details" class="nav-link login-button">Hesabım</a>
+                                        @if (Context.User.IsInRole("Admin") || Context.User.IsInRole("User"))
+                                        {
+                                            <a asp-controller="Admin" asp-action="Main" class="nav-link login-button">Control Panel</a>
+                                        }
+                                        else
+                                        {
+                                            <a asp-controller="Account" asp-action="Details" class="nav-link login-button">My Account</a>
+                                        }
                                     </li>
                                     <li class="nav-item">
-                                        <a asp-controller="Account" asp-action="Logout" class="nav-link login-button">Oturumu Kapat</a>
+                                        <a asp-controller="Account" asp-action="Logout" class="nav-link login-button">Logout</a>
                                     </li>
                                 }
                                 else
                                 {
                                     <li class="nav-item">
-                                        <a asp-controller="Account" asp-action="Login" class="nav-link login-button">Giriş</a>
+                                        <a asp-controller="Account" asp-action="Login" class="nav-link login-button">Login</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a asp-controller="Account" asp-action="Register" class="nav-link login-button">Kaydol</a>
+                                        <a asp-controller="Account" asp-action="Register" class="nav-link login-button">Register</a>
                                     </li>
                                 }
+
 
                                 <li class="nav-item">
                                     <a class="nav-link text-white add-button" href="ad-listing.html"><i class="fa fa-plus-circle"></i> Add Listing</a>

@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
-namespace Ads.Infrastructure.Utils
+namespace Ads.Infrastructure.Services
 {
     public class FileHelper
     {

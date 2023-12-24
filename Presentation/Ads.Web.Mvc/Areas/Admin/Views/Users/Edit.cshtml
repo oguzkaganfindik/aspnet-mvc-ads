@@ -17,10 +17,16 @@
             <input type="hidden" asp-for="CreatedDate" />
             <input type="hidden" asp-for="UserGuid" />
             <input type="hidden" asp-for="UserImagePath" />
+            <input type="hidden" asp-for="Password" />
             <div class="form-group">
                 <label asp-for="Email" class="control-label"></label>
                 <input asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password" class="control-label"></label>
+                <input asp-for="Password" type="password" class="form-control" placeholder="Do you want to change the password?" />
+                <span asp-validation-for="Password" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="FirstName" class="control-label"></label>
