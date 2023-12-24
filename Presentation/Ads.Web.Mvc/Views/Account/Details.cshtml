@@ -40,13 +40,20 @@
                     <div class="col-lg-6 col-md-6">
                         <div class="widget personal-info">
                             <h3 class="widget-header user">Edit Personal Information</h3>
-                            <form asp-action="UserUpdate" enctype="multipart/form-data">
+                            <form asp-controller="Account" asp-action="UserUpdate" enctype="multipart/form-data">
                                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                                 <input type="hidden" asp-for="Id" />
                                 <input type="hidden" asp-for="CreatedDate" />
                                 <input type="hidden" asp-for="UserGuid" />
                                 <input type="hidden" asp-for="RoleId" />
                                 <input type="hidden" asp-for="UserImagePath" />
+                                <input type="hidden" asp-for="Password" />
+                                <!-- User Name -->
+                                <div class="form-group">
+                                    <span asp-validation-for="Username" class="text-danger"></span>
+                                    <label for="first-name" class="control-label">User Name</label>
+                                    <input type="text" asp-for="Username" class="form-control" id="first-name" />
+                                </div>
                                 <!-- First Name -->
                                 <div class="form-group">
                                     <span asp-validation-for="FirstName" class="text-danger"></span>
@@ -66,81 +73,81 @@
                                     <input asp-for="Phone" class="form-control" />
                                 </div>
 
+                                <!-- Adress -->
+                                <div class="form-group">
+                                    <label for="Address">Address</label>
+                                    <input type="text" asp-for="Address" class="form-control" id="Address" />
+                                </div>
                                 <!-- File chooser -->
                                 <label asp-for="UserImagePath" class="control-label"></label>
                                 <div class="form-group choose-file d-inline-flex">
-                                <i class="fa fa-user text-center px-3"></i>
-                                <input asp-for="UserImagePath" class="form-control-file mt-2 pt-1" type="file" id="input-file" />
+                                    <i class="fa fa-user text-center px-3"></i>
+                                    <input asp-for="UserImagePath" class="form-control-file mt-2 pt-1" type="file" id="input-file" />
+
                                 </div>
-                                <!-- Comunity Name -->
-                                @*<div class="form-group">
-                                <label for="comunity-name">Comunity Name</label>
-                                <input type="text" class="form-control" id="comunity-name">
-                                </div>*@
-                                <!-- Checkbox -->
+                                <!-- IsActive -->
                                 <div class="form-group form-check">
                                     <label class="form-check-label" for="hide-profile">
                                         <input class="form-check-input" asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)
                                         Hide Profile from Public/Comunity
                                     </label>
                                 </div>
-                                <!-- Zip Code -->
-                                @*<div class="form-group">
-                                <label for="zip-code">Zip Code</label>
-                                <input type="text" class="form-control" id="zip-code">
-                                </div>*@
                                 <!-- Submit button -->
-                                @* <button class="btn btn-transparent">Save My Changes</button> *@
                                 <input type="submit" value="Save My Changes" class="btn btn-transparent" />
                             </form>
                         </div>
                     </div>
                     <div class="col-lg-6 col-md-6">
-                        <!-- Change Password -->
-                        <div class="widget change-password">
-                            <h3 class="widget-header user">Edit Password</h3>
-                            <form action="UserUpdate">
-
-                                <!-- Current Password -->
-                                <div class="form-group">
-                                    <label asp-for="Password" class="control-label"></label>
-                                    <input asp-for="Password" class="form-control" id="current-password" />
-                                    <span asp-validation-for="Password" class="text-danger"></span>
-                                </div>
-
-                                <!-- New Password -->
-                                @*<div class="form-group">
-                                <label for="new-password">New Password</label>
-                                <input type="password" class="form-control" id="new-password">
-                                </div>*@
-                                <!-- Confirm New Password -->
-                                @*<div class="form-group">
-                                <label for="confirm-password">Confirm New Password</label>
-                                <input type="password" class="form-control" id="confirm-password">
-                                </div>*@
-                                <!-- Submit Button -->
-                                <button class="btn btn-transparent">Change Password</button>
-                            </form>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-md-6">
                         <!-- Change Email Address -->
-                        <div class="widget change-email mb-0">
+                        <div class="widget change-email">
                             <h3 class="widget-header user">Edit Email Address</h3>
-                            <form action="UserUpdate">
+                            <form asp-controller="Account" asp-action="ChangeEmail" method="post">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <input type="hidden" asp-for="Id" />
+                                <input type="hidden" asp-for="CreatedDate" />
+                                <input type="hidden" asp-for="UserGuid" />
+                                <input type="hidden" asp-for="RoleId" />
+                                <input type="hidden" asp-for="UserImagePath" />
+                                <input type="hidden" asp-for="Password" />
                                 <!-- Current Email -->
                                 <div class="form-group">
                                     <label asp-for="Email" class="current-email">Current Email</label>
-                                    <input asp-for="Email" class="form-control" id="current-email" />
+                                    <input asp-for="Email" class="form-control" id="current-email" readonly />
                                     <span asp-validation-for="Email" class="text-danger"></span>
                                 </div>
                                 <!-- New email -->
-                                @*<div class="form-group">
+                                <div class="form-group">
                                     <label for="new-email">New email</label>
-                                    <input type="email" class="form-control" id="new-email">
-                                </div>*@
+                                    <input type="email" class="form-control" id="new-email" name="newEmail">
+                                </div>
                                 <!-- Submit Button -->
-                                <button class="btn btn-transparent">Change email</button>
+                                <input type="submit" value="Change email" class="btn btn-transparent" />
+                            </form>
+                        </div>
+                        <!-- Change Password -->
+                        <div class="widget change-password mb-0">
+                            <h3 class="widget-header user">Edit Password</h3>
+                            <form asp-controller="Account" asp-action="ChangePassword" method="post">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <input type="hidden" asp-for="Id" />
+                                <input type="hidden" asp-for="CreatedDate" />
+                                <input type="hidden" asp-for="UserGuid" />
+                                <input type="hidden" asp-for="RoleId" />
+                                <input type="hidden" asp-for="UserImagePath" />
+                                <input type="hidden" asp-for="Password" />
+
+                                <!-- New Password -->
+                                <div class="form-group">
+                                <label for="new-password">New Password</label>
+                                    <input type="password" class="form-control" id="new-password" name="newPassword">
+                                </div>
+                                <!-- Confirm New Password -->
+                                <div class="form-group">
+                                <label for="confirm-password">Confirm New Password</label>
+                                <input type="password" class="form-control" id="confirm-password">
+                                </div>
+                                <!-- Submit Button -->
+                                <input type="submit" value="Change Password" class="btn btn-transparent" />
                             </form>
                         </div>
                     </div>
