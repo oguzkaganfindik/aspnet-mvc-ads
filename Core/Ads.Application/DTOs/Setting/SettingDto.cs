@@ -6,7 +6,7 @@ namespace Ads.Application.DTOs.Setting
     public class SettingDto
 	{
 		public int Id { get; set; }
-		public string Theme { get; set; }
+		public string Key { get; set; }
 		public string Value { get; set; }
 		public ICollection<UserDto> Users { get; set; }
 		public PageDto Page { get; set; }

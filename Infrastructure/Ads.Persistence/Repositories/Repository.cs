@@ -86,5 +86,10 @@ namespace Ads.Persistence.Repositories
         {
             _context.Update(entity);
         }
+        public async Task UpdateAsync(T entity)
+        {
+            _context.Update(entity);
+            await _context.SaveChangesAsync();
+        }
     }
 }

@@ -40,7 +40,7 @@ namespace Ads.Web.Mvc.Areas.Admin.Controllers
         public async Task<IActionResult> CreateAsync()
         {
             ViewBag.RoleId = new SelectList(await _serviceRole.GetAllAsync(), "Id", "Name");
-            ViewBag.SettingId = new SelectList(await _serviceSetting.GetAllAsync(), "Id", "Theme");
+            ViewBag.SettingId = new SelectList(await _serviceSetting.GetAllAsync(), "Id", "Key");
             return View();
         }
 
@@ -64,7 +64,7 @@ namespace Ads.Web.Mvc.Areas.Admin.Controllers
                 }
             }
             ViewBag.RoleId = new SelectList(await _serviceRole.GetAllAsync(), "Id", "Name");
-            ViewBag.SettingId = new SelectList(await _serviceSetting.GetAllAsync(), "Id", "Theme");
+            ViewBag.SettingId = new SelectList(await _serviceSetting.GetAllAsync(), "Id", "Key");
             return View(user);
         }
 
@@ -73,7 +73,7 @@ namespace Ads.Web.Mvc.Areas.Admin.Controllers
         {
             var model = await _service.FindAsync(id);
             ViewBag.RoleId = new SelectList(await _serviceRole.GetAllAsync(), "Id", "Name");
-            ViewBag.SettingId = new SelectList(await _serviceSetting.GetAllAsync(), "Id", "Theme");
+            ViewBag.SettingId = new SelectList(await _serviceSetting.GetAllAsync(), "Id", "Key");
             return View(model);
         }
 
@@ -101,7 +101,7 @@ namespace Ads.Web.Mvc.Areas.Admin.Controllers
                 }
             }
             ViewBag.RoleId = new SelectList(await _serviceRole.GetAllAsync(), "Id", "Name");
-            ViewBag.SettingId = new SelectList(await _serviceSetting.GetAllAsync(), "Id", "Theme");
+            ViewBag.SettingId = new SelectList(await _serviceSetting.GetAllAsync(), "Id", "Key");
             return View(user);
         }
 

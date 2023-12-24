@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Ads.Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231223065817_First")]
-    partial class First
+    [Migration("20231224142533_deneme")]
+    partial class deneme
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -153,11 +153,8 @@ namespace Ads.Persistence.Migrations
 
             modelBuilder.Entity("Ads.Domain.Entities.Concrete.AdvertRating", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("AdvertId")
                         .HasColumnType("int");
@@ -168,20 +165,18 @@ namespace Ads.Persistence.Migrations
                     b.Property<DateTime?>("DeletedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
                     b.Property<int?>("Rating")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
+                    b.HasKey("UserId", "AdvertId");
 
                     b.HasIndex("AdvertId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("AdvertRatings");
                 });
@@ -227,7 +222,7 @@ namespace Ads.Persistence.Migrations
                         {
                             Id = 1,
                             CategoryIconPath = "Elektronik.jpg",
-                            CreatedDate = new DateTime(2023, 12, 23, 9, 58, 17, 93, DateTimeKind.Local).AddTicks(5733),
+                            CreatedDate = new DateTime(2023, 12, 24, 17, 25, 33, 121, DateTimeKind.Local).AddTicks(9517),
                             Description = "Elektronik ürünleri",
                             Name = "Elektronik"
                         });
@@ -354,19 +349,19 @@ namespace Ads.Persistence.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedDate = new DateTime(2023, 12, 23, 9, 58, 17, 93, DateTimeKind.Local).AddTicks(5679),
+                            CreatedDate = new DateTime(2023, 12, 24, 17, 25, 33, 121, DateTimeKind.Local).AddTicks(9325),
                             Name = "Admin"
                         },
                         new
                         {
                             Id = 2,
-                            CreatedDate = new DateTime(2023, 12, 23, 9, 58, 17, 93, DateTimeKind.Local).AddTicks(5710),
+                            CreatedDate = new DateTime(2023, 12, 24, 17, 25, 33, 121, DateTimeKind.Local).AddTicks(9387),
                             Name = "User"
                         },
                         new
                         {
                             Id = 3,
-                            CreatedDate = new DateTime(2023, 12, 23, 9, 58, 17, 93, DateTimeKind.Local).AddTicks(5719),
+                            CreatedDate = new DateTime(2023, 12, 24, 17, 25, 33, 121, DateTimeKind.Local).AddTicks(9405),
                             Name = "Customer"
                         });
                 });
@@ -385,13 +380,13 @@ namespace Ads.Persistence.Migrations
                     b.Property<DateTime?>("DeletedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("PageId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Theme")
+                    b.Property<string>("Key")
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
+
+                    b.Property<int?>("PageId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("datetime2");
@@ -412,7 +407,7 @@ namespace Ads.Persistence.Migrations
                         {
                             Id = 1,
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Theme = "Dark Theme",
+                            Key = "Dark Theme",
                             Value = "Black"
                         });
                 });
@@ -458,7 +453,7 @@ namespace Ads.Persistence.Migrations
                         {
                             Id = 1,
                             CategoryId = 1,
-                            CreatedDate = new DateTime(2023, 12, 23, 9, 58, 17, 93, DateTimeKind.Local).AddTicks(5748),
+                            CreatedDate = new DateTime(2023, 12, 24, 17, 25, 33, 121, DateTimeKind.Local).AddTicks(9567),
                             Name = "Telefon",
                             SubCategoryIconPath = "Telefon.jpg"
                         });
@@ -580,7 +575,7 @@ namespace Ads.Persistence.Migrations
                         {
                             Id = 1,
                             Address = "Ankara",
-                            CreatedDate = new DateTime(2023, 12, 23, 9, 58, 17, 93, DateTimeKind.Local).AddTicks(5780),
+                            CreatedDate = new DateTime(2023, 12, 24, 17, 25, 33, 121, DateTimeKind.Local).AddTicks(9625),
                             Email = "admin@test.com",
                             FirstName = "Admin",
                             IsActive = true,
@@ -589,7 +584,7 @@ namespace Ads.Persistence.Migrations
                             Phone = "0850",
                             RoleId = 1,
                             SettingId = 1,
-                            UserGuid = new Guid("31628aa3-502e-45ca-bb3f-2a33d8fa6e79"),
+                            UserGuid = new Guid("77ec4301-00a7-4f6f-b4e5-8c8de020b2cc"),
                             UserImagePath = "Ankara Ankara Ankara",
                             Username = "admin"
                         });

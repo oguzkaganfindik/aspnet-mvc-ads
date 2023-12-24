@@ -20,5 +20,7 @@ namespace Ads.Application.Repositories
         Task<List<T>> GetAllAsync(Expression<Func<T, bool>> expression);
         Task AddAsync(T entity);
         Task<int> SaveAsync();
+
+        public Task UpdateAsync(T entity);
     }
 }

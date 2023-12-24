@@ -7,9 +7,9 @@ namespace Ads.Application.FluentValidation
     {
         public SettingDtoValidator()
         {
-            RuleFor(dto => dto.Theme)
-                .NotEmpty().WithMessage("Theme cannot be empty")
-                .Length(5, 200).WithMessage("Theme must be between 5 and 200 characters");
+            RuleFor(dto => dto.Key)
+                .NotEmpty().WithMessage("Key cannot be empty")
+                .Length(5, 200).WithMessage("Key must be between 5 and 200 characters");
 
             RuleFor(dto => dto.Value)
                 .NotEmpty().WithMessage("Value cannot be empty")

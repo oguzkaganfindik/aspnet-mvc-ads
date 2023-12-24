@@ -11,9 +11,11 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="Edit" asp-controller="Adverts" asp-area="Admin" method="post">
+            @Html.AntiForgeryToken()
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="CreatedDate" />
             <div class="form-group">
                 <label asp-for="Title" class="control-label"></label>
                 <input asp-for="Title" class="form-control" />
@@ -59,17 +61,26 @@
                 <select asp-for="UserId" class="form-control" asp-items="ViewBag.UserId"></select>
                 <span asp-validation-for="UserId" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="CategoryId" class="control-label"></label>
-                <select asp-for="CategoryId" class="form-select" asp-items="ViewBag.CategoryId"></select>
-                <span asp-validation-for="CategoryId" class="text-danger"></span>
+
+            <div class="form-group mt-2">
+                <label for="Category">Category</label>
+                <select id="Category" name="Category">
+                    @foreach (var category in ViewBag.Categories)
+                    {
+                        <option value="@category.Value">@category.Text</option>
+                    }
+                </select>
+                <label for="subCategory">Subcategory</label>
+                <select id="subCategory" name="subCategory">
+                    <option value="">Lütfen bir kategori seçin</option>
+                </select>
+
+                <div id="selectedCategoriesContainer"></div>
+                <div id="selectedSubCategoriesContainer"></div>
+
             </div>
-            <div class="form-group">
-                <label asp-for="SubCategoryId" class="control-label"></label>
-                <select asp-for="SubCategoryId" class="form-select" asp-items="ViewBag.SubCategoryId"></select>
-                <span asp-validation-for="SubCategoryId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
+
+            <div class="form-group mt-2">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
@@ -79,4 +90,36 @@
 <div>
     <a class="btn btn-outline-primary mt-2" asp-action="Index">Back to List</a>
 </div>
+<br />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#Category').change(function () {
+            var categoryId = $(this).val();
+            $('#selectedCategoriesContainer').html('<input type="hidden" name="SelectedCategoryIds" value="' + categoryId + '">');
 
+            $('#subCategory').empty();
+            $('#subCategory').append('<option value="">Alt kategori yükleniyor...</option>');
+            $.ajax({
+                url: '@Url.Action("GetSubCategories", "Adverts")',
+                type: 'GET',
+                data: { categoryId: categoryId },
+                success: function (subCategories) {
+                    $('#subCategory').empty();
+                    $('#subCategory').append('<option value="">Alt kategori seçin</option>');
+                    $.each(subCategories, function (i, subCategory) {
+                        $('#subCategory').append('<option value="' + subCategory.value + '">' + subCategory.text + '</option>');
+                    });
+                },
+                error: function (xhr, status, error) {
+                    console.error("Alt kategori yükleme hatası:", error);
+                }
+            });
+        });
+
+        $('#subCategory').change(function () {
+            var subCategoryId = $(this).val();
+            $('#selectedSubCategoriesContainer').html('<input type="hidden" name="SelectedSubCategoryIds" value="' + subCategoryId + '">');
+        });
+    });
+</script>
