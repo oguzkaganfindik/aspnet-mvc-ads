@@ -15,12 +15,6 @@ namespace Ads.Domain.Entities.Concrete
 		[MinLength(1, ErrorMessage = "{0} en az {1} karakter olabilir!")]
 		public string Name { get; set; }
 
-        [DisplayName("Icon")]
-        [Required(ErrorMessage = "{0} boş geçilemez.")]
-        [StringLength(50, ErrorMessage = "{0} {1} karakterden fazla olamaz!")]
-        [MinLength(1, ErrorMessage = "{0} en az {1} karakter olabilir!")]
-        public string SubCategoryIconPath { get; set; }
-
         public virtual Category Category { get; set; }
 
         [ForeignKey("Category")]

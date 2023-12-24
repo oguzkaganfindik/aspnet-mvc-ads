@@ -109,7 +109,6 @@ namespace Ads.Persistence.Contexts
                 Id = 1,
                 Name = "Telefon",
 				CategoryId = 1,
-                SubCategoryIconPath = "Telefon.jpg",
                 CreatedDate = DateTime.Now,
             });
 

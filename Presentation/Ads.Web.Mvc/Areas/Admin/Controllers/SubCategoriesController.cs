@@ -44,11 +44,10 @@ namespace Ads.Web.Mvc.Areas.Admin.Controllers
         // POST: SubCategoriesController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateAsync(SubCategory subCategory, IFormFile? SubCategoryIconPath)
+        public async Task<IActionResult> CreateAsync(SubCategory subCategory)
         {
             try
             {
-                subCategory.SubCategoryIconPath = await FileHelper.FileLoaderAsync(SubCategoryIconPath, "/Img/SubCategoryIconImages/");
                 await _service.AddAsync(subCategory);
                 await _service.SaveAsync();
                 return RedirectToAction(nameof(Index));
@@ -74,11 +73,10 @@ namespace Ads.Web.Mvc.Areas.Admin.Controllers
         // POST: SubCategoriesController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditAsync(int id, SubCategory subCategory, IFormFile? SubCategoryIconPath)
+        public async Task<IActionResult> EditAsync(int id, SubCategory subCategory)
         {
             try
             {
-                subCategory.SubCategoryIconPath = await FileHelper.FileLoaderAsync(SubCategoryIconPath, "/Img/SubCategoryIconImages/");
                 _service.Update(subCategory);
                 await _service.SaveAsync();
                 return RedirectToAction(nameof(Index));

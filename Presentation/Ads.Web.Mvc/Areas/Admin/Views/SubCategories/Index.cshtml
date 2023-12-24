@@ -14,14 +14,12 @@
         <div class="card mb-4">
             <div class="card-header">
                 <a class="btn btn-outline-primary" asp-action="Create">Create New</a>
+                <a class="btn btn-outline-primary" asp-area="Admin" asp-controller="Adverts" asp-action="Index">Go back to Advert</a>
             </div>
             <div class="card-body">
                 <table id="datatablesSimple">
                     <thead>
                         <tr>
-                            <th>
-                                SubCategory Icon
-                            </th>
                             <th>
                                 SubCategory Name
                             </th>
@@ -42,9 +40,6 @@
                     </thead>
                     <tfoot>
                         <tr>
-                            <th>
-                                SubCategory Icon
-                            </th>
                             <th>
                                 SubCategory Name
                             </th>
@@ -67,9 +62,6 @@
                         @foreach (var item in Model)
                         {
                             <tr>
-                                <td>
-                                    <img src="/Img/SubCategoryIconImages/@item.SubCategoryIconPath" alt="" height="34" />
-                                </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Name)
                                 </td>
