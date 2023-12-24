@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Ads.Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class deneme : Migration
+    public partial class First : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -78,7 +78,6 @@ namespace Ads.Persistence.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    SubCategoryIconPath = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     CategoryId = table.Column<int>(type: "int", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -331,16 +330,16 @@ namespace Ads.Persistence.Migrations
             migrationBuilder.InsertData(
                 table: "Categories",
                 columns: new[] { "Id", "CategoryIconPath", "CreatedDate", "DeletedDate", "Description", "Name", "UpdatedDate" },
-                values: new object[] { 1, "Elektronik.jpg", new DateTime(2023, 12, 24, 17, 25, 33, 121, DateTimeKind.Local).AddTicks(9517), null, "Elektronik ürünleri", "Elektronik", null });
+                values: new object[] { 1, "Elektronik.jpg", new DateTime(2023, 12, 24, 18, 13, 28, 745, DateTimeKind.Local).AddTicks(6209), null, "Elektronik ürünleri", "Elektronik", null });
 
             migrationBuilder.InsertData(
                 table: "Roles",
                 columns: new[] { "Id", "CreatedDate", "DeletedDate", "Name", "UpdatedDate" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2023, 12, 24, 17, 25, 33, 121, DateTimeKind.Local).AddTicks(9325), null, "Admin", null },
-                    { 2, new DateTime(2023, 12, 24, 17, 25, 33, 121, DateTimeKind.Local).AddTicks(9387), null, "User", null },
-                    { 3, new DateTime(2023, 12, 24, 17, 25, 33, 121, DateTimeKind.Local).AddTicks(9405), null, "Customer", null }
+                    { 1, new DateTime(2023, 12, 24, 18, 13, 28, 745, DateTimeKind.Local).AddTicks(6158), null, "Admin", null },
+                    { 2, new DateTime(2023, 12, 24, 18, 13, 28, 745, DateTimeKind.Local).AddTicks(6187), null, "User", null },
+                    { 3, new DateTime(2023, 12, 24, 18, 13, 28, 745, DateTimeKind.Local).AddTicks(6196), null, "Customer", null }
                 });
 
             migrationBuilder.InsertData(
@@ -350,13 +349,13 @@ namespace Ads.Persistence.Migrations
 
             migrationBuilder.InsertData(
                 table: "SubCategories",
-                columns: new[] { "Id", "CategoryId", "CreatedDate", "DeletedDate", "Name", "SubCategoryIconPath", "UpdatedDate" },
-                values: new object[] { 1, 1, new DateTime(2023, 12, 24, 17, 25, 33, 121, DateTimeKind.Local).AddTicks(9567), null, "Telefon", "Telefon.jpg", null });
+                columns: new[] { "Id", "CategoryId", "CreatedDate", "DeletedDate", "Name", "UpdatedDate" },
+                values: new object[] { 1, 1, new DateTime(2023, 12, 24, 18, 13, 28, 745, DateTimeKind.Local).AddTicks(6227), null, "Telefon", null });
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "Address", "AdvertId", "CreatedDate", "DeletedDate", "Email", "FirstName", "IsActive", "LastName", "Password", "Phone", "RoleId", "SettingId", "UpdatedDate", "UserGuid", "UserImagePath", "Username" },
-                values: new object[] { 1, "Ankara", null, new DateTime(2023, 12, 24, 17, 25, 33, 121, DateTimeKind.Local).AddTicks(9625), null, "admin@test.com", "Admin", true, "Admin", "123", "0850", 1, 1, null, new Guid("77ec4301-00a7-4f6f-b4e5-8c8de020b2cc"), "Ankara Ankara Ankara", "admin" });
+                values: new object[] { 1, "Ankara", null, new DateTime(2023, 12, 24, 18, 13, 28, 745, DateTimeKind.Local).AddTicks(6260), null, "admin@test.com", "Admin", true, "Admin", "123", "0850", 1, 1, null, new Guid("0da2d926-e0b7-4bd7-8a0c-82a5c8c10c59"), "Ankara Ankara Ankara", "admin" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AdvertComments_AdvertId",
