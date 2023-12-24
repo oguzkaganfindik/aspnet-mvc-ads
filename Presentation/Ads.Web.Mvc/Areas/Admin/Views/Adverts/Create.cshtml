@@ -59,15 +59,25 @@
                 <span asp-validation-for="UserId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CategoryId" class="control-label"></label>
-                <select asp-for="CategoryId" class="form-select" asp-items="ViewBag.CategoryId"></select>
-                <span asp-validation-for="CategoryId" class="text-danger"></span>
+                <label for="Category">Category</label>
+                <select id="Category" name="SelectedCategoryIds">
+                    <option value="">Select a category</option>
+                    @foreach (var category in ViewBag.CategoryId as SelectList)
+                    {
+                        <option value="@category.Value">@category.Text</option>
+                    }
+                </select>
             </div>
+
             <div class="form-group">
-                <label asp-for="SubCategoryId" class="control-label"></label>
-                <select asp-for="SubCategoryId" class="form-select" asp-items="ViewBag.SubCategoryId"></select>
-                <span asp-validation-for="SubCategoryId" class="text-danger"></span>
+                <label for="subCategory">Subcategory</label>
+                <select id="subCategory" name="SelectedSubCategoryIds">
+                    <option value="">Please select a category first</option>
+                </select>
             </div>
+
+            <div id="selectedCategoriesContainer"></div>
+            <div id="selectedSubCategoriesContainer"></div>
 @*             <div class="form-group">
                 <label asp-for="AdvertImages" class="control-label"></label>
                 <input asp-for="AdvertImages" class="form-control" type="file" />
@@ -79,7 +89,39 @@
         </form>
     </div>
 </div>
-
 <div>
     <a class="btn btn-outline-primary mt-2" asp-action="Index">Back to List</a>
 </div>
+
+@section Scripts {
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#Category').change(function () {
+                var categoryId = $(this).val();
+                $('#subCategory').empty();
+                $('#subCategory').append('<option value="">Subcategory loading...</option>');
+                $.ajax({
+                    url: '@Url.Action("GetSubCategories", "Adverts")',
+                    type: 'GET',
+                    data: { categoryId: categoryId },
+                    success: function (subCategories) {
+                        $('#subCategory').empty();
+                        $('#subCategory').append('<option value="">Select a subcategory</option>');
+                        $.each(subCategories, function (i, subCategory) {
+                            $('#subCategory').append('<option value="' + subCategory.value + '">' + subCategory.text + '</option>');
+                        });
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("An error occurred while loading subcategories:", error);
+                    }
+                });
+            });
+
+            $('#subCategory').change(function () {
+                var subCategoryId = $(this).val();
+                $('#selectedSubCategoriesContainer').html('<input type="hidden" name="SelectedSubCategoryIds" value="' + subCategoryId + '">');
+            });
+        });
+    </script>
+}

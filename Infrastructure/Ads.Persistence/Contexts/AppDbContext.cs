@@ -53,10 +53,16 @@ namespace Ads.Persistence.Contexts
 			   .HasForeignKey(ac => ac.UserId)
 			   .OnDelete(DeleteBehavior.Restrict);
 
-			//modelBuilder.Entity<AdvertRating>()
-			//	.HasKey(ar => new { ar.UserId, ar.AdvertId }); // Bileşik anahtar tanımı
+            modelBuilder.Entity<Advert>()
+                .HasMany(a => a.AdvertRatings)
+                .WithOne(r => r.Advert)
+                .HasForeignKey(r => r.AdvertId)
+                .OnDelete(DeleteBehavior.Cascade);
 
-			modelBuilder.Entity<AdvertRating>()
+            modelBuilder.Entity<AdvertRating>()
+            	.HasKey(ar => new { ar.UserId, ar.AdvertId }); // Bileşik anahtar tanımı
+
+            modelBuilder.Entity<AdvertRating>()
 				.HasOne(ar => ar.User)
 				.WithMany(u => u.AdvertRatings) // User sınıfında AdvertRatings koleksiyonu olmalı
 				.HasForeignKey(ar => ar.UserId)
@@ -129,7 +135,7 @@ namespace Ads.Persistence.Contexts
             modelBuilder.Entity<Setting>().HasData(new Setting
             {
                 Id = 1,
-				Theme = "Dark Theme",
+                Key = "Dark Theme",
 				Value = "Black"
             });
 
@@ -138,52 +144,59 @@ namespace Ads.Persistence.Contexts
 
         }
 
-		//public override int SaveChanges()
-		//{
-		//	var datas = ChangeTracker.Entries<IAuiditEntity>();
-		//	var currentTime = DateTime.Now;
+        //public override int SaveChanges()
+        //{
+        //	var datas = ChangeTracker.Entries<IAuiditEntity>();
+        //	var currentTime = DateTime.Now;
 
-		//	foreach (var data in datas)
-		//	{
-		//		switch (data.State)
-		//		{
-		//			case EntityState.Added:
-		//				data.Entity.CreatedDate = currentTime;
-		//				break;
+        //	foreach (var data in datas)
+        //	{
+        //		switch (data.State)
+        //		{
+        //			case EntityState.Added:
+        //				data.Entity.CreatedDate = currentTime;
+        //				break;
 
-		//			case EntityState.Modified:
-		//				data.Entity.UpdatedDate = currentTime;
-		//				break;
+        //			case EntityState.Modified:
+        //				data.Entity.UpdatedDate = currentTime;
+        //				break;
 
-		//				//case EntityState.Deleted:
-		//				//    // İstersen silinen kaydı kalıcı olarak silmek yerine, bir "Soft Delete" işlemi uygulayabilirsin.
-		//				//    // data.State = EntityState.Modified;
-		//				//    // data.Entity.DeletedDate = currentTime;
-		//				//    // data.Entity.IsDeleted = true;
-		//				//    // veya tamamen kaldırmak için şu satırı açabilirsin:
-		//				//    // data.State = EntityState.Detached;
-		//				//    break;
-		//		}
-		//	}
+        //				//case EntityState.Deleted:
+        //				//    // İstersen silinen kaydı kalıcı olarak silmek yerine, bir "Soft Delete" işlemi uygulayabilirsin.
+        //				//    // data.State = EntityState.Modified;
+        //				//    // data.Entity.DeletedDate = currentTime;
+        //				//    // data.Entity.IsDeleted = true;
+        //				//    // veya tamamen kaldırmak için şu satırı açabilirsin:
+        //				//    // data.State = EntityState.Detached;
+        //				//    break;
+        //		}
+        //	}
 
-		//	return base.SaveChanges();
-		//}
+        //	return base.SaveChanges();
+        //}
 
-		public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
-			//ChangeTracker : Entityler üzerinden yapılan değişikliklerin ya da yeni eklenen verinin yakalanmasını sağlayan propertydir. Update operasyonlarında Track edilen verileri yakalayıp elde etmemizi sağlar.
-
-			var datas = ChangeTracker
-				.Entries<IAuiditEntity>();
-			foreach (var data in datas)
-			{
-				_ = data.State switch
-				{
-					EntityState.Added => data.Entity.CreatedDate = DateTime.Now,
-					EntityState.Modified => data.Entity.UpdatedDate = DateTime.Now,
-                    EntityState.Deleted => data.Entity.DeletedDate = DateTime.Now
-                };
-			}
+            var datas = ChangeTracker.Entries<IAuiditEntity>();
+            foreach (var data in datas)
+            {
+                switch (data.State)
+                {
+                    case EntityState.Added:
+                        data.Entity.CreatedDate = DateTime.Now;
+                        break;
+                    case EntityState.Modified:
+                        data.Entity.UpdatedDate = DateTime.Now;
+                        break;
+                    case EntityState.Deleted:
+                        data.Entity.DeletedDate = DateTime.Now;
+                        break;
+                    case EntityState.Unchanged:
+                        break;
+                    default:
+                        break;
+                }
+            }
 
             return await base.SaveChangesAsync(cancellationToken);
         }

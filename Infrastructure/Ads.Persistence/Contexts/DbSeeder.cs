@@ -91,7 +91,7 @@
         //    private static void SeedSettings(AppDbContext context)
         //    {
         //        var settingFaker = new Faker<Setting>()
-        //            .RuleFor(s => s.Theme, f => f.Lorem.Word()) // Rastgele bir tema adı
+        //            .RuleFor(s => s.Key, f => f.Lorem.Word()) // Rastgele bir key adı
         //            .RuleFor(s => s.Value, f => f.Lorem.Sentence()); // Rastgele bir değer cümlesi
 
         //        var settings = settingFaker.Generate(2); // 2 adet sahte ayar oluştur

@@ -35,14 +35,29 @@
             Category Name
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.CategoryId)
+            @if (Model.CategoryAdverts != null && Model.CategoryAdverts.Any())
+            {
+                @string.Join(", ", Model.CategoryAdverts.Select(ca => ca.Category.Name))
+            }
+            else
+            {
+                <text>No Category</text>
+            }
         </dd>
         <dt class="col-sm-2">
-            Username
+            Sub Category Name
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.SubCategoryId)
+            @if (Model.SubCategoryAdverts != null && Model.SubCategoryAdverts.Any())
+            {
+                @string.Join(", ", Model.SubCategoryAdverts.Select(sca => sca.SubCategory.Name))
+            }
+            else
+            {
+                <text>No SubCategory</text>
+            }
         </dd>
+
 
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Type)
@@ -89,7 +104,7 @@
 
     </dl>
 
-    <form asp-action="Delete">
+    <form asp-action="Delete" method="post">
         <input type="hidden" asp-for="Id" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
         <a class="btn btn-outline-primary" asp-action="Index">Back to List</a>
