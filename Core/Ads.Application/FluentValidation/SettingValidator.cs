@@ -9,11 +9,11 @@ namespace Ads.Application.FluentValidation
         {
             RuleFor(dto => dto.Key)
                 .NotEmpty().WithMessage("Key cannot be empty")
-                .Length(5, 200).WithMessage("Key must be between 5 and 200 characters");
+                .Length(2, 200).WithMessage("Key must be between 2 and 200 characters");
 
             RuleFor(dto => dto.Value)
                 .NotEmpty().WithMessage("Value cannot be empty")
-                .Length(5, 400).WithMessage("Value must be between 5 and 400 characters");
+                .Length(2, 400).WithMessage("Value must be between 2 and 400 characters");
         }
     }
 }

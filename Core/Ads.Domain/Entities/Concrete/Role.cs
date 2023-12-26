@@ -14,7 +14,7 @@ namespace Ads.Domain.Entities.Concrete
 		[MinLength(1, ErrorMessage = "{0} en az {1} karakter olabilir!")]
 		public string Name { get; set; }
 
-		public virtual ICollection<User>? Users { get; set; }
+		public virtual ICollection<User> Users { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime? UpdatedDate { get; set; }
         public DateTime? DeletedDate { get; set; }

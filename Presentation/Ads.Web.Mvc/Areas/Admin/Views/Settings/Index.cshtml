@@ -75,14 +75,7 @@
                                     @Html.DisplayFor(modelItem => item.Value)
                                 </td>
                                 <td>
-                                    @foreach (var user in item.Users)
-                                    {
-                                        @Html.DisplayFor(modelItem => user.Username)
-                                        if (user != item.Users.Last())
-                                        {
-                                            <text>, </text>
-                                        }
-                                    }
+                                    @Html.DisplayFor(modelItem => item.User)
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.CreatedDate)

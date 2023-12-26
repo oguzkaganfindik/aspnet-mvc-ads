@@ -6,52 +6,60 @@ using System.Reflection;
 
 namespace Ads.Persistence.Contexts
 {
-	public class AppDbContext : DbContext
-	{
-		public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
-		{
-		}
+    public class AppDbContext : DbContext
+    {
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
+        {
+        }
 
-		public DbSet<Advert> Adverts { get; set; }
-		public DbSet<AdvertComment> AdvertComments { get; set; }
-		public DbSet<AdvertImage> AdvertImages { get; set; }
-		public DbSet<AdvertRating> AdvertRatings { get; set; }
-		public DbSet<Category> Categories { get; set; }
-		public DbSet<CategoryAdvert> CategoryAdverts { get; set; }
-		public DbSet<Page> Pages { get; set; }
-		public DbSet<Role> Roles { get; set; }
-		public DbSet<Setting> Settings { get; set; }
-		public DbSet<User> Users { get; set; }
-		public DbSet<SubCategory> SubCategories { get; set; }
-		public DbSet<SubCategoryAdvert> SubCategoryAdverts { get; set; }
+        public DbSet<Advert> Adverts { get; set; }
+        public DbSet<AdvertComment> AdvertComments { get; set; }
+        public DbSet<AdvertImage> AdvertImages { get; set; }
+        public DbSet<AdvertRating> AdvertRatings { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<CategoryAdvert> CategoryAdverts { get; set; }
+        public DbSet<Page> Pages { get; set; }
+        public DbSet<Role> Roles { get; set; }
+        public DbSet<Setting> Settings { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<SubCategory> SubCategories { get; set; }
+        public DbSet<SubCategoryAdvert> SubCategoryAdverts { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-		{
-			optionsBuilder.UseSqlServer(Configuration.ConnectionString);
-			base.OnConfiguring(optionsBuilder);
+        {
+            optionsBuilder.UseSqlServer(Configuration.ConnectionString);
+            base.OnConfiguring(optionsBuilder);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-		{
-			modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+        {
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
-			modelBuilder.Entity<User>()
-				.HasOne(u => u.Role)
-				.WithMany(u => u.Users)
-				.HasForeignKey(u => u.RoleId)
-				.OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<User>()
+                .HasOne(u => u.Role)
+                .WithMany(u => u.Users)
+                .HasForeignKey(u => u.RoleId)
+                .OnDelete(DeleteBehavior.Restrict);
 
-			modelBuilder.Entity<User>()
-				.HasOne(u => u.Setting)
-				.WithMany(u => u.Users)
-				.HasForeignKey(u => u.SettingId)
-				.OnDelete(DeleteBehavior.Restrict);
+            // User ve Setting arasındaki One-to-One ilişkiyi yapılandırma
+            modelBuilder.Entity<User>()
+                .HasOne(u => u.Setting)
+                .WithOne(s => s.User)
+                .HasForeignKey<Setting>(s => s.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
 
-			modelBuilder.Entity<AdvertComment>()
-			   .HasOne<User>(ac => ac.User)
-			   .WithMany(u => u.AdvertComments)
-			   .HasForeignKey(ac => ac.UserId)
-			   .OnDelete(DeleteBehavior.Restrict);
+            // Page ve Setting arasındaki One-to-One ilişkiyi yapılandırma
+            modelBuilder.Entity<Page>()
+                .HasOne(p => p.Setting)
+                .WithOne(s => s.Page)
+                .HasForeignKey<Setting>(s => s.PageId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<AdvertComment>()
+               .HasOne(ac => ac.User)
+               .WithMany(u => u.AdvertComments)
+               .HasForeignKey(ac => ac.UserId)
+               .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Advert>()
                 .HasMany(a => a.AdvertRatings)
@@ -60,87 +68,20 @@ namespace Ads.Persistence.Contexts
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<AdvertRating>()
-            	.HasKey(ar => new { ar.UserId, ar.AdvertId }); // Bileşik anahtar tanımı
+                .HasIndex(ar => new { ar.UserId, ar.AdvertId })
+                .IsUnique();
 
             modelBuilder.Entity<AdvertRating>()
-				.HasOne(ar => ar.User)
-				.WithMany(u => u.AdvertRatings) // User sınıfında AdvertRatings koleksiyonu olmalı
-				.HasForeignKey(ar => ar.UserId)
-				.OnDelete(DeleteBehavior.Restrict);
+                .HasOne(ar => ar.User)
+                .WithMany(u => u.AdvertRatings) // User sınıfında AdvertRatings koleksiyonu olmalı
+                .HasForeignKey(ar => ar.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
 
-			modelBuilder.Entity<AdvertRating>()
-				.HasOne(ar => ar.Advert)
-				.WithMany(a => a.AdvertRatings) // Advert sınıfında AdvertRatings koleksiyonu olmalı
-				.HasForeignKey(ar => ar.AdvertId)
-				.OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<Role>().HasData(new Role
-            {
-				Id = 1,
-				Name = "Admin",
-                CreatedDate = DateTime.Now,
-            });
-
-            modelBuilder.Entity<Role>().HasData(new Role
-            {
-                Id = 2,
-                Name = "User",
-                CreatedDate = DateTime.Now,
-            });
-
-            modelBuilder.Entity<Role>().HasData(new Role
-            {
-                Id = 3,
-                Name = "Customer",
-                CreatedDate = DateTime.Now,
-            });
-
-            modelBuilder.Entity<Category>().HasData(new Category
-            {
-                Id = 1,
-                Name = "Elektronik",
-				CategoryIconPath = "Elektronik.jpg",
-				Description = "Elektronik ürünleri",
-                CreatedDate = DateTime.Now,
-            });
-
-            modelBuilder.Entity<SubCategory>().HasData(new SubCategory
-            {
-                Id = 1,
-                Name = "Telefon",
-				CategoryId = 1,
-                CreatedDate = DateTime.Now,
-            });
-
-            modelBuilder.Entity<User>().HasData(new User
-            {
-				Id = 1,
-				FirstName = "Admin",
-				LastName = "Admin",
-                IsActive = true,
-				CreatedDate = DateTime.Now,
-				Email = "admin@test.com",
-                Username = "admin",
-                //admin girişi için password: 123
-                Password = "AQAAAAIAAYagAAAAEGAtD8Y9ijHyZp8NqcBvyAYr7jIQRV7/G6bCdxcn5ifJ0nobxxBDRxRM+iFGpzabFw==",
-                RoleId = 1,
-                Phone = "0850",
-				Address = "Ankara",
-				UserImagePath = "admin.jpg",
-				SettingId = 1,
-				
-            });
-
-            modelBuilder.Entity<Setting>().HasData(new Setting
-            {
-                Id = 1,
-                Key = "Dark Theme",
-				Value = "Black"
-            });
-
-            base.OnModelCreating(modelBuilder);
-
-
+            modelBuilder.Entity<AdvertRating>()
+                .HasOne(ar => ar.Advert)
+                .WithMany(a => a.AdvertRatings) // Advert sınıfında AdvertRatings koleksiyonu olmalı
+                .HasForeignKey(ar => ar.AdvertId)
+                .OnDelete(DeleteBehavior.Restrict);  
         }
 
 

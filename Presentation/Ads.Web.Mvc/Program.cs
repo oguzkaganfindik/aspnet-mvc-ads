@@ -1,6 +1,8 @@
 using Ads.Application.FluentValidation;
 using Ads.Application.Mapping;
 using Ads.Persistence;
+using Ads.Persistence.Contexts;
+using Ads.Persistence.DataContext;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
@@ -50,9 +52,27 @@ builder.Services.AddAuthorization(x =>
     x.AddPolicy("CustomerPolicy", policy => policy.RequireClaim(ClaimTypes.Role, "Admin", "User", "Customer"));
 });
 
+
 var app = builder.Build();
 
-if (!app.Environment.IsDevelopment())
+//using (var scope = app.Services.CreateScope())
+//{
+//    var dbInitializer = scope.ServiceProvider.GetRequiredService<Ads.Persistence.Initializer.IDbInitializer>();
+//    dbInitializer.Initialize();
+//}
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<AppDbContext>();
+    bool isDatabaseCreated = context.Database.EnsureCreated();
+    if (isDatabaseCreated)
+    {
+        DbSeeder.SeedData(context);
+    }
+}
+
+    if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.

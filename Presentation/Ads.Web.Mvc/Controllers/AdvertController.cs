@@ -10,7 +10,6 @@ namespace Ads.Web.Mvc.Controllers
   public class AdvertController : Controller
   {
         private readonly IAdvertService _advertService;
-        private const int PageSize = 5;
         private readonly IMapper _mapper;
 
         public AdvertController(IAdvertService advertService, IMapper mapper)
@@ -19,9 +18,9 @@ namespace Ads.Web.Mvc.Controllers
             _mapper = mapper;
         }
 
-        public async Task<IActionResult> Search(string query, int page = 1)
+        public async Task<IActionResult> Search(string query, int page = 1, int pageSize = 5)
         {
-            var adverts = await _advertService.Search(query, page, PageSize);
+            var adverts = await _advertService.Search(query, page, pageSize);
             var advertDtos = _mapper.Map<List<AdvertDto>>(adverts); 
             return View(advertDtos);
         }

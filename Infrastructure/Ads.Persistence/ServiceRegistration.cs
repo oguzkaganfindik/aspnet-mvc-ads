@@ -4,6 +4,9 @@ using Ads.Persistence.Contexts;
 using Ads.Persistence.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Ads.Persistence.DataContext;
+using Microsoft.Extensions.Logging;
+//using Ads.Persistence.Initializer;
 
 namespace Ads.Persistence
 {
@@ -24,7 +27,7 @@ namespace Ads.Persistence
             services.AddTransient<IAdvertRatingService, AdvertRatingService>();
             services.AddScoped<INavbarService, NavbarService>();
             services.AddScoped<IMailService, MailService>();
-            
+            //services.AddScoped<IDbInitializer, DbInitializer>();
         }
     }
 }
