@@ -23,15 +23,13 @@ namespace Ads.Persistence.DataContext
             {
                 SeedPages(context);
             }
-
+               if (!context.Users.Any())
+            {
+                SeedUsers(context);
+            }
             if (!context.Settings.Any())
             {
                 SeedSettings(context);
-            }
-
-            if (!context.Users.Any())
-            {
-                SeedUsers(context);
             }
 
             if (!context.Categories.Any())
@@ -136,31 +134,6 @@ namespace Ads.Persistence.DataContext
             context.SaveChanges();
         }
 
-        private static void SeedSettings(AppDbContext context)
-        {              
-                var settings = new List<Setting>
-                {
-                    //// Kullanıcı için örnek bir tema ayarı
-                    new Setting
-                    {
-                        Key = "User Theme",
-                        Value = "Dark", // Varsayılan tema
-                        UserId = 1,
-                        CreatedDate = DateTime.Now,
-        },
-                     //Sayfa için örnek bir görünürlük ayarı
-                    new Setting
-                    {
-                        Key = "Page Visibility",
-                        Value = "True", // Sayfa varsayılan olarak görünür
-                        PageId = 1,
-                        CreatedDate = DateTime.Now,
-        }
-                };
-                context.Settings.AddRange(settings);
-                context.SaveChanges();          
-        }
-
         private static void SeedUsers(AppDbContext context)
         {
             var settingId = context.Settings.FirstOrDefault()?.Id; // Varsayılan bir ayar ID'si
@@ -212,7 +185,30 @@ namespace Ads.Persistence.DataContext
             context.SaveChanges();
         }
 
-
+        private static void SeedSettings(AppDbContext context)
+        {
+            var settings = new List<Setting>
+                {
+                    //// Kullanıcı için örnek bir tema ayarı
+                    new Setting
+                    {
+                        Key = "User Theme",
+                        Value = "Dark", // Varsayılan tema
+                        UserId = 1,
+                        CreatedDate = DateTime.Now,
+        },
+                     //Sayfa için örnek bir görünürlük ayarı
+                    new Setting
+                    {
+                        Key = "Page Visibility",
+                        Value = "True", // Sayfa varsayılan olarak görünür
+                        PageId = 1,
+                        CreatedDate = DateTime.Now,
+        }
+                };
+            context.Settings.AddRange(settings);
+            context.SaveChanges();
+        }
         private static void SeedCategories(AppDbContext context)
         {
             var mainCategories = new List<Category>
@@ -230,8 +226,6 @@ namespace Ads.Persistence.DataContext
             context.Categories.AddRange(mainCategories);
             context.SaveChanges();
         }
-
-
         private static void SeedSubCategories(AppDbContext context)
         {
             var categoryIds = context.Categories.ToDictionary(c => c.Name, c => c.Id);
