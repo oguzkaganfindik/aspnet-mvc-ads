@@ -13,64 +13,29 @@
         </ol>
         <div class="card mb-4">
             <div class="card-header">
-                <a class="btn btn-outline-primary" asp-action="Create">Create New</a>
                 <a class="btn btn-outline-primary" asp-area="Admin" asp-controller="Users" asp-action="Index">Go back to Users</a>
             </div>
             <div class="card-body">
                 <table id="datatablesSimple">
                     <thead>
                         <tr>
-                            <th>
-                                Role Name
-                            </th>
-                            <th>
-                                Created Date
-                            </th>
-                            <th>
-                                Updated Date
-                            </th>
-                            <th>
-                                Deleted Date
-                            </th>
-                            <th></th>
+                            <th>Role Name</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tfoot>
                         <tr>
-                            <th>
-                                Role Name
-                            </th>
-                            <th>
-                                Created Date
-                            </th>
-                            <th>
-                                Updated Date
-                            </th>
-                            <th>
-                                Deleted Date
-                            </th>
-                            <th></th>
+                            <th>Role Name</th>
+                            <th>Actions</th>
                         </tr>
                     </tfoot>
                     <tbody>
                         @foreach (var item in Model)
                         {
                             <tr>
+                                <td>@Html.DisplayFor(modelItem => item.Name)</td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Name)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.CreatedDate)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.UpdatedDate)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.DeletedDate)
-                                </td>
-                                <td>
-                                    <a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                                    <a class="btn btn-info" asp-action="Details" asp-route-id="@item.Id">Details</a>
                                 </td>
                             </tr>
                         }

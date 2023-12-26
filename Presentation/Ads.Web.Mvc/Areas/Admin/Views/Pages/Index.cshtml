@@ -41,9 +41,9 @@
                                 Content 2
                             </th>
 
-                            <th>
+                           @*  <th>
                                 Link
-                            </th>
+                            </th> *@
                             <th></th>
                         </tr>
                     </thead>
@@ -71,9 +71,9 @@
                                 Content 2
                             </th>
 
-                            <th>
+                          @*   <th>
                                 Link
-                            </th>
+                            </th> *@
                             <th></th>
                         </tr>
                     </tfoot>
@@ -87,9 +87,9 @@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Name)
                                 </td>
-                                <td>
+                                @* <td>
                                     @Html.DisplayFor(modelItem => item.IsActive)
-                                </td>
+                                </td> *@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Title1)
                                 </td>
@@ -103,9 +103,9 @@
                                     @Html.DisplayFor(modelItem => item.Content2)
                                 </td>
 
-                                <td>
+                               @*  <td>
                                     @Html.DisplayFor(modelItem => item.Link)
-                                </td>
+                                </td> *@
                                 <td>
                                     <a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                                     <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>

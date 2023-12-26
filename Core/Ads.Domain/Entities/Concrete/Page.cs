@@ -1,6 +1,7 @@
 ﻿using Ads.Domain.Entities.Abstract;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Ads.Domain.Entities.Concrete
 {
@@ -26,7 +27,7 @@ namespace Ads.Domain.Entities.Concrete
         public string? Title2 { get; set; }
 
         [DisplayName("Content 1")]
-        //[Required(ErrorMessage = "{0} boş geçilemez.")]
+        [Required(ErrorMessage = "{0} boş geçilemez.")]
         [StringLength(3000, ErrorMessage = "{0} {1} karakterden fazla olamaz!")]
         [MinLength(3, ErrorMessage = "{0} en az {1} karakter olabilir!")]
         public string Content1 { get; set; }
@@ -41,11 +42,11 @@ namespace Ads.Domain.Entities.Concrete
 		[MinLength(1, ErrorMessage = "{0} en az {1} karakter olabilir!")]
 		public string? PageImagePath { get; set; }
 
-		[DisplayName("Is it Active?")]
-        public bool IsActive { get; set; }
+		//[DisplayName("Is it Active?")]
+  //      public bool IsActive { get; set; }
 
-		[DisplayName("Is it Active?")]
-		public string IsActiveString => IsActive ? "Active" : "Passive";
+		//[DisplayName("Is it Active?")]
+		//public string IsActiveString => IsActive ? "Active" : "Passive";
 
 		public DateTime CreatedDate { get; set; }
 
@@ -53,12 +54,13 @@ namespace Ads.Domain.Entities.Concrete
 
         public DateTime? DeletedDate { get; set; }
 
+        [ForeignKey("Setting")] 
         public int SettingId { get; set; }
+       
+        public virtual Setting? Setting { get; set; }
 
-        public virtual ICollection<Setting>? Settings { get; set; }
-
-        [StringLength(100)]
-        public string? Link { get; set; }
+        //[StringLength(100)]
+        //public string? Link { get; set; }
 
     }
 

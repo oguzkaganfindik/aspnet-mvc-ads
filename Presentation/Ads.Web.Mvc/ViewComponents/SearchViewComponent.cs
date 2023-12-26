@@ -10,19 +10,17 @@ namespace Ads.Web.Mvc.ViewComponents
     public class SearchViewComponent : ViewComponent
     {
         private readonly IAdvertService _advertService;
-        private readonly IMapper _mapper;
 
-        public SearchViewComponent(IAdvertService advertService, IMapper mapper)
+        public SearchViewComponent(IAdvertService advertService)
         {
             _advertService = advertService;
-            _mapper = mapper;
         }
 
         public async Task<IViewComponentResult> InvokeAsync(string query)
         {
-            var searchResults = await _advertService.Search(query, 1, 5);
-            var searchResultDtos = _mapper.Map<List<AdvertDto>>(searchResults);
+            var searchResultDtos = await _advertService.Search(query, 1, 5);
             return View(searchResultDtos);
         }
+
     }
 }

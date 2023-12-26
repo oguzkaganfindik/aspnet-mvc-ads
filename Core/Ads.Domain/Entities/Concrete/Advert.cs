@@ -37,10 +37,6 @@ namespace Ads.Domain.Entities.Concrete
 
         public int? ClickCount { get; set; }
 
-        public int? CategoryId { get; set; }
-
-        public int? SubCategoryId { get; set; }
-
         public virtual User? User { get; set; }
 
         [ForeignKey("User")]
