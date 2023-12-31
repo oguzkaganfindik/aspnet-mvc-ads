@@ -1,6 +1,12 @@
-﻿using Ads.Web.Mvc.Models;
+﻿using Ads.Application.Services;
+using Ads.Domain.Entities.Concrete;
+using Ads.Persistence.ViewModels;
+using Ads.Web.Mvc.Extensions;
+using Ads.Web.Mvc.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.Security.Claims;
 
 namespace Ads.Web.Mvc.Controllers
 {
@@ -11,12 +17,15 @@ namespace Ads.Web.Mvc.Controllers
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
+
         }
 
         public IActionResult Index()
         {
             return View();
         }
+
+
 
         public IActionResult Privacy()
         {
@@ -32,7 +41,7 @@ namespace Ads.Web.Mvc.Controllers
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return View(new Persistence.ViewModels.ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }

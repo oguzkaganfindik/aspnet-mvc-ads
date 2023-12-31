@@ -1,15 +1,17 @@
 ﻿using Ads.Domain.Entities.Abstract;
 using Ads.Domain.Entities.Concrete;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
-
 namespace Ads.Persistence.Contexts
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : IdentityDbContext<AppUser, AppRole, int>
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
+            //ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
         }
 
         public DbSet<Advert> Adverts { get; set; }
@@ -19,9 +21,9 @@ namespace Ads.Persistence.Contexts
         public DbSet<Category> Categories { get; set; }
         public DbSet<CategoryAdvert> CategoryAdverts { get; set; }
         public DbSet<Page> Pages { get; set; }
-        public DbSet<Role> Roles { get; set; }
+        public DbSet<AppRole> Roles { get; set; }
         public DbSet<Setting> Settings { get; set; }
-        public DbSet<User> Users { get; set; }
+        public DbSet<AppUser> Users { get; set; }
         public DbSet<SubCategory> SubCategories { get; set; }
         public DbSet<SubCategoryAdvert> SubCategoryAdverts { get; set; }
 
@@ -35,28 +37,29 @@ namespace Ads.Persistence.Contexts
         {
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
-            modelBuilder.Entity<User>()
-                .HasOne(u => u.Role)
-                .WithMany(u => u.Users)
+            modelBuilder.Entity<AppUser>()
+                .HasOne(u => u.Role) // 1 kullanıcı 1 rolde olabilir
+                .WithMany(u => u.Users)// 1 rolde birden fazla kullanıcı olabilir
                 .HasForeignKey(u => u.RoleId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.NoAction);
 
-            // User ve Setting arasındaki One-to-One ilişkiyi yapılandırma
-            modelBuilder.Entity<User>()
-                .HasOne(u => u.Setting)
-                .WithOne(s => s.User)
-                .HasForeignKey<Setting>(s => s.UserId)
-                .OnDelete(DeleteBehavior.Cascade);
+            // Setting ile User arasındaki ilişki
+            modelBuilder.Entity<AppUser>()
+                .HasOne(u => u.Setting) // User, bir Setting ile ilişkilendirilir.
+                .WithMany(s => s.Users) // Bir Setting, birden çok User ile ilişkilendirilebilir.
+                .HasForeignKey(u => u.SettingId) // ForeignKey olarak User'daki SettingId kullanılır.
+                .OnDelete(DeleteBehavior.Restrict); // İsteğe bağlı: User silindiğinde ilişkili Setting'in silinmemesi için.
 
-            // Page ve Setting arasındaki One-to-One ilişkiyi yapılandırma
+            // Setting ile Page arasındaki ilişki
             modelBuilder.Entity<Page>()
-                .HasOne(p => p.Setting)
-                .WithOne(s => s.Page)
-                .HasForeignKey<Setting>(s => s.PageId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .HasOne(p => p.Setting) // Page, bir Setting ile ilişkilendirilir.
+                .WithMany(s => s.Pages) // Bir Setting, birden çok Page ile ilişkilendirilebilir.
+                .HasForeignKey(p => p.SettingId) // ForeignKey olarak Page'deki SettingId kullanılır.
+                .OnDelete(DeleteBehavior.Restrict); // İsteğe bağlı: Page silindiğinde ilişkili Setting'in silinmemesi için.
+
 
             modelBuilder.Entity<AdvertComment>()
-               .HasOne(ac => ac.User)
+               .HasOne<AppUser>(ac => ac.User)
                .WithMany(u => u.AdvertComments)
                .HasForeignKey(ac => ac.UserId)
                .OnDelete(DeleteBehavior.Restrict);
@@ -75,15 +78,60 @@ namespace Ads.Persistence.Contexts
                 .HasOne(ar => ar.User)
                 .WithMany(u => u.AdvertRatings) // User sınıfında AdvertRatings koleksiyonu olmalı
                 .HasForeignKey(ar => ar.UserId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<AdvertRating>()
                 .HasOne(ar => ar.Advert)
                 .WithMany(a => a.AdvertRatings) // Advert sınıfında AdvertRatings koleksiyonu olmalı
                 .HasForeignKey(ar => ar.AdvertId)
-                .OnDelete(DeleteBehavior.Restrict);  
-        }
+                .OnDelete(DeleteBehavior.Cascade);
 
+
+
+
+            modelBuilder.Entity<AppRole>().HasData(
+                new AppRole { Id = 1, Name = "Admin", CreatedDate = DateTime.Now },
+                new AppRole { Id = 2, Name = "Moderator", CreatedDate = DateTime.Now },
+                new AppRole { Id = 3, Name = "User", CreatedDate = DateTime.Now }
+             );
+
+            // design time da çalışan seeder
+            var passwordHasher = new PasswordHasher<AppUser>();
+            var adminUser = new AppUser
+            {
+                Id = 1,
+                FirstName = "Admin",
+                LastName = "Admin",
+                IsActive = true,
+                CreatedDate = DateTime.Now,
+                Email = "admin@test.com",
+                UserName = "admin",
+                Password = passwordHasher.HashPassword(null, "123"),
+                RoleId = 1,
+                Phone = "9050",
+                Address = "Turkey",
+                UserImagePath = "admin.jpg",
+            };
+            modelBuilder.Entity<AppUser>().HasData(adminUser);
+
+            var moderatorUser = new AppUser
+            {
+                Id = 2,
+                FirstName = "Moderator",
+                LastName = "Moderator",
+                IsActive = true,
+                CreatedDate = DateTime.Now,
+                Email = "moderator@test.com",
+                UserName = "moderator",
+                Password = passwordHasher.HashPassword(null, "123"),
+                RoleId = 2,
+                Phone = "9050",
+                Address = "Turkey",
+                UserImagePath = "moderator.jpg",
+
+            };
+            modelBuilder.Entity<AppUser>().HasData(moderatorUser);
+        }
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {

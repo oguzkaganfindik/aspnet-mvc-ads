@@ -1,107 +1,125 @@
-﻿using Ads.Application.Services;
-using Ads.Domain.Entities.Concrete;
+﻿using Ads.Application.DTOs.Page;
+using Ads.Application.Services;
 using Ads.Infrastructure.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Ads.Web.Mvc.Areas.Admin.Models.Settings
+namespace Ads.Web.Mvc.Areas.Admin.Controllers
 {
     [Area("Admin"), Authorize(Policy = "AdminPolicy")]
     public class PagesController : Controller
     {
-        private readonly IService<Page> _service;
+        private readonly IPageService _service;
+        private readonly ILogger<PagesController> _logger;
 
-        public PagesController(IService<Page> service)
+        public PagesController(IPageService service, ILogger<PagesController> logger)
         {
             _service = service;
+            _logger = logger;
         }
 
         // GET: PagesController
         public async Task<ActionResult> Index()
         {
-            return View(await _service.GetAllAsync());
-        }
+            List<PageDto> pageDtos = await _service.GetAllPagesWithSettingsAsync();
 
-        // GET: PagesController/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
+            return View(pageDtos);
+
         }
 
         // GET: PagesController/Create
-        public ActionResult Create()
+        public async Task<IActionResult> CreateAsync()
         {
+
             return View();
         }
 
-        // POST: PagesController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> CreateAsync(Page collection, IFormFile? PageImagePath)
+        public async Task<IActionResult> CreateAsync(PageDto pageDto, IFormFile? PageImagePath)
         {
             try
             {
-                collection.PageImagePath = await FileHelper.FileLoaderAsync(PageImagePath, "/Img/PageImages/");
-                await _service.AddAsync(collection);
-                await _service.SaveAsync();
+                string filePath = null;
+                if (PageImagePath != null)
+                {
+                    filePath = await FileHelper.FileLoaderAsync(PageImagePath, "/Img/PageImages/");
+                }
+
+                await _service.CreateAsync(pageDto, filePath, pageDto.PageVisibility);
                 return RedirectToAction(nameof(Index));
             }
             catch
             {
-                return View();
+                // Hata durumunda kullanıcıyı aynı sayfada tut
+                return View(pageDto);
             }
         }
 
+
         // GET: PagesController/Edit/5
-        public async Task<ActionResult> Edit(int id)
+        public async Task<IActionResult> Edit(int id)
         {
-            var data = await _service.FindAsync(id);
-            return View(data);
+            var pageDto = await _service.GetPageByIdAsync(id); // Bu metod sayfa bilgilerini getirir
+            if (pageDto == null)
+            {
+                return NotFound();
+            }
+
+            _logger.LogInformation("Page Visibility: {PageVisibility}", pageDto.PageVisibility);
+
+            ModelState.Clear();
+            return View(pageDto);
         }
 
         // POST: PagesController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(int id, Page collection, IFormFile? PageImagePath)
+        public async Task<IActionResult> Edit(int id, PageDto pageDto, IFormFile? PageImagePath)
         {
+            if (id != pageDto.Id)
+            {
+                return NotFound();
+            }
+
             try
             {
+                string filePath = null;
                 if (PageImagePath is not null)
                 {
-                    collection.PageImagePath = await FileHelper.FileLoaderAsync(PageImagePath, "/Img/PageImages/");
+                    filePath = await FileHelper.FileLoaderAsync(PageImagePath, "/Img/PageImages/");
                 }
-                _service.Update(collection);
-                await _service.SaveAsync();
+
+                await _service.UpdateAsync(pageDto, filePath, pageDto.PageVisibility);
                 return RedirectToAction(nameof(Index));
             }
             catch
             {
-                return View();
+                // Hata durumunda kullanıcıyı aynı sayfada tut
+                return View(pageDto);
             }
         }
 
         // GET: PagesController/Delete/5
-        public async Task<ActionResult> DeleteAsync(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            var data = await _service.FindAsync(id);
-            return View(data);
+            var pageDto = await _service.GetPageByIdAsync(id);
+            if (pageDto == null)
+            {
+                return NotFound();
+            }
+
+            return View(pageDto);
         }
+
 
         // POST: PagesController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteAsync(int id, Page collection)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            try
-            {
-                _service.Delete(collection);
-                await _service.SaveAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            await _service.DeleteAsync(id);
+            return RedirectToAction(nameof(Index));
         }
     }
 }

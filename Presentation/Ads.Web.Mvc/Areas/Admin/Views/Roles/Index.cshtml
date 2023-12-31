@@ -1,4 +1,5 @@
-﻿@model IEnumerable<Ads.Domain.Entities.Concrete.Role>
+﻿@using Ads.Application.DTOs.Role
+@model IEnumerable<RoleDto>
 
 @{
     ViewData["Title"] = "Roles";
@@ -35,7 +36,7 @@
                             <tr>
                                 <td>@Html.DisplayFor(modelItem => item.Name)</td>
                                 <td>
-                                    <a class="btn btn-info" asp-action="Details" asp-route-id="@item.Id">Details</a>
+                                    <a class="btn btn-info" asp-action="Detail" asp-route-id="@item.Id">Details</a>
                                 </td>
                             </tr>
                         }

@@ -3,9 +3,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Ads.Domain.Entities.Concrete
 {
-    public class CategoryAdvert : IEntity, IAuiditEntity
+    public class CategoryAdvert : BaseEntity
     {
-        public int Id { get; set; }
 
         [ForeignKey("Category")]
         public int CategoryId { get; set; }
@@ -17,10 +16,5 @@ namespace Ads.Domain.Entities.Concrete
 
         public virtual Category Category { get; set; }
 
-        public DateTime CreatedDate { get; set; }
-
-        public DateTime? UpdatedDate { get; set; }
-
-        public DateTime? DeletedDate { get; set; }
     }
 }

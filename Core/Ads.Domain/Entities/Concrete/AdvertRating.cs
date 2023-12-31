@@ -5,11 +5,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Ads.Domain.Entities.Concrete
 {
-    public class AdvertRating : IEntity, IAuiditEntity
+    public class AdvertRating : BaseEntity
     {
-        [Key]
-        public int Id { get; set; }
-
         public int UserId { get; set; }
 
         public int AdvertId { get; set; }
@@ -18,15 +15,10 @@ namespace Ads.Domain.Entities.Concrete
         [Range(1, 5, ErrorMessage = "{0} en az {1} en fazla {2} olabilir!")]
         public int? Rating { get; set; }
 
-        public DateTime CreatedDate { get; set; }
-
-        public DateTime? UpdatedDate { get; set; }
-
-        public DateTime? DeletedDate { get; set; }
 
         public virtual Advert? Advert { get; set; }
 
-        public virtual User? User { get; set; }
+        public virtual AppUser? User { get; set; }
     }
 }
 

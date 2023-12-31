@@ -16,24 +16,27 @@ using AutoMapper;
 namespace Ads.Application.Mapping
 {
     public class MappingProfile : Profile
-	{
-		public MappingProfile()
-		{
-			CreateMap<AdvertDto, Advert>().ReverseMap();
-			CreateMap<AdvertCommentDto, AdvertComment>().ReverseMap();
-			CreateMap<AdvertImageDto, AdvertImage>().ReverseMap();
-			CreateMap<AdvertRatingDto, AdvertRating>().ReverseMap();
-			CreateMap<CategoryDto, Category>().ReverseMap();
-			CreateMap<SubCategoryDto, SubCategory>().ReverseMap();
-			CreateMap<SubCategoryAdvertDto, SubCategoryAdvert>().ReverseMap();
-			CreateMap<CategoryAdvertDto, CategoryAdvert>().ReverseMap();
-			CreateMap<PageDto, Page>().ReverseMap();
-			CreateMap<SettingDto, Setting>().ReverseMap();
-			CreateMap<RoleDto, Role>().ReverseMap();
-			CreateMap<UserDto, User>().ReverseMap();
+    {
+        public MappingProfile()
+        {
+            CreateMap<AdvertDto, Advert>().ReverseMap();
+            CreateMap<AdvertCommentDto, AdvertComment>().ReverseMap();
+            CreateMap<AdvertImageDto, AdvertImage>().ReverseMap();
+            CreateMap<AdvertRatingDto, AdvertRating>().ReverseMap();
+            CreateMap<CategoryDto, Category>().ReverseMap();
+            CreateMap<SubCategoryDto, SubCategory>().ReverseMap();
+            CreateMap<SubCategoryAdvertDto, SubCategoryAdvert>().ReverseMap();
+            CreateMap<CategoryAdvertDto, CategoryAdvert>().ReverseMap();
+            CreateMap<PageDto, Page>().ReverseMap();
+            CreateMap<SettingDto, Setting>().ReverseMap();
+            CreateMap<RoleDto, AppRole>().ReverseMap();
+            CreateMap<UserDto, AppUser>().ReverseMap();
             CreateMap<AdvertImageDto, AdvertDto>().ReverseMap();
+            CreateMap<RegisterDto, AppUser>().ReverseMap();
+            CreateMap<LoginDto, AppUser>().ReverseMap();
+            CreateMap<ForgotPasswordDto, AppUser>().ReverseMap();
 
         }
 
-	}
+    }
 }

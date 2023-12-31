@@ -1,7 +1,9 @@
-﻿using Ads.Application.Services;
+﻿using Ads.Application.DTOs.User;
+using Ads.Application.Services;
 using Ads.Domain.Entities.Concrete;
 using Ads.Infrastructure.Services;
-using Ads.Web.Mvc.Models;
+using Ads.Web.Mvc.Extensions;
+using AutoMapper;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -14,129 +16,138 @@ namespace Ads.Web.Mvc.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly IUserService _service;
-        private readonly IService<Role> _serviceRole;
-        private readonly IService<Setting> _serviceSetting;
 
-        public AccountController(IUserService service, IService<Role> serviceRol, IService<Setting> serviceSetting)
+
+        private readonly IService<Setting> _serviceSetting;
+        private readonly IMapper _mapper;
+        private readonly UserManager<AppUser> _userManager;
+        private readonly SignInManager<AppUser> _signInManager;
+        private readonly IEmailService _emailService;
+
+
+        public AccountController(IService<Setting> serviceSetting, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IEmailService emailService, IMapper mapper)
         {
-            _service = service;
-            _serviceRole = serviceRol;
             _serviceSetting = serviceSetting;
+
+            _userManager = userManager;
+            _signInManager = signInManager;
+            _emailService = emailService;
+            _mapper = mapper;
         }
 
 
-        //Register
+
         public IActionResult Register()
         {
             return View();
         }
-
-        //Register
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> RegisterAsync(User user)
+        public async Task<IActionResult> Register(RegisterDto request)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                try
-                {
-                    user.IsActive = true;
-                    user.CreatedDate = DateTime.Now;
-                    user.RoleId = 3;
-                    //user.UserImagePath = "user.jpg";
-                    user.SettingId = 1;
-
-                    // Kullanıcının şifresini hashleme
-                    var passwordHasher = new PasswordHasher<User>();
-                    user.Password = passwordHasher.HashPassword(user, user.Password);
-
-                    await _service.AddAsync(user);
-                    await _service.SaveAsync();
-
-                    return RedirectToAction(nameof(Details));
-                }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine($"Hata Oluştu: {ex.Message}");
-                    ModelState.AddModelError("", "Kayıt sırasında bir hata oluştu.");
-                }
+                return View();
             }
-            return View(user);
+
+            AppUser appUser = _mapper.Map<AppUser>(request);
+
+            var identityResult = await _userManager.CreateAsync(appUser, request.Password);
+            if (!identityResult.Succeeded)
+            {
+                ModelState.AddModelErrorList(identityResult.Errors.Select(x => x.Description).ToList());
+                return View();
+
+            }
+            var exchangeExpireClaim = new Claim("ExchangeExpireDate", DateTime.Now.AddDays(10).ToString());
+
+            var user = await _userManager.FindByNameAsync(request.UserName);
+
+            var claimResult = await _userManager.AddClaimAsync(user!, exchangeExpireClaim);
+            if (!claimResult.Succeeded)
+            {
+                ModelState.AddModelErrorList(claimResult.Errors.Select(x => x.Description).ToList());
+                return View();
+
+            }
+            TempData["SuccessMessage"] = "Üyelik kayıt işlemi başarı ile gerçekleşmiştir.";
+            return RedirectToAction(nameof(AccountController.Register));
+
         }
 
 
+        //Register//signup
+
 
         //Details
-        [Authorize(Policy = "CustomerPolicy")]
+        //[Authorize(Policy = "CustomerPolicy")]
         public IActionResult Details()
         {
-            var email = User.FindFirst(ClaimTypes.Email)?.Value;
-            var uguid = User.FindFirst(ClaimTypes.UserData)?.Value;
-            if (!string.IsNullOrEmpty(email) || !string.IsNullOrEmpty(uguid))
-            {
-                var user = _service.Get(k => k.Email == email && k.UserGuid.ToString() == uguid);
-                if (user != null)
-                {
-                    return View(user);
-                }
-            }
+            //var email = User.FindFirst(ClaimTypes.Email)?.Value;
+            //var uguid = User.FindFirst(ClaimTypes.UserData)?.Value;
+            //if (!string.IsNullOrEmpty(email) || !string.IsNullOrEmpty(uguid))
+            //{
+            // //   var user = _service.Get(k => k.Email == email && k.UserGuid.ToString() == uguid);
+            //    if (user != null)
+            //    {
+            //        return View(user);
+            //    }
+            //}
             return NotFound();
         }
 
 
 
-        //UserUpdate
-        [RequestFormLimits(MultipartBodyLengthLimit = 10485760)]
-        [RequestSizeLimit(10485760)] // 10 MB
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [Authorize(Policy = "CustomerPolicy")]
-        public async Task<IActionResult> UserUpdateAsync(User user, IFormFile UserImagePath)
-        {
-            try
-            {
-                var email = User.FindFirst(ClaimTypes.Email)?.Value;
-                var uguid = User.FindFirst(ClaimTypes.UserData)?.Value;
-                if (!string.IsNullOrEmpty(email) && !string.IsNullOrEmpty(uguid))
+        ////UserUpdate
+        //[RequestFormLimits(MultipartBodyLengthLimit = 10485760)]
+        //[RequestSizeLimit(10485760)] // 10 MB
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //[Authorize(Policy = "CustomerPolicy")]
+        //public async Task<IActionResult> UserUpdateAsync(AppUser user, IFormFile UserImagePath)
+        //{
+        //    try
+        //    {
+        //        var email = User.FindFirst(ClaimTypes.Email)?.Value;
+        //        var uguid = User.FindFirst(ClaimTypes.UserData)?.Value;
+        //        if (!string.IsNullOrEmpty(email) && !string.IsNullOrEmpty(uguid))
 
-                {
-                    var updatedUser = _service.Get(k => k.Email == email && k.UserGuid.ToString() == uguid);
-                    if (updatedUser != null)
-                    {
-                        updatedUser.Username = user.Username;
-                        updatedUser.FirstName = user.FirstName;
-                        updatedUser.LastName = user.LastName;
-                        updatedUser.Phone = user.Phone;
-                        updatedUser.Address = user.Address;
-                        updatedUser.IsActive = user.IsActive;
-                        updatedUser.CreatedDate = user.CreatedDate;
+        //        {
+        //            var updatedUser = _service.Get(k => k.Email == email && k.UserGuid.ToString() == uguid);
+        //            if (updatedUser != null)
+        //            {
+        //                updatedUser.Username = user.Username;
+        //                updatedUser.FirstName = user.FirstName;
+        //                updatedUser.LastName = user.LastName;
+        //                updatedUser.Phone = user.Phone;
+        //                updatedUser.Address = user.Address;
+        //                updatedUser.IsActive = user.IsActive;
+        //                updatedUser.CreatedDate = user.CreatedDate;
 
-                        if (UserImagePath != null && UserImagePath.Length > 1)
-                        {
+        //                if (UserImagePath != null && UserImagePath.Length > 1)
+        //                {
 
-                            user.UserImagePath = await FileHelper.FileLoaderAsync(UserImagePath, "/Img/UserImages/");
+        //                    user.UserImagePath = await FileHelper.FileLoaderAsync(UserImagePath, "/Img/UserImages/");
 
-                            //var imagePath = "/Img/UserImages/" + Guid.NewGuid() + Path.GetExtension(UserImagePath.FileName);
-                            //var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", imagePath);
-                            //using (var stream = new FileStream(filePath, FileMode.Create))
-                            //{
-                            //    await UserImagePath.CopyToAsync(stream);
-                            //}
+        //                    //var imagePath = "/Img/UserImages/" + Guid.NewGuid() + Path.GetExtension(UserImagePath.FileName);
+        //                    //var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", imagePath);
+        //                    //using (var stream = new FileStream(filePath, FileMode.Create))
+        //                    //{
+        //                    //    await UserImagePath.CopyToAsync(stream);
+        //                    //}
 
-                            updatedUser.UserImagePath = user.UserImagePath;
-                        }
-                        _service.Update(updatedUser);
-                        await _service.SaveAsync();
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                ModelState.AddModelError("", "Hata Oluştu: " + ex.Message);
-            }
-            return RedirectToAction("Details", "Account");
-        }
+        //                    updatedUser.UserImagePath = user.UserImagePath;
+        //                }
+        //                _service.Update(updatedUser);
+        //                await _service.SaveAsync();
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        ModelState.AddModelError("", "Hata Oluştu: " + ex.Message);
+        //    }
+        //    return RedirectToAction("Details", "Account");
+        //}
 
         public IActionResult Login()
         {
@@ -145,50 +156,44 @@ namespace Ads.Web.Mvc.Controllers
 
         //Login
         [HttpPost]
-        public async Task<IActionResult> LoginAsync(CustomerLoginViewModel customerLoginViewModel)
+        public async Task<IActionResult> LoginAsync(LoginDto customerLoginViewModel, string? returnUrl = null)
         {
-            try
+            returnUrl = returnUrl ?? Url.Action("Index", "Home");
+
+
+            if (string.IsNullOrEmpty(customerLoginViewModel.Email))
             {
-                var account = await _service.GetAsync(k => k.Email == customerLoginViewModel.Email && k.IsActive == true);
-
-                if (account != null)
-                {
-                    var passwordHasher = new PasswordHasher<User>();
-
-                    if (passwordHasher.VerifyHashedPassword(account, account.Password, customerLoginViewModel.Password) == PasswordVerificationResult.Success)
-                    {
-                        var role = _serviceRole.Get(r => r.Id == account.RoleId);
-                        var claims = new List<Claim>()
-                {
-                    new Claim(ClaimTypes.Name, account.FirstName),
-                    new Claim(ClaimTypes.Email, account.Email),
-                    new Claim(ClaimTypes.UserData, account.UserGuid.ToString())
-                };
-
-                        if (role != null)
-                        {
-                            claims.Add(new Claim(ClaimTypes.Role, role.Name));
-                        }
-
-                        var userIdentity = new ClaimsIdentity(claims, "Login");
-                        ClaimsPrincipal principal = new ClaimsPrincipal(userIdentity);
-                        await HttpContext.SignInAsync(principal);
-
-                        if (role?.Name == "Admin")
-                        {
-                            return Redirect("/Admin");
-                        }
-
-                        return Redirect("/Account/Details");
-                    }
-                }
-
-                ModelState.AddModelError("", "Giriş Başarısız!");
+                ModelState.AddModelError(string.Empty, "Email adresi boş olamaz.");
+                return View();
             }
-            catch (Exception)
+
+            var hasUser = await _userManager.FindByEmailAsync(customerLoginViewModel.Email);
+
+            if (hasUser == null)
             {
-                ModelState.AddModelError("", "Hata Oluştu!");
+                ModelState.AddModelError(string.Empty, "Email veya şifre yanlış.");
+                return View();
             }
+
+
+            var signInResult = await _signInManager.PasswordSignInAsync(hasUser, customerLoginViewModel.Password, customerLoginViewModel.RememberMe, true);
+
+            if (signInResult.IsLockedOut)
+            {
+                ModelState.AddModelErrorList(new List<string>() { "3 dakika boyunca giriş yapamazsınız." });
+                return View();
+            }
+            if (!signInResult.Succeeded)
+            {
+                ModelState.AddModelErrorList(new List<string>() { $"Email veya şifre yanlış.", $"Başarısız giriş sayısı: {await _userManager.GetAccessFailedCountAsync(hasUser)}" });
+
+            }
+            if (hasUser.BirthDate.HasValue)
+            {
+                await _signInManager.SignInWithClaimsAsync(hasUser, customerLoginViewModel.RememberMe, new[] { new Claim("birthdate", hasUser.BirthDate.Value.ToString()) });
+            }
+
+
 
             return View();
         }
@@ -198,103 +203,101 @@ namespace Ads.Web.Mvc.Controllers
         [Authorize(Policy = "CustomerPolicy")]
         public async Task<IActionResult> ChangePasswordAsync(string newPassword)
         {
-            try
-            {
-                var email = User.FindFirst(ClaimTypes.Email)?.Value;
-                var uguid = User.FindFirst(ClaimTypes.UserData)?.Value;
-
-                if (!string.IsNullOrEmpty(email) && !string.IsNullOrEmpty(uguid))
-                {
-                    var user = _service.Get(k => k.Email == email && k.UserGuid.ToString() == uguid);
-
-                    if (user != null)
-                    {
-                        var passwordHasher = new PasswordHasher<User>();
-                        user.Password = passwordHasher.HashPassword(user, newPassword);
-
-                        _service.Update(user);
-                        await _service.SaveAsync();
-
-                        // Kullanıcıya bilgilendirme mesajı gönder
-                        TempData["SuccessMessage"] = "Your email has been successfully changed. Please login with your new email.";
-
-                        // Kullanıcının oturumunu sonlandır
-                        await HttpContext.SignOutAsync();
-
-                        // Yönlendirme yaparak giriş sayfasına gönder
-                        return RedirectToAction("Login");
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                ModelState.AddModelError("", "Hata Oluştu!");
-            }
-
-            return RedirectToAction("Details");
+            return View();
         }
 
 
         //ChangeEmail
-        [HttpPost]
-        [Authorize(Policy = "CustomerPolicy")]
-        public async Task<IActionResult> ChangeEmailAsync(string newEmail)
+        //[HttpPost]
+        //[Authorize(Policy = "CustomerPolicy")]
+        //public async Task<IActionResult> ChangeEmailAsync(string newEmail)
+        //{
+        //    //try
+        //    //{
+        //    //    var email = User.FindFirst(ClaimTypes.Email)?.Value;
+        //    //    var uguid = User.FindFirst(ClaimTypes.UserData)?.Value;
+
+        //    //    if (!string.IsNullOrEmpty(email) && !string.IsNullOrEmpty(uguid))
+        //    //    {
+        //    //        var user = _service.Get(k => k.Email == email && k.UserGuid.ToString() == uguid);
+
+        //    //        if (user != null)
+        //    //        {
+        //    //            // Eğer yeni e-posta adresi geçerliyse
+        //    //            if (!string.IsNullOrEmpty(newEmail))
+        //    //            {
+        //    //                user.Email = newEmail;
+
+        //    //                _service.Update(user);
+        //    //                await _service.SaveAsync();
+
+        //    //                // Kullanıcıya bilgilendirme mesajı gönder
+        //    //                TempData["SuccessMessage"] = "Your email has been successfully changed. Please login with your new email.";
+
+        //    //                // Kullanıcının oturumunu sonlandır
+        //    //                await HttpContext.SignOutAsync();
+
+        //    //                // Yönlendirme yaparak giriş sayfasına gönder
+        //    //                return RedirectToAction("Login");
+        //    //            }
+        //    //            else
+        //    //            {
+        //    //                ModelState.AddModelError("", "You must enter a valid email address.");
+        //    //            }
+        //    //        }
+        //    //    }
+        //    //}
+        //    //catch (Exception)
+        //    //{
+        //    //    ModelState.AddModelError("", "An error occurred!");
+        //    //}
+
+        //    //
+        //    //
+        //    //
+        //    return RedirectToAction("Details");
+        //}
+
+
+
+        //[Authorize(Policy = "CustomerPolicy")]
+        public async Task<IActionResult> Logout()
         {
-            try
-            {
-                var email = User.FindFirst(ClaimTypes.Email)?.Value;
-                var uguid = User.FindFirst(ClaimTypes.UserData)?.Value;
+            await _signInManager.SignOutAsync();
 
-                if (!string.IsNullOrEmpty(email) && !string.IsNullOrEmpty(uguid))
-                {
-                    var user = _service.Get(k => k.Email == email && k.UserGuid.ToString() == uguid);
-
-                    if (user != null)
-                    {
-                        // Eğer yeni e-posta adresi geçerliyse
-                        if (!string.IsNullOrEmpty(newEmail))
-                        {
-                            user.Email = newEmail;
-
-                            _service.Update(user);
-                            await _service.SaveAsync();
-
-                            // Kullanıcıya bilgilendirme mesajı gönder
-                            TempData["SuccessMessage"] = "Your email has been successfully changed. Please login with your new email.";
-
-                            // Kullanıcının oturumunu sonlandır
-                            await HttpContext.SignOutAsync();
-
-                            // Yönlendirme yaparak giriş sayfasına gönder
-                            return RedirectToAction("Login");
-                        }
-                        else
-                        {
-                            ModelState.AddModelError("", "You must enter a valid email address.");
-                        }
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                ModelState.AddModelError("", "An error occurred!");
-            }
-
-            return RedirectToAction("Details");
+            return RedirectToAction("Index", "Home");
         }
-
-        [Authorize(Policy = "CustomerPolicy")]
+        //[Authorize(Policy = "CustomerPolicy")]
         public IActionResult ForgotPassword()
         {
             return View();
         }
 
-        [Authorize(Policy = "CustomerPolicy")]
-        public async Task<IActionResult> Logout()
+        [HttpPost]
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordDto request)
         {
-            await HttpContext.SignOutAsync();
-            return Redirect("/");
+            AppUser appUser = _mapper.Map<AppUser>(request);
+            var hasUser = await _userManager.FindByEmailAsync(request.Email);
+
+            if (hasUser == null)
+            {
+                ModelState.AddModelError(String.Empty, "Bu email adresine sahip kullanıcı bulunamamıştır.");
+                return View();
+            }
+
+            string passwordResetToken = await _userManager.GeneratePasswordResetTokenAsync(hasUser);
+
+            var passwordResetLink = Url.Action("ResetPassword", "Home",
+                new { userId = hasUser.Id, Token = passwordResetToken }, HttpContext.Request.Scheme);
+
+            await _emailService.SendResetPasswordEmail(passwordResetLink, hasUser.Email);
+
+            TempData["success"] = "Şifre yenileme linki, e-posta adresinize gönderilmiştir.";
+            return RedirectToAction(nameof(ForgotPassword));
+
         }
+
+
 
     }
 }

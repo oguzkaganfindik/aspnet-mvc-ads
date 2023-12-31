@@ -1,11 +1,8 @@
-﻿using Ads.Infrastructure.Services;
-using Ads.Application.Services;
+﻿using Ads.Application.Services;
 using Ads.Persistence.Contexts;
 using Ads.Persistence.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Ads.Persistence.DataContext;
-using Microsoft.Extensions.Logging;
 //using Ads.Persistence.Initializer;
 
 namespace Ads.Persistence
@@ -18,7 +15,7 @@ namespace Ads.Persistence
 
             services.AddTransient(typeof(IService<>), typeof(Service<>));
             services.AddTransient<IAdvertService, AdvertService>();
-            services.AddTransient<IUserService, UserService>();
+            //services.AddTransient<IUserService, UserService>();
             services.AddTransient<ICategoryService, CategoryService>();
             services.AddTransient<ISubCategoryService, SubCategoryService>();
             services.AddTransient<ISettingService, SettingService>();
@@ -26,7 +23,7 @@ namespace Ads.Persistence
             services.AddTransient<IAdvertImageService, AdvertImageService>();
             services.AddTransient<IAdvertRatingService, AdvertRatingService>();
             services.AddScoped<INavbarService, NavbarService>();
-            services.AddScoped<IMailService, MailService>();
+            services.AddScoped<IPageService, PageService>();
             //services.AddScoped<IDbInitializer, DbInitializer>();
         }
     }
