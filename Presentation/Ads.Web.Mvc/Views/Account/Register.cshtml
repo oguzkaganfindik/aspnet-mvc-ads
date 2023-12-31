@@ -1,34 +1,85 @@
-﻿@model Ads.Domain.Entities.Concrete.User
+﻿@using Ads.Application.DTOs.User
+@model RegisterDto
 
 @{
-    ViewData["Title"] = "Üye Kayıt";
+    ViewData["Title"] = "SignUp";
 }
 
-<section class="login py-5 border-top-1">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-5 col-md-8 align-item-center">
-                <div class="border border">
-                    <h3 class="bg-gray p-4">Register Now</h3>
-                    <form asp-action="Register">
-                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                        <fieldset class="p-4">
-                                <input asp-for="Email" class="border p-3 w-100 my-2" placeholder="Email*" />
-                                <input type="Password" asp-for="Password" class="border p-3 w-100 my-2" placeholder="Password*" />
-                                <input asp-for="FirstName" class="border p-3 w-100 my-2" placeholder="Name*" />
-                                <input asp-for="LastName" class="border p-3 w-100 my-2" placeholder="Surname*" />
-                                <input asp-for="Username" class="border p-3 w-100 my-2" placeholder="Username*" />
-                                <input asp-for="Phone" class="border p-3 w-100 my-2" placeholder="Phone*" />
-                                <input asp-for="Address" class="border p-3 w-100 my-2" placeholder="Address*" />
 
-                            <div class="loggedin-forgot d-inline-flex my-3">
-                                <label for="registering" class="px-2">By registering, you accept our <a class="text-primary font-weight-bold" href="terms-condition.html">Terms & Conditions</a></label>
-                            </div>
-                            <button type="submit" class="d-block py-3 px-4 bg-primary text-white border-0 rounded font-weight-bold">Register Now</button>
-                        </fieldset>
-                    </form>
+<div class="row">
+    <div class="col-md-6 offset-md-3">
+        <h2>Kullanıcı Kayıt Formu</h2>
+
+        @if ((TempData["SuccessMessage"] != null))
+        {
+            <div class="alert alert-info" role="alert">
+                @TempData["SuccessMessage"]
+            </div>
+        }
+        <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+        <form asp-controller="Account" asp-action="Register" method="post">
+            <div class="row mb-3">
+                <label for="UserName" class="col-md-4 col-form-label" asp-for="FirstName"></label>
+                <div class="col-sm-8">
+                    <input asp-for="FirstName" class="form-control">
+                    <span class="text-danger" asp-validation-for="FirstName"></span>
                 </div>
             </div>
-        </div>
+
+            <div class="row mb-3">
+                <label for="UserName" class="col-md-4 col-form-label" asp-for="LastName"></label>
+                <div class="col-sm-8">
+                    <input asp-for="LastName" class="form-control">
+                    <span class="text-danger" asp-validation-for="LastName"></span>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label for="UserName" class="col-md-4 col-form-label" asp-for="UserName"></label>
+                <div class="col-sm-8">
+                    <input asp-for="UserName" class="form-control">
+                    <span class="text-danger" asp-validation-for="UserName"></span>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label for="Email" class="col-md-4 col-form-label" asp-for="Email"></label>
+                <div class="col-sm-8">
+                    <input asp-for="Email" class="form-control">
+                    <span class="text-danger" asp-validation-for="Email"></span>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label for="Phone" class="col-md-4 col-form-label" asp-for="Phone"></label>
+                <div class="col-sm-8">
+                    <input asp-for="Phone" class="form-control">
+                    <span class="text-danger" asp-validation-for="Phone"></span>
+                </div>
+
+            </div>
+
+            <div class="row mb-3">
+                <label for="Password" class="col-md-4 col-form-label" asp-for="Password"></label>
+                <div class="col-sm-8">
+                    <input asp-for="Password" class="form-control">
+                    <span class="text-danger" asp-validation-for="Password"></span>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label for="PasswordConfirm" class="col-md-4 col-form-label" asp-for="PasswordConfirm"></label>
+                <div class="col-sm-8">
+                    <input asp-for="PasswordConfirm" class="form-control">
+                    <span class="text-danger" asp-validation-for="PasswordConfirm"></span>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-8 offset-md-4">
+                    <button type="submit" class="btn btn-primary">Kayıt Ol</button>
+                </div>
+            </div>
+
+
+        </form>
     </div>
-</section>
+</div>

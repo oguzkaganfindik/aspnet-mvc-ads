@@ -5,9 +5,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Ads.Domain.Entities.Concrete
 {
-    public class Page : IEntity, IAuiditEntity
+    public class Page : BaseEntity
     {
-        public int Id { get; set; }
 
         [DisplayName("Page Name")]
         [Required(ErrorMessage = "{0} boş geçilemez.")]
@@ -42,26 +41,10 @@ namespace Ads.Domain.Entities.Concrete
 		[MinLength(1, ErrorMessage = "{0} en az {1} karakter olabilir!")]
 		public string? PageImagePath { get; set; }
 
-		//[DisplayName("Is it Active?")]
-  //      public bool IsActive { get; set; }
-
-		//[DisplayName("Is it Active?")]
-		//public string IsActiveString => IsActive ? "Active" : "Passive";
-
-		public DateTime CreatedDate { get; set; }
-
-        public DateTime? UpdatedDate { get; set; }
-
-        public DateTime? DeletedDate { get; set; }
-
-        [ForeignKey("Setting")] 
-        public int SettingId { get; set; }
-       
+        
+        [ForeignKey("Setting")]
+        public int? SettingId { get; set; }
         public virtual Setting? Setting { get; set; }
-
-        //[StringLength(100)]
-        //public string? Link { get; set; }
-
     }
 
 }

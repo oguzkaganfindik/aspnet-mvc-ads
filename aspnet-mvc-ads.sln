@@ -16,9 +16,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ads.Persistence", "Infrastructure\Ads.Persistence\Ads.Persistence.csproj", "{60BE9302-BA9C-4CA4-9AC6-23F8A93D776B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{88450E18-1B8A-4EDF-B0E3-4495C8A48DBF}"
-	ProjectSection(SolutionItems) = preProject
-		Infrastructure\Ads.Persistence\ServiceRegistration.cs = Infrastructure\Ads.Persistence\ServiceRegistration.cs
-	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ads.Web.Mvc", "Presentation\Ads.Web.Mvc\Ads.Web.Mvc.csproj", "{82EDDF86-4E0C-4080-922D-A3748B242556}"
 EndProject

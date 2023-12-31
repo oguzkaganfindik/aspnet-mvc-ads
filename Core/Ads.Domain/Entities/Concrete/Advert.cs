@@ -5,9 +5,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Ads.Domain.Entities.Concrete
 {
-    public class Advert : IEntity, IAuiditEntity
+    public class Advert : BaseEntity
     {
-        public int Id { get; set; }
 
         [DisplayName("Title")]
         [Required(ErrorMessage = "{0} boş geçilemez.")]
@@ -37,7 +36,7 @@ namespace Ads.Domain.Entities.Concrete
 
         public int? ClickCount { get; set; }
 
-        public virtual User? User { get; set; }
+        public virtual AppUser? User { get; set; }
 
         [ForeignKey("User")]
         public int? UserId { get; set; }
@@ -51,12 +50,5 @@ namespace Ads.Domain.Entities.Concrete
         public virtual ICollection<AdvertImage>? AdvertImages { get; set; }
 
         public virtual ICollection<AdvertRating>? AdvertRatings { get; set; }
-
-        public DateTime CreatedDate { get; set; }
-
-        public DateTime? UpdatedDate { get; set; }
-
-        public DateTime? DeletedDate { get; set; }
-
     }
 }

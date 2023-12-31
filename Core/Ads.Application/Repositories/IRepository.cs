@@ -22,5 +22,6 @@ namespace Ads.Application.Repositories
         Task<int> SaveAsync();
 
         public Task UpdateAsync(T entity);
+
     }
 }

@@ -15,21 +15,21 @@ namespace Ads.Persistence.Repositories
         public async Task<Setting> GetCustomSetting(int id)
         {
             return await _dbSet
-                .Include(x => x.Page)
+                .Include(x => x.Pages)
                 .FirstOrDefaultAsync(c => c.Id == id);
         }
 
         public async Task<List<Setting>> GetCustomSettingList()
         {
             return await _dbSet
-                .Include(x => x.Page)
+                .Include(x => x.Pages)
                 .ToListAsync();
         }
 
         public async Task<List<Setting>> GetCustomSettingList(Expression<Func<Setting, bool>> expression)
         {
             return await _dbSet.Where(expression)
-                .Include(x => x.Page)
+                .Include(x => x.Pages)
                 .ToListAsync();
         }
     }

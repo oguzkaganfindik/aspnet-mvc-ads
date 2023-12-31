@@ -5,9 +5,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Ads.Domain.Entities.Concrete
 {
-    public class SubCategory : IEntity, IAuiditEntity
+    public class SubCategory : BaseEntity
     {
-        public int Id { get; set; }
 
         [Display(Name = "SubCategory Name")]
         [Required(ErrorMessage = "{0} boş geçilemez.")]
@@ -21,11 +20,5 @@ namespace Ads.Domain.Entities.Concrete
 		public int CategoryId { get; set; }
 
 		public virtual ICollection<SubCategoryAdvert>? SubCategoryAdverts { get; set; }
-
-        public DateTime CreatedDate { get; set; }
-
-        public DateTime? UpdatedDate { get; set; }
-
-        public DateTime? DeletedDate { get; set; }
     }
 }

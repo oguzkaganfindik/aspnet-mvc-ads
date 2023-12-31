@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Ads.Domain.Entities.Concrete.Setting>
+﻿@* @model IEnumerable<Ads.Domain.Entities.Concrete.Setting>
 
 @{
     ViewData["Title"] = "Settings";
@@ -75,7 +75,7 @@
                                     @Html.DisplayFor(modelItem => item.Value)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.User)
+                                    @Html.DisplayFor(modelItem => item.UserName)
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.CreatedDate)
@@ -97,4 +97,4 @@
             </div>
         </div>
     </div>
-</main>
+</main> *@

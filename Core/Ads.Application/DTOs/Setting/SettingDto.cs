@@ -7,16 +7,14 @@ namespace Ads.Application.DTOs.Setting
     {
         public int Id { get; set; }
         public string Key { get; set; }
+
         public string Value { get; set; }
 
-        public int? UserId { get; set; }
-        public UserDto User { get; set; }
-        public int? PageId { get; set; }
-        public PageDto Page { get; set; }
+        public virtual ICollection<UserDto> Users { get; set; }
+        public virtual ICollection<PageDto> Pages { get; set; }
 
         public DateTime CreatedDate { get; set; }
         public DateTime? UpdatedDate { get; set; }
         public DateTime? DeletedDate { get; set; }
     }
 }
-

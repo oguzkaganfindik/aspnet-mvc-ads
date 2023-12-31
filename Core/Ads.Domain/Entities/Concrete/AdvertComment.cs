@@ -5,10 +5,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Ads.Domain.Entities.Concrete
 {
-    public class AdvertComment : IEntity, IAuiditEntity
+    public class AdvertComment : BaseEntity
     {
-        public int Id { get; set; }
-
         [DisplayName("Comment")]
         [StringLength(500, ErrorMessage = "{0} {1} karakterden fazla olamaz!")]
         [MinLength(10, ErrorMessage = "{0} en az {1} karakter olabilir!")]
@@ -25,15 +23,9 @@ namespace Ads.Domain.Entities.Concrete
         [ForeignKey("Advert")]
         public int AdvertId { get; set; }
 
-        public virtual User? User { get; set; }
+        public virtual AppUser? User { get; set; }
 
         [ForeignKey("User")]
         public int UserId { get; set; }
-
-        public DateTime CreatedDate { get; set; }
-
-        public DateTime? UpdatedDate { get; set; }
-
-        public DateTime? DeletedDate { get; set; }
     }
 }

@@ -1,0 +1,52 @@
+﻿@using Ads.Application.DTOs.Role
+@model RoleDto
+
+@{
+    ViewData["Title"] = "Role Details";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<main>
+    <div class="container-fluid px-4">
+        <h1 class="mt-4">@Model.Name Details</h1>
+        <div class="card mb-4">
+            <div class="card-body">
+                <dl class="row">
+                    <dt class="col-sm-3">Role Name</dt>
+                    <dd class="col-sm-9">@Model.Name</dd>
+
+                    <dt class="col-sm-3">Created Date</dt>
+                    <dd class="col-sm-9">@Model.CreatedDate.ToString("dd/MM/yyyy")</dd>
+
+                    @if (Model.UpdatedDate.HasValue)
+                    {
+                        <dt class="col-sm-3">Updated Date</dt>
+                        <dd class="col-sm-9">@Model.UpdatedDate.Value.ToString("dd/MM/yyyy")</dd>
+                    }
+
+                    @if (Model.DeletedDate.HasValue)
+                    {
+                        <dt class="col-sm-3">Deleted Date</dt>
+                        <dd class="col-sm-9">@Model.DeletedDate.Value.ToString("dd/MM/yyyy")</dd>
+                    }
+
+                    <dt class="col-sm-3">Associated Users</dt>
+                    <dd class="col-sm-9">
+                        @if (Model.Users != null && Model.Users.Any())
+                        {
+                            <ul>
+                                @foreach (var user in Model.Users)
+                                {
+                                    <li>@user.UserName</li>
+                                }
+                            </ul>
+                        }
+                        else
+                        {
+                            <p>No users associated with this role.</p>
+                        }
+                </dl>
+            </div>
+        </div>
+    </div>
+</main>
