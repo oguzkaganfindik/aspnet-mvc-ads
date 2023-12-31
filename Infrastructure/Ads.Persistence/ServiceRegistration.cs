@@ -24,7 +24,6 @@ namespace Ads.Persistence
             services.AddTransient<IAdvertRatingService, AdvertRatingService>();
             services.AddScoped<INavbarService, NavbarService>();
             services.AddScoped<IPageService, PageService>();
-            //services.AddScoped<IDbInitializer, DbInitializer>();
         }
     }
 }
