@@ -31,6 +31,9 @@ namespace Ads.Domain.Entities.Concrete
         [MinLength(3, ErrorMessage = "{0} en az {1} karakter olabilir!")]
         public string Content1 { get; set; }
 
+        [DisplayName("Is it Active?")]
+        public bool IsActive { get; set; }
+
         [DisplayName("Content 2")]
         [StringLength(3000, ErrorMessage = "{0} {1} karakterden fazla olamaz!")]
         [MinLength(3, ErrorMessage = "{0} en az {1} karakter olabilir!")]

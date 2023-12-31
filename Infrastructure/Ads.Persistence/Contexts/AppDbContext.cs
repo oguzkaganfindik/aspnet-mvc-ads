@@ -59,7 +59,7 @@ namespace Ads.Persistence.Contexts
 
 
             modelBuilder.Entity<AdvertComment>()
-               .HasOne<AppUser>(ac => ac.User)
+               .HasOne(ac => ac.User)
                .WithMany(u => u.AdvertComments)
                .HasForeignKey(ac => ac.UserId)
                .OnDelete(DeleteBehavior.Restrict);
@@ -94,6 +94,7 @@ namespace Ads.Persistence.Contexts
                 new AppRole { Id = 2, Name = "Moderator", CreatedDate = DateTime.Now },
                 new AppRole { Id = 3, Name = "User", CreatedDate = DateTime.Now }
              );
+            base.OnModelCreating(modelBuilder);
 
             // design time da çalışan seeder
             var passwordHasher = new PasswordHasher<AppUser>();
