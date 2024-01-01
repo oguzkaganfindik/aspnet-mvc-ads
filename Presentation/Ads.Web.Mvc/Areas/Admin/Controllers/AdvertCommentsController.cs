@@ -9,7 +9,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ads.Web.Mvc.Areas.Admin.Controllers
 {
-    [Area("Admin"), Authorize(Policy = "UserPolicy")]
+    //[Area("Admin"), Authorize(Policy = "UserPolicy")]
+    [Area("Admin")]
     public class AdvertCommentsController : Controller
     {
         private readonly IAdvertCommentService _service;
@@ -137,7 +138,8 @@ namespace Ads.Web.Mvc.Areas.Admin.Controllers
 
 //namespace Ads.Web.Mvc.Areas.Admin.Controllers
 //{
-//    [Area("Admin"), Authorize(Policy = "UserPolicy")]
+//    //[Area("Admin")]
+//    //[Area("Admin"), Authorize(Policy = "UserPolicy")]
 //    public class AdvertCommentsController : Controller
 //    {
 //        private readonly IAdvertCommentService _service;

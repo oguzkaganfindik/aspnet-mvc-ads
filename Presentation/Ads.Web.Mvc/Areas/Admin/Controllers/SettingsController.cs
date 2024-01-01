@@ -6,7 +6,8 @@
 
 //namespace Ads.Web.Mvc.Areas.Admin.Models.Settings
 //{
-//    [Area("Admin"), Authorize(Policy = "AdminPolicy")]
+//    //[Area("Admin"), Authorize(Policy = "AdminPolicy")]
+//    //[Area("Admin")]
 //    public class SettingsController : Controller
 //    {
 //        private readonly ISettingService _service;
@@ -122,7 +123,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ads.Web.Mvc.Areas.Admin.Controllers
 {
-    [Area("Admin"), Authorize(Policy = "AdminPolicy")]
+    //[Area("Admin"), Authorize(Policy = "AdminPolicy")]
+    [Area("Admin")]
     public class SettingsController : Controller
     {
         private readonly ISettingService _service;

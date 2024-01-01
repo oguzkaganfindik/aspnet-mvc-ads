@@ -107,7 +107,7 @@ namespace Ads.Persistence.Contexts
                 CreatedDate = DateTime.Now,
                 Email = "admin@test.com",
                 UserName = "admin",
-                Password = passwordHasher.HashPassword(null, "123"),
+                Password = passwordHasher.HashPassword(null, "Deneme123."),
                 RoleId = 1,
                 Phone = "9050",
                 Address = "Turkey",

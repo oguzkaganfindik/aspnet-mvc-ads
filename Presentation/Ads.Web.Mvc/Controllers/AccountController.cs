@@ -200,7 +200,7 @@ namespace Ads.Web.Mvc.Controllers
 
 
         //ChangePassword
-        [Authorize(Policy = "CustomerPolicy")]
+        //[Authorize(Policy = "CustomerPolicy")]
         public async Task<IActionResult> ChangePasswordAsync(string newPassword)
         {
             return View();

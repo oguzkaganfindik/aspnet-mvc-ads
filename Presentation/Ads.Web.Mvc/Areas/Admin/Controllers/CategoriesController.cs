@@ -6,7 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Ads.Web.Mvc.Areas.Admin.Controllers
 {
-    [Area("Admin"), Authorize(Policy = "UserPolicy")]
+    //[Area("Admin"), Authorize(Policy = "UserPolicy")]
+    [Area("Admin")]
     public class CategoriesController : Controller
     {
         private readonly ICategoryService _service;

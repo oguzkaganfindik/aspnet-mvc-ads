@@ -9,7 +9,8 @@
 
 //namespace Ads.Web.Mvc.Areas.Admin.Controllers
 //{
-//    [Area("Admin"), Authorize(Policy = "AdminPolicy")]
+//    //[Area("Admin"), Authorize(Policy = "AdminPolicy")]
+//    //[Area("Admin")]
 //    public class UsersController : Controller
 //    {
 //        private readonly IUserService _service;
