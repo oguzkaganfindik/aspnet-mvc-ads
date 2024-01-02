@@ -15,7 +15,7 @@ public class DatabaseInitializer
             bool isDatabaseCreated = context.Database.EnsureCreated();
             if (isDatabaseCreated)
             {
-                //DbSeeder.SeedData(context);
+                DbSeeder.SeedData(context);
             }
         }
     }

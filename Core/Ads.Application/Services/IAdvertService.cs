@@ -1,6 +1,5 @@
 ﻿using Ads.Application.DTOs.Advert;
 using Ads.Application.Repositories;
-using Ads.Domain.Entities.Concrete;
 
 namespace Ads.Application.Services
 {

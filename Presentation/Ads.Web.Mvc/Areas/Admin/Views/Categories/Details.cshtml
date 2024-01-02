@@ -1,0 +1,62 @@
+﻿@model IEnumerable<Ads.Application.DTOs.SubCategory.SubCategoryDto>
+
+@{
+    ViewData["Title"] = "Category Details and SubCategory Management";
+    var categoryName = ViewData["CategoryName"]?.ToString(); 
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<main>
+    <div class="container-fluid px-4">
+        <h1 class="mt-4">@categoryName - @ViewData["Title"]</h1>
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item active">You can perform @ViewData["Title"] operations on this page.</li>
+        </ol>
+        <div class="card mb-4">
+            <div class="card-header">
+                <a class="btn btn-success" asp-controller="SubCategories" asp-action="Create">Create New</a>
+                <a class="btn btn-outline-primary" asp-area="Admin" asp-controller="Categories" asp-action="Index">Go back to Categories</a>
+            </div>
+            <div class="card-body">
+                <table id="datatablesSimple">
+                    <thead>
+                        <tr>
+                            <th>Subcategory Name</th>
+                            <th>
+                                Created Date
+                            </th>
+                            <th>
+                                Updated Date
+                            </th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>Subcategory Name</th>
+                            <th>
+                                Created Date
+                            </th>
+                            <th>
+                                Updated Date
+                            </th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        @foreach (var subCategory in Model)
+                        {
+                            <tr>
+                                <td>@subCategory.Name</td>
+                                <td>
+                                    @subCategory.CreatedDate
+                                </td>
+                                <td>
+                                    @subCategory.UpdatedDate
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</main>

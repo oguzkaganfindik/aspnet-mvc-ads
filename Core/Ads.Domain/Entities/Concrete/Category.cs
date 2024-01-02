@@ -15,14 +15,14 @@ namespace Ads.Domain.Entities.Concrete
         [DisplayName("Description")]
         [Required(ErrorMessage = "{0} boş geçilemez.")]
         [StringLength(200, ErrorMessage = "{0} {1} karakterden fazla olamaz!")]
-        [MinLength(5, ErrorMessage = "{0} en az {1} karakter olabilir!")]
+        [MinLength(3, ErrorMessage = "{0} en az {1} karakter olabilir!")]
         public string Description { get; set; }
 
         [DisplayName("Icon")]
         [Required(ErrorMessage = "{0} boş geçilemez.")]
         [StringLength(50, ErrorMessage = "{0} {1} karakterden fazla olamaz!")]
         [MinLength(1, ErrorMessage = "{0} en az {1} karakter olabilir!")]
-        public string CategoryIconPath { get; set; }
+        public string CategoryIcon { get; set; }
 
         public virtual ICollection<CategoryAdvert> CategoryAdverts { get; set; }
         public virtual ICollection<SubCategory> SubCategories { get; set; }

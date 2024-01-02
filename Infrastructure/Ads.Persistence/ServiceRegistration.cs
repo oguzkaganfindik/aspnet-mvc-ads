@@ -15,7 +15,8 @@ namespace Ads.Persistence
 
             services.AddTransient(typeof(IService<>), typeof(Service<>));
             services.AddTransient<IAdvertService, AdvertService>();
-            //services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IUserService, UserService>();
+            services.AddScoped<IRoleService, RoleService>();
             services.AddTransient<ICategoryService, CategoryService>();
             services.AddTransient<ISubCategoryService, SubCategoryService>();
             services.AddTransient<ISettingService, SettingService>();
