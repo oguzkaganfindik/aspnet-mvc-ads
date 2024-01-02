@@ -1,0 +1,56 @@
+﻿@model Ads.Application.DTOs.User.UserDto
+
+@{
+    ViewData["Title"] = "User Details";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<main>
+    <div class="container-fluid px-4">
+        <h1 class="mt-4">User Details - @Model.FirstName @Model.LastName</h1>
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item active">This page shows detailed information about this user.</li>
+        </ol>
+        <div class="card mb-4">
+            <div class="card-header">
+                User Information
+            </div>
+            <div class="card-body">
+                <!-- User information here -->
+                <!-- ... -->
+            </div>
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-header">
+                User Comments
+            </div>
+            <div class="card-body">
+                @if (Model.AdvertComments != null && Model.AdvertComments.Any())
+                {
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Comment</th>
+                                <th>Created Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var comment in Model.AdvertComments)
+                            {
+                                <tr>
+                                    <td>@comment.Comment</td>
+                                    <td>@comment.CreatedDate.ToString("dd/MM/yyyy")</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <p>This user has no comments.</p>
+                }
+            </div>
+        </div>
+    </div>
+</main>

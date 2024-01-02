@@ -21,11 +21,16 @@ namespace Ads.Web.Mvc.Areas.Admin.Controllers
             return View(model);
         }
 
-        //// GET: UsersController/Details/5
-        //public IActionResult Details(int id)
-        //{
-        //    return View();
-        //}
+        // GET: UsersController/Details/5
+        public async Task<IActionResult> Details(int id)
+        {
+            var userDto = await _service.GetUserByIdAsync(id);
+            if (userDto == null)
+                return NotFound();
+
+            return View(userDto);
+        }
+
 
         //// GET: UsersController/Create
         //public async Task<IActionResult> CreateAsync()

@@ -1,4 +1,5 @@
-﻿using Ads.Application.DTOs.Role;
+﻿using Ads.Application.DTOs.AdvertComment;
+using Ads.Application.DTOs.Role;
 using Ads.Application.DTOs.User;
 using Ads.Application.Services;
 using Ads.Domain.Entities.Concrete;
@@ -43,4 +44,35 @@ public class UserService : IUserService
 
         return userDtos;
     }
+
+
+    public async Task<UserDto> GetUserByIdAsync(int id)
+    {
+        var user = await _userManager.Users
+            .Include(u => u.Role)
+            .Include(u => u.Setting)
+            .Include(u => u.AdvertComments) // Kullanıcının yorumlarını yüklemek için eklendi.
+            .FirstOrDefaultAsync(u => u.Id == id);
+
+        if (user == null)
+            return null;
+
+        var userDto = _mapper.Map<UserDto>(user);
+        var roles = await _userManager.GetRolesAsync(user);
+        if (roles.Any())
+        {
+            var role = await _roleManager.FindByNameAsync(roles.First());
+            userDto.Role = _mapper.Map<RoleDto>(role);
+        }
+
+        // Kullanıcının yorumlarını DTO'ya dönüştür.
+        if (user.AdvertComments != null)
+        {
+            userDto.AdvertComments = _mapper.Map<ICollection<AdvertCommentDto>>(user.AdvertComments);
+        }
+
+        return userDto;
+    }
+
+
 }
