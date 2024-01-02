@@ -11,7 +11,7 @@ namespace Ads.Persistence.Contexts
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
-            //ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+            ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
         }
 
         public DbSet<Advert> Adverts { get; set; }
@@ -85,8 +85,6 @@ namespace Ads.Persistence.Contexts
                 .WithMany(a => a.AdvertRatings) // Advert sınıfında AdvertRatings koleksiyonu olmalı
                 .HasForeignKey(ar => ar.AdvertId)
                 .OnDelete(DeleteBehavior.Cascade);
-
-
 
 
             modelBuilder.Entity<AppRole>().HasData(

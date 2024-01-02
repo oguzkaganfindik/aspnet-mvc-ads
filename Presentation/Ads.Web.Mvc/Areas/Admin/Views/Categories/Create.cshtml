@@ -1,8 +1,26 @@
-﻿@model Ads.Domain.Entities.Concrete.Category
+﻿@model Ads.Application.DTOs.Category.CategoryDto
 
 @{
     ViewData["Title"] = "Add Category";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+@section Styles {
+    <style>
+        .form-group label {
+            margin-right: 15px;
+            display: block; /* Bu, label'ları blok olarak ayarlar */
+        }
+        .form-group label i {
+            margin-right: 5px;
+        }
+        .icon-radio {
+            display: inline-block;
+            margin-right: 10px;
+            font-size: 24px; /* İkonların boyutunu ayarlayın */
+            cursor: pointer;
+        }
+    </style>
 }
 
 <h1>Add Category</h1>
@@ -10,23 +28,41 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create" enctype="multipart/form-data">
+        <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            
             <div class="form-group">
-                <label asp-for="CategoryIconPath" class="control-label"></label>
-                <input asp-for="CategoryIconPath" class="form-control" type="file" />
-                <span asp-validation-for="CategoryIconPath" class="text-danger"></span>
+                <label asp-for="CategoryIcon" class="control-label">Kategori İkonu</label>
+                <div>
+                    <!-- İkon seçenekleri radio butonlarla gösteriliyor -->
+                    <label class="icon-radio">
+                        <input type="radio" name="CategoryIcon" value="fa fa-user" />
+                        <i class="fa fa-user"></i>
+                    </label>
+                    <label class="icon-radio">
+                        <input type="radio" name="CategoryIcon" value="fa fa-envelope" />
+                        <i class="fa fa-envelope"></i>
+                    </label>
+                    <label class="icon-radio">
+                        <input type="radio" name="CategoryIcon" value="fa fa-laptop" />
+                        <i class="fa fa-laptop"></i>
+                    </label>
+                    <!-- Diğer ikon seçenekleri -->
+                </div>
             </div>
+
             <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
+                <label asp-for="Name" class="control-label">Name</label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
+
             <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
+                <label asp-for="Description" class="control-label">Description</label>
                 <input asp-for="Description" class="form-control" />
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
+
             <div class="form-group mt-5">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
@@ -35,6 +71,5 @@
 </div>
 
 <div>
-    <a class="btn btn-outline-primary mt-2" asp-action="Index">Back to List</a>
+    <a asp-action="Index" class="btn btn-outline-primary mt-2">Back to List</a>
 </div>
-

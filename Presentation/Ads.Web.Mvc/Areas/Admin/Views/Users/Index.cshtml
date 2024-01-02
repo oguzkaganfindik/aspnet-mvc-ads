@@ -1,22 +1,19 @@
 ﻿@model IEnumerable<Ads.Application.DTOs.User.UserDto>
 
-
 @{
-    ViewData["Title"] = "Users";
+    ViewData["Title"] = "Users Management";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
-
-
 
 <main>
     <div class="container-fluid px-4">
         <h1 class="mt-4">Users Management</h1>
         <ol class="breadcrumb mb-4">
-            <li class="breadcrumb-item active">You can perform @ViewData["Title"] management operations on this page.</li>
+            <li class="breadcrumb-item active">You can perform @ViewData["Title"] operations on this page.</li>
         </ol>
         <div class="card mb-4">
             <div class="card-header">
-                <a class="btn btn-outline-primary" asp-action="Create">Create New</a>
+                <a class="btn btn-success" asp-action="Create">Create New</a>
             </div>
             <div class="card-body">
                 <table id="datatablesSimple">
@@ -47,22 +44,18 @@
                                 Is Active?
                             </th>
                             <th>
-                                Created Date
-                            </th>
-                            <th>
-                                Updated Date
-                            </th>
-                            <th>
                                 Role
                             </th>
                             <th>
                                 Theme
                             </th>
                             <th>
-                                Edit
+                                Created Date
                             </th>
                             <th>
-                                Delete
+                                Updated Date
+                            </th>
+                            <th>
                             </th>
                         </tr>
                     </thead>
@@ -93,27 +86,21 @@
                                 Is Active?
                             </th>
                             <th>
+                                Role
+                            </th>
+                            <th>
+                                Standart Theme
+                            </th>
+                            <th>
                                 Created Date
                             </th>
                             <th>
                                 Updated Date
                             </th>
                             <th>
-                                Role
-                            </th>
-                            <th>
-                                Theme
-                            </th>
-                            <th>
-                                Edit
-                            </th>
-                            <th>
-                                Delete
                             </th>
                         </tr>
-
                     </tfoot>
-
                     <tbody>
                         @foreach (var item in Model)
                         {
@@ -143,27 +130,20 @@
                                     @Html.DisplayFor(modelItem => item.IsActive)
                                 </td>
                                 <td>
+                                    @Html.DisplayFor(modelItem => item.Role.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Setting.Value)
+                                </td>
+                                <td>
                                     @Html.DisplayFor(modelItem => item.CreatedDate)
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.UpdatedDate)
                                 </td>
                                 <td>
-                                    @if (item.Role != null)
-                                    {
-                                        @Html.DisplayFor(modelItem => item.Role.Name)
-                                    }
-                                </td>
-                                <td>
-                                    @if (item.Setting != null)
-                                    {
-                                        @Html.DisplayFor(modelItem => item.Setting.Value)
-                                    }
-                                </td>
-                                <td>
-                                    <a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                                </td>
-                                <td>
+                                    <a class="btn btn-info" asp-action="Detail" asp-route-id="@item.Id">Details</a>|
+                                    <a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.Id">Edit</a>|
                                     <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                                 </td>
                             </tr>
