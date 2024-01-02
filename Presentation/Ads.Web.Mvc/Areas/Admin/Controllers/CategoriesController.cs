@@ -73,15 +73,10 @@ namespace Ads.Web.Mvc.Areas.Admin.Controllers
         // POST: CategoriesController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, CategoryDto categoryDto)
+        public async Task<IActionResult> Edit(CategoryDto categoryDto)
         {
-            if (id != categoryDto.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
+            //if (ModelState.IsValid)
+            //{
                 try
                 {
                     await _service.UpdateAsync(categoryDto);
@@ -98,7 +93,7 @@ namespace Ads.Web.Mvc.Areas.Admin.Controllers
                         throw;
                     }
                 }
-            }
+            //}
             return View(categoryDto);          
         }
 

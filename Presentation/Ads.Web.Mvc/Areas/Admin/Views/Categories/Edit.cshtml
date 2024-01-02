@@ -30,12 +30,11 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit" method="post" asp-route-id="@Model.Id">
+        <form asp-action="Edit" asp-controller="Categories" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <input type="hidden" asp-for="Id" />
             <input type="hidden" asp-for="CreatedDate" />
-            <input type="hidden" asp-for="CategoryIcon" />
 
             <div class="form-group">
                 <label asp-for="CategoryIcon" class="control-label">Kategori İkonu</label>
