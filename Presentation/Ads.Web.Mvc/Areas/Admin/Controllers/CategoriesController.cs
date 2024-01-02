@@ -1,8 +1,7 @@
-﻿using Ads.Application.Services;
-using Ads.Domain.Entities.Concrete;
-using Ads.Infrastructure.Services;
-using Microsoft.AspNetCore.Authorization;
+﻿using Ads.Application.DTOs.Category;
+using Ads.Application.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Ads.Web.Mvc.Areas.Admin.Controllers
 {
@@ -20,15 +19,19 @@ namespace Ads.Web.Mvc.Areas.Admin.Controllers
         // GET: CategoriesController
         public async Task<IActionResult> IndexAsync()
         {
-            var model = await _service.GetCustomCategoryList();
+            var model = await _service.GetAllCategories();
             return View(model);
         }
 
-        // GET: CategoriesController/Details/5
-        public IActionResult Details(int id)
+        // GET: CategoriesController/Detail
+        public async Task<IActionResult> Details(int id, string categoryName)
         {
-            return View();
+            var subCategories = await _service.GetSubCategoriesByCategoryId(id);
+            ViewData["CategoryName"] = categoryName; 
+
+            return View(subCategories);
         }
+
 
         // GET: CategoriesController/Create
         public IActionResult Create()
@@ -39,75 +42,87 @@ namespace Ads.Web.Mvc.Areas.Admin.Controllers
         // POST: CategoriesController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateAsync(Category category, IFormFile? CategoryIconPath)
+        public async Task<IActionResult> CreateAsync(CategoryDto categoryDto)
         {
             try
             {
-                category.CategoryIconPath = await FileHelper.FileLoaderAsync(CategoryIconPath, "/Img/CategoryIconImages/");
-                await _service.AddAsync(category);
-                await _service.SaveAsync();
+                await _service.CreateAsync(categoryDto);
                 return RedirectToAction(nameof(Index));
             }
             catch
             {
                 ModelState.AddModelError("", "Hata Oluştu!");
+                return View(categoryDto);
             }
-            
-                return View(category);
         }
 
+
+
         // GET: CategoriesController/Edit/5
-        public async Task<IActionResult> EditAsync(int id)
+        public async Task<IActionResult> Edit(int id)
         {
-            var model = await _service.FindAsync(id);
-            return View(model);
+            var categoryDto = await _service.GetCategoryByIdAsync(id);
+            if (categoryDto == null)
+            {
+                return NotFound();
+            }
+            return View(categoryDto);
         }
+
 
         // POST: CategoriesController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditAsync(int id, Category category, IFormFile? CategoryIconPath)
+        public async Task<IActionResult> Edit(int id, CategoryDto categoryDto)
         {
-            try
+            if (id != categoryDto.Id)
             {
-                if (CategoryIconPath is not null)
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
                 {
-                    category.CategoryIconPath = await FileHelper.FileLoaderAsync(CategoryIconPath, "/Img/CategoryIconImages/");
+                    await _service.UpdateAsync(categoryDto);
+                    return RedirectToAction(nameof(Index));
                 }
-                _service.Update(category);
-                await _service.SaveAsync();
-                return RedirectToAction(nameof(Index));
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!await _service.CategoryExists(categoryDto.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
             }
-            catch
-            {
-                ModelState.AddModelError("", "Hata Oluştu!");
-            }
-            
-                return View(category);
+            return View(categoryDto);          
         }
 
+
         // GET: CategoriesController/Delete/5
-        public async Task<IActionResult> DeleteAsync(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            var model = await _service.FindAsync(id);
-            return View(model);
+            var categoryDto = await _service.GetCategoryByIdAsync(id);
+            if (categoryDto == null)
+            {
+                return NotFound();
+            }
+
+            return View(categoryDto);
         }
 
         // POST: CategoriesController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteAsync(int id, Category category)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            try
-            {
-                _service.Delete(category);
-                await _service.SaveAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            await _service.DeleteAsync(id);
+            return RedirectToAction(nameof(Index));
         }
+
     }
 }

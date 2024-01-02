@@ -1,11 +1,9 @@
-﻿//using Ads.Application.DTOs.Page;
-//using Ads.Application.DTOs.User;
-//using Ads.Application.Repositories;
+﻿using Ads.Application.DTOs.User;
 
-//namespace Ads.Application.Services
-//{
-//    public interface IUserService : IUserRepository
-//    {
-//        Task<List<UserDto>> GetAllUsersWithRelations();
-//    }
-//}
+namespace Ads.Application.Services
+{
+    public interface IUserService 
+    {
+        Task<IEnumerable<UserDto>> GetAllUsersAsync();
+    }
+}

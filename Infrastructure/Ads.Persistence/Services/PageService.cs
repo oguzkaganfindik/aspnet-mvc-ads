@@ -1,5 +1,4 @@
 ﻿using Ads.Application.DTOs.Page;
-using Ads.Application.Repositories;
 using Ads.Application.Services;
 using Ads.Domain.Entities.Concrete;
 using Ads.Persistence.Contexts;
@@ -14,7 +13,7 @@ namespace Ads.Persistence.Services
         private readonly IMapper _mapper;
 
 
-        public PageService(AppDbContext context ,IMapper mapper) : base(context)
+        public PageService(AppDbContext context, IMapper mapper) : base(context)
         {
             _mapper = mapper;
         }
@@ -26,8 +25,6 @@ namespace Ads.Persistence.Services
                                       .ToListAsync();
             return _mapper.Map<List<PageDto>>(pages);
         }
-
-
 
         public async Task CreateAsync(PageDto pageDto, string pageImagePath, bool pageVisibility)
         {

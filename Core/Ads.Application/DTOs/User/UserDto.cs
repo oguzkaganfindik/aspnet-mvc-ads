@@ -33,6 +33,7 @@ namespace Ads.Application.DTOs.User
         public DateTime CreatedDate { get; set; }
         public DateTime? UpdatedDate { get; set; }
         public DateTime? DeletedDate { get; set; }
+        public DateTime? BirthDate { get; set; }
 
         public Guid? UserGuid { get; set; }
     }
