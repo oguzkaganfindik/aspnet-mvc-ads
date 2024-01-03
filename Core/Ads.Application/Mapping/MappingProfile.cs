@@ -34,10 +34,11 @@ namespace Ads.Application.Mapping
             CreateMap<SettingDto, Setting>().ReverseMap();
             CreateMap<RoleDto, AppRole>().ReverseMap();
             CreateMap<UserDto, AppUser>().ReverseMap();
-            CreateMap<AdvertImageDto, AdvertDto>().ReverseMap();
             CreateMap<RegisterDto, AppUser>().ReverseMap();
             CreateMap<LoginDto, AppUser>().ReverseMap();
             CreateMap<ForgotPasswordDto, AppUser>().ReverseMap();
+            CreateMap<ResetPasswordDto, AppUser>().ReverseMap();
+
 
         }
 

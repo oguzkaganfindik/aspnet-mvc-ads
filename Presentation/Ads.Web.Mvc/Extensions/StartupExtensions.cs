@@ -1,5 +1,4 @@
-﻿using Ads.Application.Services;
-using Ads.Domain.Entities.Concrete;
+﻿using Ads.Domain.Entities.Concrete;
 using Ads.Persistence.Contexts;
 using Ads.Web.Mvc.CustomValidations;
 using Ads.Web.Mvc.Localizations;
@@ -9,7 +8,7 @@ namespace Ads.Web.Mvc.Extensions
 {
     public static class StartupExtensions
     {
-         public static void AddIdentityWithExt(this IServiceCollection services)
+        public static void AddIdentityWithExt(this IServiceCollection services)
         {
             services.Configure<DataProtectionTokenProviderOptions>(options =>
             {
@@ -24,10 +23,10 @@ namespace Ads.Web.Mvc.Extensions
                 options.User.AllowedUserNameCharacters = "abcdefghijklmnoprstuvwxyz123456789_";
 
                 options.Password.RequiredLength = 8;
-                options.Password.RequireNonAlphanumeric = true;
-                options.Password.RequireLowercase = true;
-                options.Password.RequireUppercase = true;
-                options.Password.RequireDigit = true;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireDigit = false;
 
                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(3);
                 options.Lockout.MaxFailedAccessAttempts = 3;

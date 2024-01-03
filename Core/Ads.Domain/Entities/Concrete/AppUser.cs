@@ -21,12 +21,6 @@ namespace Ads.Domain.Entities.Concrete
         //public string Email { get; set; }
 
 
-        [DisplayName("Password")]
-        [Required(ErrorMessage = "{0} boş geçilemez.")]
-        [StringLength(200, ErrorMessage = "{0} {1} karakterden fazla olamaz!")]
-        [MinLength(3, ErrorMessage = "{0} en az {1} karakter olabilir!")]
-        public string Password { get; set; }
-
         [DisplayName("First Name")]
         [Required(ErrorMessage = "{0} boş geçilemez.")]
         [StringLength(100, ErrorMessage = "{0} {1} karakterden fazla olamaz!")]
@@ -39,11 +33,6 @@ namespace Ads.Domain.Entities.Concrete
         [MinLength(1, ErrorMessage = "{0} en az {1} karakter olabilir!")]
         public string LastName { get; set; }
 
-        [DisplayName("Username")]
-        [Required(ErrorMessage = "{0} boş geçilemez.")]
-        [StringLength(100, ErrorMessage = "{0} {1} karakterden fazla olamaz!")]
-        [MinLength(1, ErrorMessage = "{0} en az {1} karakter olabilir!")]
-        public string UserName { get; set; }
 
         [DisplayName("Address")]
         [StringLength(200, ErrorMessage = "{0} {1} karakterden fazla olamaz!")]
@@ -70,13 +59,11 @@ namespace Ads.Domain.Entities.Concrete
         public DateTime? DeletedDate { get; set; }
 
 
-        
+
         [ForeignKey("Role")]
         public int? RoleId { get; set; }
-        [ForeignKey("Setting")] 
+        [ForeignKey("Setting")]
         public int? SettingId { get; set; }
-
-        public Guid? UserGuid { get; set; } = Guid.NewGuid();
 
         // Navigation Properties
         public virtual AppRole? Role { get; set; }

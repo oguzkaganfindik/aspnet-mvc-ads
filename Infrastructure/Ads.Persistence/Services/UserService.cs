@@ -97,7 +97,6 @@ public class UserService : IUserService
             PhoneNumber = userDto.Phone, 
             Address = userDto.Address, 
             UserImagePath = "", // Bu alan aşağıda dosya yüklemesi ile doldurulacak.
-            BirthDate = userDto.BirthDate, 
             SettingId = 1,
         };
 

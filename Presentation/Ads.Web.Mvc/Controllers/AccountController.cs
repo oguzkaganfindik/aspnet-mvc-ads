@@ -33,6 +33,7 @@ namespace Ads.Web.Mvc.Controllers
             _signInManager = signInManager;
             _emailService = emailService;
             _mapper = mapper;
+
         }
 
 
@@ -46,12 +47,12 @@ namespace Ads.Web.Mvc.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View();
+                return View(request);
             }
 
-            AppUser appUser = _mapper.Map<AppUser>(request);
+            AppUser appuser = _mapper.Map<AppUser>(request);
 
-            var identityResult = await _userManager.CreateAsync(appUser, request.Password);
+            var identityResult = await _userManager.CreateAsync(appuser, request.Password);
             if (!identityResult.Succeeded)
             {
                 ModelState.AddModelErrorList(identityResult.Errors.Select(x => x.Description).ToList());
@@ -60,9 +61,8 @@ namespace Ads.Web.Mvc.Controllers
             }
             var exchangeExpireClaim = new Claim("ExchangeExpireDate", DateTime.Now.AddDays(10).ToString());
 
-            var user = await _userManager.FindByNameAsync(request.UserName);
 
-            var claimResult = await _userManager.AddClaimAsync(user!, exchangeExpireClaim);
+            var claimResult = await _userManager.AddClaimAsync(appuser!, exchangeExpireClaim);
             if (!claimResult.Succeeded)
             {
                 ModelState.AddModelErrorList(claimResult.Errors.Select(x => x.Description).ToList());
@@ -73,6 +73,7 @@ namespace Ads.Web.Mvc.Controllers
             return RedirectToAction(nameof(AccountController.Register));
 
         }
+
 
 
         //Register//signup
@@ -92,6 +93,8 @@ namespace Ads.Web.Mvc.Controllers
             //        return View(user);
             //    }
             //}
+
+
             return NotFound();
         }
 
@@ -160,6 +163,9 @@ namespace Ads.Web.Mvc.Controllers
         {
             returnUrl = returnUrl ?? Url.Action("Index", "Home");
 
+            var data = _userManager.Users.ToList();
+
+            var isTrue = string.Compare(data.First().NormalizedEmail, customerLoginViewModel.Email);
 
             if (string.IsNullOrEmpty(customerLoginViewModel.Email))
             {
@@ -167,7 +173,11 @@ namespace Ads.Web.Mvc.Controllers
                 return View();
             }
 
-            var hasUser = await _userManager.FindByEmailAsync(customerLoginViewModel.Email);
+            var hasUser = await _userManager.FindByEmailAsync(data.First().NormalizedEmail);
+
+            var hasUser2 = await _userManager.FindByIdAsync(data.First().Id.ToString());
+
+            var hasUser3 = await _userManager.FindByNameAsync(data.First().UserName);
 
             if (hasUser == null)
             {
@@ -188,19 +198,17 @@ namespace Ads.Web.Mvc.Controllers
                 ModelState.AddModelErrorList(new List<string>() { $"Email veya şifre yanlış.", $"Başarısız giriş sayısı: {await _userManager.GetAccessFailedCountAsync(hasUser)}" });
 
             }
-            if (hasUser.BirthDate.HasValue)
-            {
-                await _signInManager.SignInWithClaimsAsync(hasUser, customerLoginViewModel.RememberMe, new[] { new Claim("birthdate", hasUser.BirthDate.Value.ToString()) });
-            }
+            //if (hasUser.BirthDate.HasValue)
+            //{
+            //    await _signInManager.SignInWithClaimsAsync(hasUser, customerLoginViewModel.RememberMe, new[] { new Claim("birthdate", hasUser.BirthDate.Value.ToString()) });
+            //}
 
-
-
-            return View();
+            return Redirect(returnUrl!);
         }
 
 
         //ChangePassword
-        //[Authorize(Policy = "CustomerPolicy")]
+        [Authorize(Policy = "CustomerPolicy")]
         public async Task<IActionResult> ChangePasswordAsync(string newPassword)
         {
             return View();
@@ -265,7 +273,7 @@ namespace Ads.Web.Mvc.Controllers
         {
             await _signInManager.SignOutAsync();
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "/");
         }
         //[Authorize(Policy = "CustomerPolicy")]
         public IActionResult ForgotPassword()
@@ -287,7 +295,7 @@ namespace Ads.Web.Mvc.Controllers
 
             string passwordResetToken = await _userManager.GeneratePasswordResetTokenAsync(hasUser);
 
-            var passwordResetLink = Url.Action("ResetPassword", "Home",
+            var passwordResetLink = Url.Action("ResetPassword", "Account",
                 new { userId = hasUser.Id, Token = passwordResetToken }, HttpContext.Request.Scheme);
 
             await _emailService.SendResetPasswordEmail(passwordResetLink, hasUser.Email);
@@ -296,8 +304,42 @@ namespace Ads.Web.Mvc.Controllers
             return RedirectToAction(nameof(ForgotPassword));
 
         }
+        [HttpGet]
+        public IActionResult ResetPassword(string userId, string token)
+        {
+            TempData["userId"] = userId;
+            TempData["token"] = token;
 
 
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> ResetPassword(ResetPasswordDto request)
+        {
 
+            string userId = TempData["userId"].ToString();
+            string token = TempData["token"].ToString();
+            if (userId == null | token == null)
+            {
+                throw new Exception("Bir hata meydana geldi");
+            }
+            var hasUser = await _userManager.FindByIdAsync(userId.ToString()!);
+            if (hasUser == null)
+            {
+                ModelState.AddModelError(String.Empty, "Kullanıcı bulunamamıştır");
+                return View();
+
+            }
+            IdentityResult result = await _userManager.ResetPasswordAsync(hasUser, token.ToString()!, request.Password);
+            if (result.Succeeded)
+            {
+                TempData["SuccessMessage"] = "Şifreniz başarıyla yenilenmiştir";
+            }
+            else
+            {
+                ModelState.AddModelErrorList(result.Errors.Select(x => x.Description).ToList());
+            }
+            return View();
+        }
     }
 }

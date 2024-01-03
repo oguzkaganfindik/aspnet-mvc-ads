@@ -162,7 +162,7 @@ namespace Ads.Persistence.Contexts
             var passwordHasher = new PasswordHasher<AppUser>();
             var userFaker = new Faker<AppUser>()
                 .RuleFor(u => u.Email, f => f.Internet.Email())
-                .RuleFor(u => u.Password, (f, u) => new PasswordHasher<AppUser>().HashPassword(u, f.Internet.Password()))
+                .RuleFor(u => u.PasswordHash, (f, u) => new PasswordHasher<AppUser>().HashPassword(u, f.Internet.Password()))
                 .RuleFor(u => u.FirstName, f => f.Name.FirstName())
                 .RuleFor(u => u.LastName, f => f.Name.LastName())
                 .RuleFor(u => u.UserName, f => f.Internet.UserName())
