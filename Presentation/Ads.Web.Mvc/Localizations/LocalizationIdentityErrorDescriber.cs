@@ -2,14 +2,24 @@
 
 namespace Ads.Web.Mvc.Localizations
 {
-    public class LocalizationIdentityErrorDescriber:IdentityErrorDescriber
+    public class LocalizationIdentityErrorDescriber : IdentityErrorDescriber
     {
         public override IdentityError DuplicateUserName(string userName)
         {
-            return new()
+            return new IdentityError
             {
                 Code = "DuplicateUserName",
                 Description = $"Bu {userName} daha önce başka bir kullanıcı tarafından alınmıştır."
+
+            };
+
+        }
+        public override IdentityError InvalidUserName(string userName)
+        {
+            return new IdentityError
+            {
+                Code = "InvalidUserName",
+                Description = $"Bu {userName} kullanıcı adı geçersizdir."
             };
         }
 
@@ -18,7 +28,7 @@ namespace Ads.Web.Mvc.Localizations
             return new()
             {
                 Code = "DuplicateEmail",
-                Description = $"Bu {email} adresi daha önce başka bir kullanıcı tarafından kullanılmıştır."
+                Description = $"Bu '{email}' adresi daha önce başka bir kullanıcı tarafından kullanılmıştır."
             };
         }
 

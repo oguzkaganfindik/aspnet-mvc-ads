@@ -104,13 +104,19 @@ namespace Ads.Persistence.Contexts
                 IsActive = true,
                 CreatedDate = DateTime.Now,
                 Email = "admin@test.com",
+                NormalizedEmail = "admin@test.com",
                 UserName = "admin",
-                Password = passwordHasher.HashPassword(null, "Deneme123."),
+                NormalizedUserName = "admin",
+                EmailConfirmed = true,
+                LockoutEnabled = false,
+                SecurityStamp = Guid.NewGuid().ToString(),
+                PasswordHash = passwordHasher.HashPassword(null, "Deneme123."),
                 RoleId = 1,
                 Phone = "9050",
                 Address = "Turkey",
                 UserImagePath = "admin.jpg",
             };
+
             modelBuilder.Entity<AppUser>().HasData(adminUser);
 
             var moderatorUser = new AppUser
@@ -121,8 +127,13 @@ namespace Ads.Persistence.Contexts
                 IsActive = true,
                 CreatedDate = DateTime.Now,
                 Email = "moderator@test.com",
+                NormalizedEmail = "moderator@test.com",
                 UserName = "moderator",
-                Password = passwordHasher.HashPassword(null, "123"),
+                NormalizedUserName = "moderator",
+                EmailConfirmed = true,
+                LockoutEnabled = false,
+                SecurityStamp = Guid.NewGuid().ToString(),
+                PasswordHash = passwordHasher.HashPassword(null, "Deneme123,"),
                 RoleId = 2,
                 Phone = "9050",
                 Address = "Turkey",
