@@ -11,15 +11,88 @@
         <ol class="breadcrumb mb-4">
             <li class="breadcrumb-item active">This page shows detailed information about this user.</li>
         </ol>
+
         <div class="card mb-4">
             <div class="card-header">
                 User Information
             </div>
             <div class="card-body">
-                <!-- User information here -->
-                <!-- ... -->
+                <dl class="row">
+                    <dt class="col-sm-3">Username:</dt>
+                    <dd class="col-sm-9">@Model.UserName</dd>
+
+                    <dt class="col-sm-3">Email:</dt>
+                    <dd class="col-sm-9">@Model.Email</dd>
+
+                    <dt class="col-sm-3">Phone:</dt>
+                    <dd class="col-sm-9">@Model.Phone</dd>
+
+                    <dt class="col-sm-3">Address:</dt>
+                    <dd class="col-sm-9">@Model.Address</dd>
+
+                    <dt class="col-sm-3">Role:</dt>
+                    <dd class="col-sm-9">@Model.Role?.Name</dd>
+
+                    <dt class="col-sm-3">Active Status:</dt>
+                    <dd class="col-sm-9">@Model.IsActive</dd>
+
+                    <!-- Add other details as necessary -->
+                </dl>
             </div>
         </div>
+
+        <div class="card mb-4">
+            <div class="card-header">
+                User Advertisements
+            </div>
+            <div class="card-body">
+                @if (Model.Adverts != null && Model.Adverts.Any())
+                {
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Price</th>
+                                <th>Description</th>
+                                <th>Category</th>
+                                <th>SubCategory</th>
+                                <th>Posted Date</th>
+                                <!-- Diğer ilanla ilgili sütunlar -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var advert in Model.Adverts)
+                            {
+                                <tr>
+                                    <td>@advert.Title</td>
+                                    <td>@advert.Price</td>
+                                    <td>@advert.Description</td>
+                                    <td>
+                                        @foreach (var category in advert.CategoryAdverts)
+                                        {
+                                            @category.Category.Name
+                                        }
+                                    </td>
+                                    <td>
+                                        @foreach (var category in advert.SubCategoryAdverts)
+                                        {
+                                            @category.SubCategory.Name
+                                        }
+                                    </td>
+                                    <td>@advert.CreatedDate.ToString("dd/MM/yyyy")</td>
+                                    <!-- Diğer ilanla ilgili bilgiler -->
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <p>This user has no advertisements.</p>
+                }
+            </div>
+        </div>
+
 
         <div class="card mb-4">
             <div class="card-header">
@@ -32,6 +105,7 @@
                         <thead>
                             <tr>
                                 <th>Comment</th>
+                                <th>Advert Title</th>
                                 <th>Created Date</th>
                             </tr>
                         </thead>
@@ -40,6 +114,7 @@
                             {
                                 <tr>
                                     <td>@comment.Comment</td>
+                                    <td>@comment.Advert?.Title</td>
                                     <td>@comment.CreatedDate.ToString("dd/MM/yyyy")</td>
                                 </tr>
                             }
@@ -49,6 +124,39 @@
                 else
                 {
                     <p>This user has no comments.</p>
+                }
+            </div>
+        </div>
+        <div class="card mb-4">
+            <div class="card-header">
+                User Advert Ratings
+            </div>
+            <div class="card-body">
+                @if (Model.AdvertRatings != null && Model.AdvertRatings.Any())
+                {
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Advert Title</th>
+                                <th>Rating</th>
+                                <th>Rated Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var rating in Model.AdvertRatings)
+                            {
+                                <tr>
+                                    <td>@rating.Advert?.Title</td>
+                                    <td>@rating.Rating</td>
+                                    <td>@rating.CreatedDate.ToString("dd/MM/yyyy")</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <p>This user has not rated any adverts.</p>
                 }
             </div>
         </div>
