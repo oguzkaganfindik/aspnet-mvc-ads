@@ -27,7 +27,10 @@ namespace Ads.Application.Mapping
             CreateMap<SubCategoryDto, SubCategory>().ReverseMap();
             CreateMap<SubCategoryAdvertDto, SubCategoryAdvert>().ReverseMap();
             CreateMap<CategoryAdvertDto, CategoryAdvert>().ReverseMap();
-            CreateMap<PageDto, Page>().ReverseMap();
+            CreateMap<Page, PageDto>()
+                .ForMember(dest => dest.Setting, opt => opt.MapFrom(src => src.Setting))
+                .ReverseMap()
+                .ForMember(dest => dest.Setting, opt => opt.MapFrom(src => src.Setting));
             CreateMap<SettingDto, Setting>().ReverseMap();
             CreateMap<RoleDto, AppRole>().ReverseMap();
             CreateMap<UserDto, AppUser>().ReverseMap();
