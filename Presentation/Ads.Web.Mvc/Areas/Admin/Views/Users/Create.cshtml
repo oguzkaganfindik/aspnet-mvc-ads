@@ -1,73 +1,71 @@
-﻿@using Ads.Application.DTOs.User;
+﻿@using Ads.Application.DTOs.User
 @model UserDto
-
 
 @{
     ViewData["Title"] = "Add User";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h1>Add User</h1>
-
-
+<h1>@ViewData["Title"]</h1>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create" enctype="multipart/form-data">
+        <form asp-action="Create" method="post" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
             <div class="form-group">
                 <label asp-for="Email" class="control-label"></label>
                 <input asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control" />
+                <input asp-for="Password" class="form-control" type="password" />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="FirstName" class="control-label"></label>
                 <input asp-for="FirstName" class="form-control" />
                 <span asp-validation-for="FirstName" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="LastName" class="control-label"></label>
                 <input asp-for="LastName" class="form-control" />
                 <span asp-validation-for="LastName" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="UserName" class="control-label"></label>
                 <input asp-for="UserName" class="form-control" />
                 <span asp-validation-for="UserName" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="Address" class="control-label"></label>
                 <input asp-for="Address" class="form-control" />
                 <span asp-validation-for="Address" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="Phone" class="control-label"></label>
                 <input asp-for="Phone" class="form-control" />
                 <span asp-validation-for="Phone" class="text-danger"></span>
             </div>
+
             <div class="form-group">
-                <label asp-for="UserImagePath" class="control-label"></label>
-                <input asp-for="UserImagePath" class="form-control" type="file" />
+                <label asp-for="UserImagePath" class="control-label">Profile Picture</label>
+                <input asp-for="UserImagePath" type="file" class="form-control" />
                 <span asp-validation-for="UserImagePath" class="text-danger"></span>
             </div>
+
             <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)
-                </label>
+                <input asp-for="IsActive" class="form-check-input" />
+                <label asp-for="IsActive" class="form-check-label">@Html.DisplayNameFor(model => model.IsActive)</label>
             </div>
-            <div class="form-group">
-                <label asp-for="RoleId" class="control-label"></label>
-                <select asp-for="RoleId" class="form-select" asp-items="ViewBag.RoleId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="SettingId" class="control-label"></label>
-                <select asp-for="SettingId" class="form-select" asp-items="ViewBag.SettingId"></select>
-            </div>
+
             <div class="form-group mt-5">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
@@ -76,6 +74,5 @@
 </div>
 
 <div>
-    <a class="btn btn-outline-primary mt-2" asp-action="Index">Back to List</a>
+    <a asp-action="Index" class="btn btn-outline-primary mt-2">Back to List</a>
 </div>
-
