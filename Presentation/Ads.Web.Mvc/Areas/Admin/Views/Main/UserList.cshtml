@@ -31,7 +31,9 @@
                     <user-role-names user-id="@item.Id"></user-role-names>
                 </td>
                 <td>
-                    <a asp-controller="Roles" asp-action="AssignRoleToUser" asp-route-id="@item.Id">Rol Ata</a>
+                    <div class="d-flex justify-content-center flex-wrap gap-2">
+                        <a class="btn btn-success" asp-controller="Roles" asp-action="AssignRoleToUser" asp-route-id="@item.Id">Rol Ata</a>
+                    </div>
                 </td>
             </tr>
         }

@@ -16,14 +16,14 @@
         </ol>
         <div class="card mb-4">
             <div class="card-header">
-                <a class="btn btn-success" asp-action="Create">Create New</a>
+                <a class="btn btn-outline-primary" asp-action="Create">Create New</a>
             </div>
-            <div class="card-body">
+            <div class="card-body mt-3">
                 <table id="datatablesSimple">
                     <thead>
                         <tr>
                             <th>
-                                Advert Images
+                                <center>Images</center>
                             </th>
                             <th>
                                 User Name
@@ -32,16 +32,7 @@
                                 Title
                             </th>
                             <th>
-                                Description
-                            </th>
-                            <th>
                                 Category
-                            </th>
-                            <th>
-                                SubCategory
-                            </th>
-                            <th>
-                                Type
                             </th>
                             <th>
                                 On Sale
@@ -50,19 +41,13 @@
                                 Price
                             </th>
                             <th>
-                                Advert Rating
-                            </th>
-                            <th>
-                                ClickCount
-                            </th>
-                            <th>
-                                Comments
-                            </th>
-                            <th>
                                 CreatedDate
                             </th>
                             <th>
                                 UpdatedDate
+                            </th>
+                            <th>
+                                Detail
                             </th>
                             <th>
                                 Edit
@@ -75,7 +60,7 @@
                     <tfoot>
                         <tr>
                             <th>
-                                Advert Images
+                                <center>Images</center>
                             </th>
                             <th>
                                 User Name
@@ -84,16 +69,7 @@
                                 Title
                             </th>
                             <th>
-                                Description
-                            </th>
-                            <th>
                                 Category
-                            </th>
-                            <th>
-                                SubCategory
-                            </th>
-                            <th>
-                                Type
                             </th>
                             <th>
                                 On Sale
@@ -102,19 +78,13 @@
                                 Price
                             </th>
                             <th>
-                                Advert Rating
-                            </th>
-                            <th>
-                                ClickCount
-                            </th>
-                            <th>
-                                Comments
-                            </th>
-                            <th>
                                 CreatedDate
                             </th>
                             <th>
                                 UpdatedDate
+                            </th>
+                            <th>
+                                Detail
                             </th>
                             <th>
                                 Edit
@@ -131,19 +101,24 @@
                         {
                             <tr>
                                 <td>
-                                    @if (item.AdvertImages == null || !item.AdvertImages.Any())
-                                    {
-                                        <div class="form-group">
-                                            <a class="btn btn-outline-primary" asp-area="Admin" asp-controller="AdvertImages" asp-action="Create">Create Image</a>
-                                        </div>
-                                    }
-                                    else
-                                    {
-                                        foreach (var image in item.AdvertImages)
+                                    <center>
+                                        @if (item.AdvertImages == null || !item.AdvertImages.Any())
                                         {
-                                            <img src="/Img/AdvertImages/@image.AdvertImagePath" alt="" width="75" height="75" />
+                                            <div class="form-group">
+                                                <a class="btn btn-outline-primary" asp-area="Admin" asp-controller="AdvertImages" asp-action="Create">Create Image</a>
+                                            </div>
                                         }
-                                    }
+                                        else
+                                        {
+                                            var firstImage = item.AdvertImages.FirstOrDefault();
+                                            if (firstImage != null)
+                                            {
+                                                <div class="form-group">
+                                                    <img src="/Img/AdvertImages/@firstImage.AdvertImagePath" height="50" max-width="100%" object-fit="contain" />
+                                                </div>
+                                            }
+                                        }
+                                    </center>
                                 </td>
                                 <td>
                                     @if (item.User != null)
@@ -159,9 +134,6 @@
                                     @Html.DisplayFor(modelItem => item.Title)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Description)
-                                </td>
-                                <td>
                                     @if (item.CategoryAdverts != null && item.CategoryAdverts.Any())
                                     {
                                         foreach (var categoryAdvert in item.CategoryAdverts)
@@ -175,62 +147,10 @@
                                     }
                                 </td>
                                 <td>
-                                    @if (item.SubCategoryAdverts != null && item.SubCategoryAdverts.Any())
-                                    {
-                                        foreach (var subCategoryAdvert in item.SubCategoryAdverts)
-                                        {
-                                            <div>@subCategoryAdvert.SubCategory.Name</div>
-                                        }
-                                    }
-                                    else
-                                    {
-                                        <text>No SubCategory</text>
-                                    }
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Type)
-                                </td>
-                                <td>
                                     @Html.DisplayFor(modelItem => item.OnSale)
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Price)
-                                </td>
-                                <td>
-
-                                    @if (item.AdvertRatings != null && item.AdvertRatings.Any()) //dto mappingden sonra burası güncellenecek
-                                    {
-                                        var averageRating = (int)item.AdvertRatings.Average(r => r.Rating ?? 0);
-                                        <div class="star-rating" data-rating="@averageRating">
-                                            @for (int i = 1; i <= averageRating; i++)
-                                            {
-                                                <span>&#9733;</span> <!-- Yıldız sembolü -->
-                                            }
-                                        </div>
-                                    }
-                                    else
-                                    {
-                                        <text>Puan Yok</text>
-                                    }
-                                </td>
-
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.ClickCount)
-                                </td>
-                                <td>
-                                    @if (item.AdvertComments != null && item.AdvertComments.Any())
-                                    {
-                                        foreach (var comment in item.AdvertComments)
-                                        {
-                                            <div>
-                                                @Html.DisplayFor(modelItem => comment.Comment)
-                                            </div>
-                                        }
-                                    }
-                                    else
-                                    {
-                                        <text>No Comments</text>
-                                    }
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.CreatedDate)
@@ -239,10 +159,19 @@
                                     @Html.DisplayFor(modelItem => item.UpdatedDate)
                                 </td>
                                 <td>
-                                    <a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                                    <div class="d-flex justify-content-center flex-wrap gap-2">
+                                        <a class="btn btn-outline-info detail-order" asp-action="Detail" asp-route-id="@item.Id">Details</a>
+                                    </div>
                                 </td>
                                 <td>
-                                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                                    <div class="d-flex justify-content-center flex-wrap gap-2">
+                                        <a class="btn btn-outline-primary edit-order" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="d-flex justify-content-center flex-wrap gap-2">
+                                        <a class="btn btn-outline-danger delete-order" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                                    </div>
                                 </td>
                             </tr>
                         }
