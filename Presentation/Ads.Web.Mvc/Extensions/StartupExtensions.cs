@@ -20,7 +20,7 @@ namespace Ads.Web.Mvc.Extensions
             services.AddIdentity<AppUser, AppRole>(options =>
             {
                 options.User.RequireUniqueEmail = true;
-                options.User.AllowedUserNameCharacters = "abcdefghijklmnoprstuvwxyz123456789_";
+                options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+/ ";
 
                 options.Password.RequiredLength = 8;
                 options.Password.RequireNonAlphanumeric = false;

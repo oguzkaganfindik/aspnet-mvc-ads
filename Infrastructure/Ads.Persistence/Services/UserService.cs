@@ -25,7 +25,6 @@ public class UserService : IUserService
     public async Task<IEnumerable<UserDto>> GetAllUsersAsync()
     {
         var users = await _userManager.Users
-            .Include(u => u.Role) // Kullanıcıların rollerini yüklemek için.
             .Include(u => u.Setting) // Kullanıcıların ayarlarını yüklemek için.
             .ToListAsync();
 
@@ -51,7 +50,6 @@ public class UserService : IUserService
     public async Task<UserDto> GetUserByIdAsync(int id)
     {
         var user = await _userManager.Users
-            .Include(u => u.Role)
             .Include(u => u.Setting)
             .Include(u => u.AdvertComments)
              .Include(u => u.AdvertRatings)
