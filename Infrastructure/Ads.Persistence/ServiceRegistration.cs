@@ -2,15 +2,16 @@
 using Ads.Persistence.Contexts;
 using Ads.Persistence.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Ads.Persistence
 {
     public static class ServiceRegistration
     {
-        public static void AddPersistenceServices(this IServiceCollection services)
+        public static void AddPersistenceServices(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.ConnectionString));
+            services.AddDbContext<AppDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("DBConStr")));
 
             services.AddTransient(typeof(IService<>), typeof(Service<>));
             services.AddTransient<IAdvertService, AdvertService>();
@@ -24,6 +25,6 @@ namespace Ads.Persistence
             services.AddTransient<IAdvertRatingService, AdvertRatingService>();
             services.AddScoped<INavbarService, NavbarService>();
             services.AddScoped<IPageService, PageService>();
+        }
     }
-  }
 }

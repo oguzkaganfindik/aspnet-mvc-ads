@@ -20,12 +20,13 @@ namespace Ads.Web.Mvc.Controllers
 
         private readonly IService<Setting> _serviceSetting;
         private readonly IMapper _mapper;
+        private readonly RoleManager<AppRole> _roleManager;
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly IEmailService _emailService;
 
 
-        public AccountController(IService<Setting> serviceSetting, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IEmailService emailService, IMapper mapper)
+        public AccountController(IService<Setting> serviceSetting, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IEmailService emailService, IMapper mapper, RoleManager<AppRole> roleManager)
         {
             _serviceSetting = serviceSetting;
 
@@ -33,7 +34,7 @@ namespace Ads.Web.Mvc.Controllers
             _signInManager = signInManager;
             _emailService = emailService;
             _mapper = mapper;
-
+            _roleManager = roleManager;
         }
 
 
@@ -52,6 +53,8 @@ namespace Ads.Web.Mvc.Controllers
 
             AppUser appuser = _mapper.Map<AppUser>(request);
 
+            appuser.SettingId = 1;
+
             var identityResult = await _userManager.CreateAsync(appuser, request.Password);
             if (!identityResult.Succeeded)
             {
@@ -59,6 +62,11 @@ namespace Ads.Web.Mvc.Controllers
                 return View();
 
             }
+
+            var role = _roleManager.Roles.FirstOrDefault(x => x.Name == "User");
+
+            await _userManager.AddToRoleAsync(appuser, role.Name);
+
             var exchangeExpireClaim = new Claim("ExchangeExpireDate", DateTime.Now.AddDays(10).ToString());
 
 
@@ -81,21 +89,23 @@ namespace Ads.Web.Mvc.Controllers
 
         //Details
         //[Authorize(Policy = "CustomerPolicy")]
-        public IActionResult Details()
+        public async Task<IActionResult> DetailsAsync(string userId)
         {
-            //var email = User.FindFirst(ClaimTypes.Email)?.Value;
-            //var uguid = User.FindFirst(ClaimTypes.UserData)?.Value;
-            //if (!string.IsNullOrEmpty(email) || !string.IsNullOrEmpty(uguid))
-            //{
-            // //   var user = _service.Get(k => k.Email == email && k.UserGuid.ToString() == uguid);
-            //    if (user != null)
-            //    {
-            //        return View(user);
-            //    }
-            //}
+            if (string.IsNullOrEmpty(userId))
+            {
+                return NotFound();
+            }
 
+            var user = await _userManager.FindByIdAsync(userId);
+
+            if (user != null)
+            {
+                return View(user);
+            }
 
             return NotFound();
+
+
         }
 
 
@@ -151,6 +161,56 @@ namespace Ads.Web.Mvc.Controllers
         //    }
         //    return RedirectToAction("Details", "Account");
         //}
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Policy = "CustomerPolicy")]
+        public async Task<IActionResult> UserUpdateAsync(AppUser model)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var user = await _userManager.GetUserAsync(User); // Kullanıcıyı al
+
+                    if (user != null)
+                    {
+                        user.UserName = model.UserName;
+                        user.FirstName = model.FirstName;
+                        user.LastName = model.LastName;
+                        user.PhoneNumber = model.Phone;
+                        user.Address = model.Address;
+                        user.IsActive = model.IsActive;
+                        user.CreatedDate = model.CreatedDate;
+
+                        if (model.UserImagePath != null && model.UserImagePath.Length > 0)
+                        {
+                            user.UserImagePath = await FileHelper.FileLoaderAsync(model.UserImagePath, "/Img/UserImages/");
+                            // Kullanıcı resmini güncelleme
+                        }
+
+                        var result = await _userManager.UpdateAsync(user); // Kullanıcıyı güncelle
+
+                        if (result.Succeeded)
+                        {
+                            return RedirectToAction("Details", "Account");
+                        }
+                        else
+                        {
+                            foreach (var error in result.Errors)
+                            {
+                                ModelState.AddModelError("", error.Description);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", "Hata Oluştu: " + ex.Message);
+            }
+
+            return RedirectToAction("Details", "Account");
+        }
 
         public IActionResult Login()
         {
@@ -163,21 +223,16 @@ namespace Ads.Web.Mvc.Controllers
         {
             returnUrl = returnUrl ?? Url.Action("Index", "Home");
 
-            var data = _userManager.Users.ToList();
+            //Bunları niye silmediniz :)
 
-            var isTrue = string.Compare(data.First().NormalizedEmail, customerLoginViewModel.Email);
 
             if (string.IsNullOrEmpty(customerLoginViewModel.Email))
             {
                 ModelState.AddModelError(string.Empty, "Email adresi boş olamaz.");
-                return View();
+                return View(customerLoginViewModel);
             }
 
-            var hasUser = await _userManager.FindByEmailAsync(data.First().NormalizedEmail);
-
-            var hasUser2 = await _userManager.FindByIdAsync(data.First().Id.ToString());
-
-            var hasUser3 = await _userManager.FindByNameAsync(data.First().UserName);
+            var hasUser = await _userManager.FindByEmailAsync(customerLoginViewModel.Email);
 
             if (hasUser == null)
             {
@@ -196,7 +251,7 @@ namespace Ads.Web.Mvc.Controllers
             if (!signInResult.Succeeded)
             {
                 ModelState.AddModelErrorList(new List<string>() { $"Email veya şifre yanlış.", $"Başarısız giriş sayısı: {await _userManager.GetAccessFailedCountAsync(hasUser)}" });
-
+                return View(customerLoginViewModel);
             }
             //if (hasUser.BirthDate.HasValue)
             //{
@@ -213,6 +268,52 @@ namespace Ads.Web.Mvc.Controllers
         {
             return View();
         }
+        [HttpPost]
+        [Authorize(Policy = "CustomerPolicy")]
+        public async Task<IActionResult> ChangeEmailAsync(string newEmail)
+        {
+            try
+            {
+                var user = await _userManager.GetUserAsync(User); // Mevcut kullanıcıyı al
+
+                if (user != null && !string.IsNullOrEmpty(newEmail))
+                {
+                    var emailToken = await _userManager.GenerateChangeEmailTokenAsync(user, newEmail); // E-posta değişikliği için token oluştur
+
+                    var result = await _userManager.ChangeEmailAsync(user, newEmail, emailToken); // E-posta değişikliğini gerçekleştir
+
+                    if (result.Succeeded)
+                    {
+                        // Kullanıcıya bilgilendirme mesajı gönder
+                        TempData["SuccessMessage"] = "Your email has been successfully changed. Please check your new email for confirmation.";
+
+                        // Eğer istenirse kullanıcının oturumunu sonlandırabilirsiniz
+                        // await HttpContext.SignOutAsync();
+
+                        // Yönlendirme yaparak ayrıntılar sayfasına gönder
+                        return RedirectToAction("Details", "Account");
+                    }
+                    else
+                    {
+                        foreach (var error in result.Errors)
+                        {
+                            ModelState.AddModelError("", error.Description);
+                        }
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError("", "You must enter a valid email address.");
+                }
+            }
+            catch (Exception)
+            {
+                ModelState.AddModelError("", "An error occurred!");
+            }
+
+            return RedirectToAction("Details", "Account");
+        }
+
 
 
         //ChangeEmail

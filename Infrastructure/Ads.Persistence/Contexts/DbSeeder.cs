@@ -1,6 +1,6 @@
 ﻿using Ads.Domain.Entities.Concrete;
+using AutoMapper.Internal.Mappers;
 using Bogus;
-using Bogus.DataSets;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,65 +10,72 @@ namespace Ads.Persistence.Contexts
     {
         public static void SeedData(AppDbContext context)
         {
-
-            context.Database.Migrate();
-
-            if (!context.Settings.Any())
+            using var transaction = context.Database.BeginTransaction();
+            try
             {
-                SeedSettings(context);
+                context.Database.Migrate();
+
+                if (!context.Settings.Any())
+                {
+                    SeedSettings(context);
+                }
+
+                if (!context.Pages.Any())
+                {
+                    SeedPages(context);
+                }
+
+                AssignRolesAsync(context, 1, 0);
+                AssignRolesAsync(context, 2, 1);
+
+                SeedUsers(context);
+
+
+                if (!context.Categories.Any())
+                {
+                    SeedCategories(context);
+                }
+
+                if (!context.SubCategories.Any())
+                {
+                    SeedSubCategories(context);
+
+                }
+
+                if (!context.Adverts.Any())
+                {
+                    SeedAdverts(context);
+                }
+
+                if (!context.AdvertComments.Any())
+                {
+                    SeedAdvertComments(context);
+                }
+
+                if (!context.AdvertImages.Any())
+                {
+                    SeedAdvertImages(context);
+                }
+
+                if (!context.CategoryAdverts.Any())
+                {
+                    SeedCategoryAdverts(context);
+                }
+
+                if (!context.SubCategoryAdverts.Any())
+                {
+                    SeedSubCategoryAdverts(context);
+                }
+
+                if (!context.AdvertRatings.Any())
+                {
+                    SeedAdvertRatings(context);
+                }
+                transaction.Commit();
             }
-
-            if (!context.Pages.Any())
+            catch (Exception ex)
             {
-                SeedPages(context);
-            }
-
-            SeedUsers(context);
-
-            //if (!context.Roles.Any())
-            //{
-            //    SeedRoles(context);
-            //}
-
-            if (!context.Categories.Any())
-            {
-                SeedCategories(context);
-            }
-
-            if (!context.SubCategories.Any())
-            {
-                SeedSubCategories(context);
-
-            }
-
-            if (!context.Adverts.Any())
-            {
-                SeedAdverts(context);
-            }
-
-            if (!context.AdvertComments.Any())
-            {
-                SeedAdvertComments(context);
-            }
-
-            if (!context.AdvertImages.Any())
-            {
-                SeedAdvertImages(context);
-            }
-
-            if (!context.CategoryAdverts.Any())
-            {
-                SeedCategoryAdverts(context);
-            }
-
-            if (!context.SubCategoryAdverts.Any())
-            {
-                SeedSubCategoryAdverts(context);
-            }
-
-            if (!context.AdvertRatings.Any())
-            {
-                SeedAdvertRatings(context);
+                transaction.Rollback();
             }
         }
         private static void SeedSettings(AppDbContext context)
@@ -151,10 +158,26 @@ namespace Ads.Persistence.Contexts
         //    context.SaveChanges();
         //}
 
+        private static void AssignRolesAsync(AppDbContext context, int userId, int roleIndex)
+        {
+
+            var roles = context.Roles.ToList();
+
+            AppUser user = context.Users.FirstOrDefault(x => x.Id == userId);
+
+            var userRole = new IdentityUserRole<int>
+            {
+                RoleId = roles[roleIndex].Id,
+                UserId = user.Id
+            };
+
+            context.UserRoles.Add(userRole);
+            context.SaveChanges();
+        }
+
         private static void SeedUsers(AppDbContext context)
         {
-            var userRoleId = context.Roles.FirstOrDefault(r => r.Name == "User")?.Id;
-            if (userRoleId == null) return;
+            var role = context.Roles.FirstOrDefault(s => s.Name == "User");
 
             // "Make the Theme White" adında ve "Value"su "True" olan bir Setting alınıyor.
             var userThemeSetting = context.Settings.FirstOrDefault(s => s.Key == "Make the Theme White" && s.Value == "True");
@@ -172,7 +195,6 @@ namespace Ads.Persistence.Contexts
                 .RuleFor(u => u.IsActive, f => f.Random.Bool())
                 .RuleFor(u => u.CreatedDate, f => f.Date.Past(1))
                 .RuleFor(u => u.UserImagePath, f => f.Internet.Avatar())
-                .RuleFor(u => u.RoleId, userRoleId)
                 .RuleFor(u => u.SettingId, userThemeSetting.Id); // SettingId atanıyor
 
             var ekKullanicilar = userFaker.Generate(5);
@@ -182,10 +204,18 @@ namespace Ads.Persistence.Contexts
                 if (!context.Users.Any(u => u.UserName == user.UserName))
                 {
                     context.Users.Add(user);
+                    context.SaveChanges();
+
+                    var userRole = new IdentityUserRole<int>
+                    {
+                        RoleId = role.Id,
+                        UserId = user.Id
+                    };
+
+                    context.UserRoles.Add(userRole);
+                    context.SaveChanges();
                 }
             }
-
-            context.SaveChanges(); // Tüm kullanıcılar eklendikten sonra SaveChanges çağırılır.
         }
 
 

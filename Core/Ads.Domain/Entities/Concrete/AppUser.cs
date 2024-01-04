@@ -8,6 +8,10 @@ namespace Ads.Domain.Entities.Concrete
 {
     public class AppUser : IdentityUser<int>, IAuiditEntity
     {
+        public AppUser()
+        {
+            Roles = new HashSet<AppRole>();
+        }
         [DisplayName("Profile Picture")]
         //[Required(ErrorMessage = "{0} boş geçilemez.")]
         [StringLength(200, ErrorMessage = "{0} {1} karakterden fazla olamaz!")]
@@ -60,13 +64,12 @@ namespace Ads.Domain.Entities.Concrete
 
 
 
-        [ForeignKey("Role")]
-        public int? RoleId { get; set; }
+
         [ForeignKey("Setting")]
         public int? SettingId { get; set; }
 
         // Navigation Properties
-        public virtual AppRole? Role { get; set; }
+        public virtual ICollection<AppRole>? Roles { get; set; }
         public virtual Setting? Setting { get; set; }
         public virtual ICollection<Advert>? Adverts { get; set; }
         public virtual ICollection<AdvertComment>? AdvertComments { get; set; }

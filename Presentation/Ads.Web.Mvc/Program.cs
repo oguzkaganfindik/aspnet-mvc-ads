@@ -22,7 +22,7 @@ builder.Services.Configure<SecurityStampValidatorOptions>(options =>
 builder.Services.AddIdentityWithExt();
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
 builder.Services.AddScoped<IEmailService, EmailService>();
-builder.Services.AddPersistenceServices();
+builder.Services.AddPersistenceServices(builder.Configuration);
 //builder.Services.AddScoped<IMemberService, MemberService>();
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddValidatorsFromAssemblyContaining<AdvertDtoValidator>();
@@ -52,9 +52,9 @@ builder.Services.AddAuthorization(x =>
     x.AddPolicy("CustomerPolicy", policy => policy.RequireClaim(ClaimTypes.Role, "Admin", "User", "Customer"));
 });
 
-var app = builder.Build();
+WebApplication? app = builder.Build();
 
-DatabaseInitializer.Initialize(app.Services);
+app.Initialize();
 
 if (!app.Environment.IsDevelopment())
 {

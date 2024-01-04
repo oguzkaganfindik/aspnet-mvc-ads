@@ -1,16 +1,18 @@
-﻿using Ads.Persistence.Contexts;
+﻿using Ads.Domain.Entities.Concrete;
+using Ads.Persistence.Contexts;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 
-public class DatabaseInitializer
+public static class DatabaseInitializer
 {
-    public static void Initialize(IServiceProvider serviceProvider)
+    public static void Initialize(this WebApplication app)
     {
-        using (var scope = serviceProvider.CreateScope())
+        using (var scope = app.Services.CreateScope())
         {
             var services = scope.ServiceProvider;
             var context = services.GetRequiredService<AppDbContext>();
-
-            // Diğer başlatma işlemleri buraya eklenebilir
+            var userManager = services.GetRequiredService<UserManager<AppUser>>();
 
             bool isDatabaseCreated = context.Database.EnsureCreated();
             if (isDatabaseCreated)

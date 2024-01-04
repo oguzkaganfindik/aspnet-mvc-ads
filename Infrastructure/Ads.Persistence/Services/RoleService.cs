@@ -1,4 +1,5 @@
 ﻿using Ads.Application.DTOs.Role;
+using Ads.Application.DTOs.User;
 using Ads.Application.Services;
 using Ads.Domain.Entities.Concrete;
 using Ads.Persistence.Contexts;
@@ -27,12 +28,17 @@ public class RoleService : IRoleService
     }
     public async Task<RoleDto> GetRoleWithUsersAsync(int roleId)
     {
-        var users = await _userManager.Users.Where(u => u.RoleId == roleId).ToListAsync();
+        var role = await _roleManager.FindByIdAsync(roleId.ToString());
 
-        var roleWithUsers = await _context.Roles
-                                          .Where(r => r.Id == roleId)
-                                          .Include(r => r.Users)
-                                          .FirstOrDefaultAsync();
-        return _mapper.Map<RoleDto>(roleWithUsers);
+        if (role == null)
+        {
+            return null; 
+        }
+
+        var usersInRole = await _userManager.GetUsersInRoleAsync(role.Name);
+        var roleDto = _mapper.Map<RoleDto>(role);
+        roleDto.Users = _mapper.Map<ICollection<UserDto>>(usersInRole);
+
+        return roleDto;
     }
 }

@@ -37,12 +37,6 @@ namespace Ads.Persistence.Contexts
         {
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
-            modelBuilder.Entity<AppUser>()
-                .HasOne(u => u.Role) // 1 kullanıcı 1 rolde olabilir
-                .WithMany(u => u.Users)// 1 rolde birden fazla kullanıcı olabilir
-                .HasForeignKey(u => u.RoleId)
-                .OnDelete(DeleteBehavior.NoAction);
-
             // Setting ile User arasındaki ilişki
             modelBuilder.Entity<AppUser>()
                 .HasOne(u => u.Setting) // User, bir Setting ile ilişkilendirilir.
@@ -70,9 +64,12 @@ namespace Ads.Persistence.Contexts
                 .HasForeignKey(r => r.AdvertId)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            //modelBuilder.Entity<AdvertRating>()
+            //.HasIndex(ar => new { ar.UserId, ar.AdvertId })
+            //.IsUnique();
+
             modelBuilder.Entity<AdvertRating>()
-                .HasIndex(ar => new { ar.UserId, ar.AdvertId })
-                .IsUnique();
+           .HasKey(ar => new { ar.UserId, ar.AdvertId });
 
             modelBuilder.Entity<AdvertRating>()
                 .HasOne(ar => ar.User)
@@ -88,10 +85,11 @@ namespace Ads.Persistence.Contexts
 
 
             modelBuilder.Entity<AppRole>().HasData(
-                new AppRole { Id = 1, Name = "Admin", CreatedDate = DateTime.Now },
-                new AppRole { Id = 2, Name = "Moderator", CreatedDate = DateTime.Now },
-                new AppRole { Id = 3, Name = "User", CreatedDate = DateTime.Now }
+                       new AppRole { Id = 1, Name = "Admin", NormalizedName = "ADMIN", CreatedDate = DateTime.Now },
+        new AppRole { Id = 2, Name = "Moderator", NormalizedName = "MODERATOR", CreatedDate = DateTime.Now },
+        new AppRole { Id = 3, Name = "User", NormalizedName = "USER", CreatedDate = DateTime.Now }
              );
+
             base.OnModelCreating(modelBuilder);
 
             // design time da çalışan seeder
@@ -103,15 +101,14 @@ namespace Ads.Persistence.Contexts
                 LastName = "Admin",
                 IsActive = true,
                 CreatedDate = DateTime.Now,
-                Email = "admin@test.com",
+                Email = "ADMIN@TEST.COM",
                 NormalizedEmail = "admin@test.com",
                 UserName = "admin",
-                NormalizedUserName = "admin",
+                NormalizedUserName = "ADMIN",
                 EmailConfirmed = true,
                 LockoutEnabled = false,
                 SecurityStamp = Guid.NewGuid().ToString(),
                 PasswordHash = passwordHasher.HashPassword(null, "Deneme123."),
-                RoleId = 1,
                 Phone = "9050",
                 Address = "Turkey",
                 UserImagePath = "admin.jpg",
@@ -126,15 +123,14 @@ namespace Ads.Persistence.Contexts
                 LastName = "Moderator",
                 IsActive = true,
                 CreatedDate = DateTime.Now,
-                Email = "moderator@test.com",
+                Email = "MODERATOR@TEST.COM",
                 NormalizedEmail = "moderator@test.com",
                 UserName = "moderator",
-                NormalizedUserName = "moderator",
+                NormalizedUserName = "MODERATOR",
                 EmailConfirmed = true,
                 LockoutEnabled = false,
                 SecurityStamp = Guid.NewGuid().ToString(),
                 PasswordHash = passwordHasher.HashPassword(null, "Deneme123,"),
-                RoleId = 2,
                 Phone = "9050",
                 Address = "Turkey",
                 UserImagePath = "moderator.jpg",
