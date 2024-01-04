@@ -251,7 +251,7 @@ namespace Ads.Persistence.Contexts
                 .RuleFor(a => a.CreatedDate, f => f.Date.Past(1))
                 .RuleFor(a => a.UserId, f => f.Random.Int(3, 7)); // Varsayım: 3 ile 7 arasında geçerli UserId'ler var
 
-            var adverts = advertFaker.Generate(50);
+            var adverts = advertFaker.Generate(20);
 
             context.Adverts.AddRange(adverts);
             context.SaveChanges();
@@ -262,11 +262,11 @@ namespace Ads.Persistence.Contexts
             var advertCommentFaker = new Faker<AdvertComment>()
                 .RuleFor(ac => ac.Comment, f => f.Rant.Review())
                 .RuleFor(ac => ac.IsActive, f => f.Random.Bool())
-                .RuleFor(ac => ac.AdvertId, f => f.Random.Int(1, 50)) // Varsayım: 1 ile 50 arasında geçerli AdvertId'ler var
+                .RuleFor(ac => ac.AdvertId, f => f.Random.Int(1, 20)) // Varsayım: 1 ile 20 arasında geçerli AdvertId'ler var
                 .RuleFor(a => a.UserId, f => f.Random.Int(3, 7)) // Varsayım: 3 ile 7 arasında geçerli UserId'ler var
                 .RuleFor(ac => ac.CreatedDate, f => f.Date.Past(1));
 
-            var advertComments = advertCommentFaker.Generate(50);
+            var advertComments = advertCommentFaker.Generate(30);
 
             context.AdvertComments.AddRange(advertComments);
             context.SaveChanges();
@@ -275,11 +275,11 @@ namespace Ads.Persistence.Contexts
         private static void SeedAdvertImages(AppDbContext context)
         {
             var advertImageFaker = new Faker<AdvertImage>()
-                .RuleFor(ai => ai.AdvertId, f => f.Random.Int(1, 50)) // Varsayım: 1 ile 50 arasında geçerli AdvertId'ler var
+                .RuleFor(ai => ai.AdvertId, f => f.Random.Int(1, 20)) // Varsayım: 1 ile 20 arasında geçerli AdvertId'ler var
                 .RuleFor(ai => ai.AdvertImagePath, f => f.Image.PicsumUrl())
                 .RuleFor(ac => ac.CreatedDate, f => f.Date.Past(1));
 
-            var advertImages = advertImageFaker.Generate(50);
+            var advertImages = advertImageFaker.Generate(30);
 
             context.AdvertImages.AddRange(advertImages);
             context.SaveChanges();
@@ -289,11 +289,11 @@ namespace Ads.Persistence.Contexts
         {
             var categoryAdvertFaker = new Faker<CategoryAdvert>()
                 .RuleFor(ca => ca.CategoryId, f => f.Random.Int(1, 8)) // 1 ile 8 arasında geçerli CategoryId'ler
-                .RuleFor(ca => ca.AdvertId, f => f.Random.Int(1, 50)) // 1 ile 50 arasında geçerli AdvertId'ler
+                .RuleFor(ca => ca.AdvertId, f => f.Random.Int(1, 20)) // 1 ile 20 arasında geçerli AdvertId'ler
                 .RuleFor(ac => ac.CreatedDate, f => f.Date.Past(1));
 
 
-            var categoryAdverts = categoryAdvertFaker.Generate(50);
+            var categoryAdverts = categoryAdvertFaker.Generate(20);
 
             context.CategoryAdverts.AddRange(categoryAdverts);
             context.SaveChanges();
@@ -303,10 +303,10 @@ namespace Ads.Persistence.Contexts
         {
             var subCategoryAdvertFaker = new Faker<SubCategoryAdvert>()
                 .RuleFor(sca => sca.SubCategoryId, f => f.Random.Int(1, 48)) // 1 ile 48 arasında geçerli SubCategoryId'ler
-                .RuleFor(sca => sca.AdvertId, f => f.Random.Int(1, 50)) // 1 ile 50 arasında geçerli AdvertId'ler
+                .RuleFor(sca => sca.AdvertId, f => f.Random.Int(1, 20)) // 1 ile 20 arasında geçerli AdvertId'ler
                 .RuleFor(ac => ac.CreatedDate, f => f.Date.Past(1));
 
-            var subCategoryAdverts = subCategoryAdvertFaker.Generate(50);
+            var subCategoryAdverts = subCategoryAdvertFaker.Generate(20);
 
             context.SubCategoryAdverts.AddRange(subCategoryAdverts);
             context.SaveChanges();
@@ -320,7 +320,7 @@ namespace Ads.Persistence.Contexts
 
             for (int userId = 3; userId <= 7; userId++)
             {
-                for (int advertId = 1; advertId <= 50; advertId++)
+                for (int advertId = 1; advertId <= 20; advertId++)
                 {
                     Dictionary<string, object> advertRating = new Dictionary<string, object>
                     {
