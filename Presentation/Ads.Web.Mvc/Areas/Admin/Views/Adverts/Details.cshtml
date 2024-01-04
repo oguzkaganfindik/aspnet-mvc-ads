@@ -1,0 +1,436 @@
+﻿@model Ads.Application.DTOs.Advert.AdvertDto //bu öz hakiki details sayfası
+
+@{
+    ViewData["Title"] = "Adverts";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayoutNested.cshtml";
+}
+
+<!DOCTYPE html>
+<html lang="tr" class="light-style layout-navbar-fixed layout-menu-fixed layout-compact " dir="ltr" data-theme="theme-default" data-assets-path="../../assets/" data-template="vertical-menu-template">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+
+    <title>Advert Details</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/assets/img/favicon/favicon.ico" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com/">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&amp;display=swap" rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="../../assets/vendor/fonts/boxicons.css" />
+    <link rel="stylesheet" href="../../assets/vendor/fonts/fontawesome.css" />
+    <link rel="stylesheet" href="../../assets/vendor/fonts/flag-icons.css" />
+
+    <!-- Core CSS -->
+    <link rel="stylesheet" href="../../assets/vendor/css/rtl/core.css" class="template-customizer-core-css" />
+    <link rel="stylesheet" href="../../assets/vendor/css/rtl/theme-default.css" class="template-customizer-theme-css" />
+    <link rel="stylesheet" href="../../assets/css/demo.css" />
+
+    <!-- Vendors CSS -->
+    <link rel="stylesheet" href="../../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+    <link rel="stylesheet" href="../../assets/vendor/libs/typeahead-js/typeahead.css" />
+    <link rel="stylesheet" href="../../assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css" />
+    <link rel="stylesheet" href="../../assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css" />
+    <link rel="stylesheet" href="../../assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css" />
+    <link rel="stylesheet" href="../../assets/vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.css">
+    <link rel="stylesheet" href="../../assets/vendor/libs/sweetalert2/sweetalert2.css" />
+    <link rel="stylesheet" href="../../assets/vendor/libs/%40form-validation/umd/styles/index.min.css" />
+    <link rel="stylesheet" href="../../assets/vendor/libs/select2/select2.css" />
+
+    <!-- Page CSS -->
+    <!-- Helpers -->
+    <script src="../../assets/vendor/js/helpers.js"></script>
+    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
+    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
+    <script src="../../assets/js/config.js"></script>
+
+</head>
+
+<body>
+
+    <!-- ?PROD Only: Google Tag Manager (noscript) (Default ThemeSelection: GTM-5DDHKGP, PixInvent: GTM-5J3LMKC) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5DDHKGP" height="0" width="0" style="display: none; visibility: hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <!-- Layout wrapper -->
+    <div class="layout-wrapper layout-content-navbar  ">
+        <div class="layout-container">
+
+            <!-- / Navbar -->
+            <!-- Content wrapper -->
+            <div class="content-wrapper">
+
+                <!-- Content -->
+
+                <h4 class="py-2 mb-0">
+                    <span class="text-muted fw-light">Advert /</span> Details
+                </h4>
+
+                <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-3">
+
+                    <div class="d-flex flex-column justify-content-center">
+
+                        <h5 class="mb-1 mt-3">
+                            <strong>Advert ID: </strong> #@Model.Id
+
+                            <span class="badge bg-label-danger me-2 ms-2">
+
+                                @Model.OnSaleString
+
+                            </span>
+
+                            <span class="badge bg-label-primary me-2 ms-2">
+
+                                @Model.TypeString
+
+                            </span>
+
+                            <span class="badge bg-label-secondary me-2 ms-2">
+
+                                Click Count: @Model.ClickCount
+
+                            </span>
+
+                        </h5>
+                        <p class="text-body">Created Date: @Model.CreatedDate</p>
+                        @if (@Model.UpdatedDate != null)
+                        {
+                            <p class="text-body">Updated Date: @Model.UpdatedDate</p>
+
+                        }
+                    </div>
+
+                    <div class="d-flex align-content-center flex-wrap gap-2">
+                        <!-- Edit Advert Button -->
+                        <div class="d-flex justify-content-center flex-wrap gap-2">
+                            <a class="btn btn-outline-primary edit-order" asp-action="Edit" asp-route-id="@Model.Id">Advert Edit</a>
+                        </div>
+                        <!-- Edit Advert Button -->
+                        <!-- Delete Advert Button -->
+                        <div class="d-flex justify-content-center flex-wrap gap-2">
+                            <a class="btn btn-outline-danger delete-order" asp-action="Delete" asp-route-id="@Model.Id">Advert Delete</a>
+                        </div>
+                        <!-- Delete Advert Button -->
+                        <!-- Back to List Button -->
+                        <a class="btn btn-outline-primary" asp-action="Index">Back to Adverts List</a>
+                        <!-- Back to List Button -->
+                    </div>
+                </div>
+
+
+                <!-- Advert Detail -->
+
+                <div class="row">
+                    <div class="col-12 col-lg-8">
+                        <div class="card mb-4">
+
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h5 class="card-title m-0">
+                                    <strong>@Model.Title</strong>
+
+                                    <span> - </span>
+
+                                    <span class="badge bg-label-success me-2 ms-2">
+                                        @if (Model.CategoryAdverts != null && Model.CategoryAdverts.Any())
+                                        {
+                                            foreach (var categoryAdvert in Model.CategoryAdverts)
+                                            {
+                                                @categoryAdvert.Category?.Name
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <text>No Category</text>
+                                        }
+                                    </span>
+
+                                    <span> - </span>
+
+
+                                    <span class="badge bg-label-info">
+                                        @if (Model.SubCategoryAdverts != null && Model.SubCategoryAdverts.Any())
+                                        {
+                                            foreach (var subCategoryAdvert in Model.SubCategoryAdverts)
+                                            {
+                                                @subCategoryAdvert.SubCategory?.Name
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <text>No SubCategory</text>
+                                        }
+                                    </span>
+                                </h5>
+                            </div>
+                            <div class="card-datatable table-responsive">
+                                <div class="d-flex justify-content align-items-center m-3 mb-2 p-1">
+
+                                    <h6>@Model.Description</h6>
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- Advert Detail -->
+                        <!-- Slider -->
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <section class="section">
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="featured-carousel owl-carousel">
+
+                                                    @if (Model.AdvertImages != null)
+                                                    {
+                                                        var imageCounter = 1;
+                                                        foreach (var advertImage in Model.AdvertImages)
+                                                        {
+                                                            var modalId = $"imageModal_{imageCounter}";
+                                                            <div class="item">
+                                                                <div class="work">
+                                                                    <div class="img d-flex align-items-center justify-content-center rounded" style="background-image: url(/Img/AdvertImages/@advertImage.AdvertImagePath)">
+                                                                        <div class="d-flex justify-content-between">
+                                                                            <a href="javascript:void(0)" class="icon d-flex align-items-center justify-content-center" data-bs-toggle="modal" data-bs-target="#@modalId">
+                                                                                <span class="ion-ios-search"></span>
+                                                                            </a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            imageCounter++;
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        <div class="item">
+                                                            <div class="work">
+                                                                <div class="img d-flex align-items-center justify-content-center rounded">
+                                                                    <p>No images available</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Slider -->
+                    <!-- User Detail -->
+                    <div class="col-12 col-lg-4">
+                        <div class="card mb-4">
+                            <div class="card-header d-flex justify-content-between">
+                                <h6 class="card-title m-0">User details</h6>
+                                <!-- Buttons -->
+                                <div class="d-flex align-content-center flex-wrap gap-2">
+                                    <!-- Edit User Button -->
+                                    <div class="d-flex justify-content-center flex-wrap gap-2">
+                                        <a class="btn btn-outline-primary edit-order" asp-action="Edit" asp-route-id="@Model.Id">User Edit</a>
+                                    </div>
+                                    <!-- Edit User Button -->
+                                    <!-- Delete User Button -->
+                                    <div class="d-flex justify-content-center flex-wrap gap-2">
+                                        <a class="btn btn-outline-danger delete-order" asp-action="Delete" asp-route-id="@Model.Id">User Delete</a>
+                                    </div>
+                                    <!-- Delete User Button -->
+                                </div>
+                                <!-- Buttons -->
+                            </div>
+
+                            <div class="card-body">
+                                <div class="d-flex justify-content-start align-items-center mb-4">
+                                    @if (Model.User.UserImagePath != null)
+                                    {
+                                        <div class="avatar me-2 mt-2">
+                                            <img src="/Img/UserImages/@Model.User.UserImagePath" alt="Avatar" class="rounded-circle">
+                                        </div>
+                                    }
+                                    <div class="d-flex flex-column">
+                                        <a href="/account/details/@Model.User.Id" class="text-body text-nowrap mt-2">
+                                            <h6 class="mb-0"><b>@(Model.User.FirstName != null ? Model.User.FirstName : "") @(Model.User.LastName != null ? Model.User.LastName : "")</b></h6>
+                                        </a>
+                                        <small class="text-muted"><b>ID:</b> @(Model.User.Id != null ? Model.User.Id : "")</small>
+                                    </div>
+                                </div>
+                                @* <div class="d-flex justify-content-start align-items-center mb-4">
+                                <span class="avatar rounded-circle bg-label-success me-2 d-flex align-items-center justify-content-center"><i class="bx bx-cart-alt bx-sm lh-sm"></i></span>
+                                <h6 class="text-body text-nowrap mb-0">12 Orders</h6>
+                                </div> *@
+                                <div class="d-flex justify-content-between">
+                                    <h6><b>Contact info</b></h6>
+
+                                </div>
+                                <p class=" mb-1"><b>Email:</b> @(Model.User.Email != null ? Model.User.Email : "")</p>
+                                <p class=" mb-1"><b>Phone:</b> @(Model.User.Phone != null ? Model.User.Phone : "")</p>
+                                <p class=" mb-1"><b>Address:</b> @(Model.User.Address != null ? Model.User.Address : "")</p>
+
+                            </div>
+
+                        </div>
+                        <!-- User Detail -->
+                        <!-- Yıldızları gösteren blok -->
+                        <div class="card mb-4">
+                            <div class="card-header d-flex justify-content-between">
+                                <h6 class="card-title m-0">Advert Ratings</h6>
+                                <!-- Buttons -->
+                                <div class="d-flex align-content-center flex-wrap gap-2">
+                                    <!-- Delete Rating Button -->
+                                    <div class="d-flex justify-content-center flex-wrap gap-2">
+                                        <a class="btn btn-outline-danger delete-order" asp-action="Delete" asp-route-id="@Model.Id">Rating Delete</a>
+                                    </div>
+                                    <!-- Delete Rating Button -->
+                                </div>
+                                <!-- Buttons -->
+                            </div>
+                            <div class="card-body mt-3">
+                                @if (Model.AdvertRatings != null && Model.AdvertRatings.Any())
+                                {
+                                    var averageRating = (int)Model.AdvertRatings.Average(r => r.Rating);
+                                    <div class="star-rating" data-rating="@averageRating">
+                                        @for (int i = 1; i <= averageRating; i++)
+                                        {
+                                            <li>
+                                                <span class="@(i <= averageRating ? "filled" : "")" style="font-size: 24px;">@Model.Title - </span>
+                                                <span class="@(i <= averageRating ? "filled" : "")" style="color: gold; font-size: 36px;">&#9733;</span>
+                                                <!-- Altın rengi yıldız sembolü -->
+                                            </li>
+                                        }
+                                    </div>
+                                }
+                                else
+                                {
+                                    <text>Puan Yok</text>
+                                }
+                            </div>
+                        </div>
+                        <!-- Yıldızları gösteren blok -->
+                        <!-- Her bir ilan için yorumları göster -->
+
+                        <div class="card mb-4">
+                            <div class="card-header d-flex justify-content-between">
+                                <h6 class="card-title m-0">Advert Comments</h6>
+                                <!-- Buttons -->
+                                <div class="d-flex align-content-center flex-wrap gap-2">
+                                    <!-- Edit Comment Button -->
+                                    <div class="d-flex justify-content-center flex-wrap gap-2">
+                                        <a class="btn btn-outline-primary edit-order" asp-action="Edit" asp-route-id="@Model.Id">Comment Edit</a>
+                                    </div>
+                                    <!-- Edit Comment Button -->
+                                    <!-- Delete Comment Button -->
+                                    <div class="d-flex justify-content-center flex-wrap gap-2">
+                                        <a class="btn btn-outline-danger delete-order" asp-action="Delete" asp-route-id="@Model.Id">Comment Delete</a>
+                                    </div>
+                                    <!-- Delete Comment Button -->
+                                </div>
+                                <!-- Buttons -->
+                            </div>
+                            <div class="card-body mt-3">
+                                @if (Model.AdvertComments != null && Model.AdvertComments.Any())
+                                {
+                                    foreach (var comment in Model.AdvertComments)
+                                    {
+                                        <!-- Her bir yorumu bağımsız olarak göster -->
+                                        <li>
+                                            <strong>@(comment.Advert?.Title)</strong> - @Html.DisplayFor(modelItem => comment.Comment)
+                                        </li>
+                                        <hr />
+                                    }
+                                }
+                                else
+                                {
+                                    <text>No Comments</text>
+                                }
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- Her bir ilan için yorumları göster -->
+                <!--/ ZoomImage Modal -->
+                @if (Model.AdvertImages != null)
+                {
+                    var imageCounter = 1;
+                    foreach (var advertImage in Model.AdvertImages)
+                    {
+                        var modalId = $"imageModal_{imageCounter}";
+                        <div class="modal fade" id="@modalId" tabindex="-1" aria-hidden="true">
+                            <div class="modal-dialog modal-lg modal-simple modal-edit-user">
+                                <div class="modal-content p-3 p-md-5">
+                                    <div class="modal-body">
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        <div class="text-center mb-4">
+                                            <img src="/Img/AdvertImages/@advertImage.AdvertImagePath" height="500" max-width="100%" object-fit="contain" class="img-fluid">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        imageCounter++;
+                    }
+                }
+
+                <!--/ ZoomImage Modal -->
+
+
+                <div class="content-backdrop fade"></div>
+            </div>
+            <!-- Content wrapper -->
+            <!-- / Layout page -->
+        </div>
+
+        <!-- Overlay -->
+        <div class="layout-overlay layout-menu-toggle"></div>
+
+
+        <!-- Drag Target Area To SlideIn Menu On Small Screens -->
+        <div class="drag-target"></div>
+
+    </div>
+    <!-- / Layout wrapper -->
+    <!-- Core JS -->
+    <!-- build:js assets/vendor/js/core.js -->
+
+
+
+    <script src="../../assets/vendor/libs/jquery/jquery.js"></script>
+    <script src="../../assets/vendor/libs/popper/popper.js"></script>
+    <script src="../../assets/vendor/js/bootstrap.js"></script>
+    <script src="../../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+    <script src="../../assets/vendor/libs/hammer/hammer.js"></script>
+    <script src="../../assets/vendor/libs/i18n/i18n.js"></script>
+    <script src="../../assets/vendor/libs/typeahead-js/typeahead.js"></script>
+    <script src="../../assets/vendor/js/menu.js"></script>
+
+    <!-- endbuild -->
+    <!-- Vendors JS -->
+    <script src="../../assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js"></script>
+    <script src="../../assets/vendor/libs/sweetalert2/sweetalert2.js"></script>
+    <script src="../../assets/vendor/libs/cleavejs/cleave.js"></script>
+    <script src="../../assets/vendor/libs/cleavejs/cleave-phone.js"></script>
+    <script src="../../assets/vendor/libs/%40form-validation/umd/bundle/popular.min.js"></script>
+    <script src="../../assets/vendor/libs/%40form-validation/umd/plugin-bootstrap5/index.min.js"></script>
+    <script src="../../assets/vendor/libs/%40form-validation/umd/plugin-auto-focus/index.min.js"></script>
+    <script src="../../assets/vendor/libs/select2/select2.js"></script>
+
+    <!-- Main JS -->
+    <script src="../../assets/js/main.js"></script>
+
+
+    <!-- Page JS -->
+    <script src="../../assets/js/app-ecommerce-order-details.js"></script>
+    <script src="../../assets/js/modal-add-new-address.js"></script>
+    <script src="../../assets/js/modal-edit-user.js"></script>
+
+</body>
+
+</html>
+

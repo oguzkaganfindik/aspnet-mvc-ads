@@ -39,7 +39,6 @@
     <Folder Include="wwwroot\Img\CategoryIconImages\" />
     <Folder Include="wwwroot\Img\SubCategoryIconImages\" />
     <Folder Include="wwwroot\Img\PageImages\" />
-    <Folder Include="wwwroot\Img\UserImages\" />
   </ItemGroup>
 
 </Project>

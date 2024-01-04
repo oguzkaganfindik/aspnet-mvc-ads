@@ -12,12 +12,12 @@
                 <div class="border">
                     <h3 class="bg-gray p-4">Login Now</h3>
                     <form asp-controller="Account" asp-action="Login" asp-route-returnUrl="@Context.Request.Query["returnURL"]" method="post">
-                        <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
                         <fieldset class="p-4">
                             <input asp-for="Email" class="border p-3 w-100 my-2" placeholder="Email" />
                             <span class="text-danger" asp-validation-for="Email"></span>
 
-                            <input type="password" asp-for="Password" class="border p-3 w-100 my-2" placeholder="Password" />
+                            <input asp-for="Password" class="border p-3 w-100 my-2" placeholder="Password" />
                             <span class="text-danger" asp-validation-for="Password"></span>
                             <div class="loggedin-forgot">
 
