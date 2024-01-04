@@ -24,13 +24,7 @@
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.CategoryIcon)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.CategoryIcon)
-        </dd>  
+        </dd> 
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.CreatedDate)
         </dt>
@@ -59,11 +53,9 @@
     </form>
 </div>
 
-<!-- SweetAlert2 JavaScript dosyasına referans ekleniyor -->
 <script src="~/assets/vendor/libs/sweetalert2/sweetalert2.js"></script>
 
 <script>
-    // Delete butonuna basıldığında SweetAlert2 onay kutusunu açacak olan JavaScript kodu
     document.querySelector('#deleteButton').addEventListener('click', function (e) {
         e.preventDefault();
         Swal.fire({
