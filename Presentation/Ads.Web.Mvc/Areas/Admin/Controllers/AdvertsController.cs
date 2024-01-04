@@ -35,7 +35,7 @@ namespace Ads.Web.Mvc.Areas.Admin.Controllers
             return View(adverts);
         }
 
-        public async Task<IActionResult> Detail(int id)
+        public async Task<IActionResult> Details(int id)
         {
             var advert = await _advertService.GetAdvertDetailsAsync(id);
             if (advert == null)
