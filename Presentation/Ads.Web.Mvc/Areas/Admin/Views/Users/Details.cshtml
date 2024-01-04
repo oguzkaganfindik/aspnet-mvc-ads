@@ -2,163 +2,372 @@
 
 @{
     ViewData["Title"] = "User Details";
-    Layout = "~/Areas/Admin/Views/Shared/_AdminLayoutNested.cshtml";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayoutUserNested.cshtml";
 }
 
-<main>
-    <div class="container-fluid px-4">
-        <h1 class="mt-4">User Details - @Model.FirstName @Model.LastName</h1>
-        <ol class="breadcrumb mb-4">
-            <li class="breadcrumb-item active">This page shows detailed information about this user.</li>
-        </ol>
+<!-- Layout wrapper -->
+<div class="layout-wrapper layout-content-navbar  ">
+    <div class="layout-container">
 
-        <div class="card mb-4">
-            <div class="card-header">
-                User Information
-            </div>
-            <div class="card-body">
-                <dl class="row">
-                    <dt class="col-sm-3">Username:</dt>
-                    <dd class="col-sm-9">@Model.UserName</dd>
+        <!-- Content wrapper -->
+        <div class="content-wrapper">
 
-                    <dt class="col-sm-3">Email:</dt>
-                    <dd class="col-sm-9">@Model.Email</dd>
+            <!-- Content -->
 
-                    <dt class="col-sm-3">Phone:</dt>
-                    <dd class="col-sm-9">@Model.Phone</dd>
+            <h4 class="py-3 mb-4">
+                <span class="text-muted fw-light">User /</span> Detail
+            </h4>
+            <div class="row">
+                <!-- User Sidebar -->
+                <div class="col-xl-4 col-lg-5 col-md-5 order-1 order-md-0">
+                    <!-- User Card -->
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <div class="user-avatar-section">
+                                <div class=" d-flex align-items-center flex-column">
+                                    <img class="img-fluid rounded my-4" src="/Img/UserImages/@Model.UserImagePath" height="110" width="110" alt="User avatar" />
+                                    <div class="user-info text-center">
+                                        <h4 class="mb-2">@Model.FirstName @Model.LastName</h4>
+                                        <span class="badge bg-label-secondary">@Model.Role?.Name</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <h5 class="pb-2 border-bottom mb-4">Details</h5>
+                            <div class="info-container">
+                                <ul class="list-unstyled">
+                                    <li class="mb-3">
+                                        <span class="fw-medium me-2">User Id:</span>
+                                        <span>@Model.Id</span>
+                                    </li>
+                                    <li class="mb-3">
+                                        <span class="fw-medium me-2">Role:</span>
+                                        <span>@Model.Role?.Name</span>
+                                    </li>
+                                    <li class="mb-3">
+                                        <span class="fw-medium me-2">Username:</span>
+                                        <span>@Model.UserName</span>
+                                    </li>
+                                    <li class="mb-3">
+                                        <span class="fw-medium me-2">Email:</span>
+                                        <span>@Model.Email</span>
+                                    </li>
+                                    <li class="mb-3">
+                                        <span class="fw-medium me-2">Birth Date:</span>
+                                        <span>@Model.BirthDate</span>
+                                    </li>
+                                    <li class="mb-3">
+                                        <span class="fw-medium me-2">Is Active:</span>
+                                        <span class="badge bg-label-success">@Model.IsActive</span>
+                                    </li>
+                                    <li class="mb-3">
+                                        <span class="fw-medium me-2">Contact:</span>
+                                        <span>@Model.Phone</span>
+                                    </li>
+                                    <li class="mb-3">
+                                        <span class="fw-medium me-2">Address:</span>
+                                        <span>@Model.Address</span>
+                                    </li>
+                                    <li class="mb-3">
+                                        <span class="fw-medium me-2">Created Date:</span>
+                                        <span>@Model.CreatedDate</span>
+                                    </li>
+                                    <li class="mb-3">
+                                        <span class="fw-medium me-2">Updated Date:</span>
+                                        <span>@Model.UpdatedDate</span>
+                                    </li>
+                                </ul>
+                                <div class="d-flex justify-content-center pt-3">
 
-                    <dt class="col-sm-3">Address:</dt>
-                    <dd class="col-sm-9">@Model.Address</dd>
-
-                    <dt class="col-sm-3">Role:</dt>
-                    <dd class="col-sm-9">@Model.Role?.Name</dd>
-
-                    <dt class="col-sm-3">Active Status:</dt>
-                    <dd class="col-sm-9">@Model.IsActive</dd>
-
-                    <!-- Add other details as necessary -->
-                </dl>
-            </div>
-        </div>
-
-        <div class="card mb-4">
-            <div class="card-header">
-                User Advertisements
-            </div>
-            <div class="card-body">
-                @if (Model.Adverts != null && Model.Adverts.Any())
-                {
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Title</th>
-                                <th>Price</th>
-                                <th>Description</th>
-                                <th>Category</th>
-                                <th>SubCategory</th>
-                                <th>Posted Date</th>
-                                <!-- Diğer ilanla ilgili sütunlar -->
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var advert in Model.Adverts)
-                            {
-                                <tr>
-                                    <td>@advert.Title</td>
-                                    <td>@advert.Price</td>
-                                    <td>@advert.Description</td>
-                                    <td>
-                                        @foreach (var category in advert.CategoryAdverts)
+                                    @* <a href="javascript:;" class="btn btn-primary me-3" data-bs-target="#editUser" data-bs-toggle="modal">Edit</a> *@
+                                    <div class="d-flex justify-content-center flex-wrap gap-2">
+                                        <a class="btn btn-primary me-3" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+                                    </div>
+                                    @* <a href="javascript:;" class="btn btn-label-danger suspend-user">Suspended</a> *@
+                                    <div class="d-flex justify-content-center flex-wrap gap-2">
+                                        <a class="btn btn-label-danger suspend-user" asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /User Card -->
+                    <!-- Plan Card -->
+                    <div class="card mb-4">
+                        <h5 class="card-header badge bg-label-primary me-2 ms-2 mb-4">User's Advert Ratings List</h5>
+                        <div class="card-body mb-2">
+                            <div class="table-responsive">
+                                <table id="myTable1" class="table table-responsive">
+                                    <thead>
+                                        <tr>
+                                            <th>Title</th>
+                                            <th>Rating</th>
+                                            <th>Rated Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var rating in Model.AdvertRatings)
                                         {
-                                            @category.Category.Name
+                                            <tr>
+                                                <td>@rating.Advert?.Title</td>
+                                                <td>
+                                                    @for (int i = 0; i < rating.Rating; i++)
+                                                    {
+                                                        <i class="fas fa-star" style="color: gold;"></i>
+                                                    }
+                                                </td>
+                                                <td>@rating.CreatedDate.ToString("dd/MM/yyyy")</td>
+                                            </tr>
                                         }
-                                    </td>
-                                    <td>
-                                        @foreach (var category in advert.SubCategoryAdverts)
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /Plan Card -->
+                </div>
+                <!--/ User Sidebar -->
+                <!-- User Content -->
+                <div class="col-xl-8 col-lg-7 col-md-7 order-0 order-md-1">
+                    <!-- /Advert List table -->
+                    <div class="card mb-4">
+                        <h5 class="card-header badge bg-label-primary me-2 ms-2 mb-4">User's Advert List</h5>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table id="myTable3" class="table table-responsive">
+                                    <thead>
+                                        <tr>
+                                            <th>Advert Images</th>
+                                            <th>Title</th>
+                                            <th>Price</th>
+                                            <th>Description</th>
+                                            <th>Category</th>
+                                            <th>SubCategory</th>
+                                            <th>Posted Date</th>
+                                            <th>Updated Date</th>
+                                            <th>Edit</th>
+                                            <th>Delete</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var advert in Model.Adverts)
                                         {
-                                            @category.SubCategory.Name
+                                            <tr>
+                                                <td>
+                                                    <center>
+                                                        Buraya Advert Image Gelecek
+                                                    </center>
+                                                </td>
+                                                <td>@advert.Title</td>
+                                                <td>@advert.Price</td>
+                                                <td>@advert.Description</td>
+                                                <td>
+                                                    @foreach (var category in advert.CategoryAdverts)
+                                                    {
+                                                        @category.Category.Name
+                                                    }
+                                                </td>
+                                                <td>
+                                                    @foreach (var category in advert.SubCategoryAdverts)
+                                                    {
+                                                        @category.SubCategory.Name
+                                                    }
+                                                </td>
+                                                <td>@advert.CreatedDate.ToString("dd/MM/yyyy")</td>
+                                                <td>@advert.UpdatedDate?.ToString("dd/MM/yyyy")</td>
+                                                <td>
+                                                    <div class="d-flex justify-content-center flex-wrap gap-2">
+                                                        <a class="btn btn-outline-primary edit-order" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="d-flex justify-content-center flex-wrap gap-2">
+                                                        <a class="btn btn-outline-danger delete-order" asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
+                                                    </div>
+                                                </td>
+                                            </tr>
                                         }
-                                    </td>
-                                    <td>@advert.CreatedDate.ToString("dd/MM/yyyy")</td>
-                                    <!-- Diğer ilanla ilgili bilgiler -->
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                }
-                else
-                {
-                    <p>This user has no advertisements.</p>
-                }
-            </div>
-        </div>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /Advert List table -->
+                    <!-- Advert Comment List -->
+                    <div class="card mb-4">
+                        <h5 class="card-header badge bg-label-primary me-2 ms-2 mb-4">User's Advert Comment List</h5>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table id="myTable2" class="table table-responsive">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                Is Active
+                                            </th>
+                                            <th>
+                                                Advert Title
+                                            </th>
+                                            <th>
+                                                Advert Comments
+                                            </th>
 
+                                            <th>
+                                                Created Date
+                                            </th>
+                                            <th>
+                                                Updated Date
+                                            </th>
+                                            <th>Edit</th>
+                                            <th>Delete</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var comment in Model.AdvertComments)
+                                        {
+                                            <tr>
+                                                <td><center>@comment.Advert?.Type</center></td>
+                                                <td>@comment.Advert?.Title</td>
+                                                <td>@comment.Comment</td>
+                                                <td>@comment.CreatedDate.ToString("dd/MM/yyyy")</td>
+                                                <td>@comment.UpdatedDate?.ToString("dd/MM/yyyy")</td>
+                                                <td>
+                                                    <div class="d-flex justify-content-center flex-wrap gap-2">
+                                                        <a class="btn btn-outline-primary edit-order" asp-action="Edit" asp-route-id="@comment.Id">Edit</a>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="d-flex justify-content-center flex-wrap gap-2">
+                                                        <a class="btn btn-outline-danger delete-order" asp-action="Delete" asp-route-id="@comment.Id">Delete</a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Advert Comment List -->
+                </div>
+                <!--/ User Content -->
+            </div>
+            <!-- Modal -->
+            <!-- /Modal -->
+            <!-- / Content -->
 
-        <div class="card mb-4">
-            <div class="card-header">
-                User Comments
-            </div>
-            <div class="card-body">
-                @if (Model.AdvertComments != null && Model.AdvertComments.Any())
-                {
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Comment</th>
-                                <th>Advert Title</th>
-                                <th>Created Date</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var comment in Model.AdvertComments)
-                            {
-                                <tr>
-                                    <td>@comment.Comment</td>
-                                    <td>@comment.Advert?.Title</td>
-                                    <td>@comment.CreatedDate.ToString("dd/MM/yyyy")</td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                }
-                else
-                {
-                    <p>This user has no comments.</p>
-                }
-            </div>
+            <div class="content-backdrop fade"></div>
         </div>
-        <div class="card mb-4">
-            <div class="card-header">
-                User Advert Ratings
-            </div>
-            <div class="card-body">
-                @if (Model.AdvertRatings != null && Model.AdvertRatings.Any())
-                {
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Advert Title</th>
-                                <th>Rating</th>
-                                <th>Rated Date</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var rating in Model.AdvertRatings)
-                            {
-                                <tr>
-                                    <td>@rating.Advert?.Title</td>
-                                    <td>@rating.Rating</td>
-                                    <td>@rating.CreatedDate.ToString("dd/MM/yyyy")</td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                }
-                else
-                {
-                    <p>This user has not rated any adverts.</p>
-                }
-            </div>
-        </div>
+        <!-- Content wrapper -->
+        <!-- / Layout page -->
     </div>
-</main>
+
+
+
+    <!-- Overlay -->
+    <div class="layout-overlay layout-menu-toggle"></div>
+
+
+    <!-- Drag Target Area To SlideIn Menu On Small Screens -->
+    <div class="drag-target"></div>
+
+</div>
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs-3.3.7/jq-2.2.4/jszip-3.1.3/pdfmake-0.1.27/dt-1.10.15/b-1.3.1/b-html5-1.3.1/b-print-1.3.1/r-2.1.1/rg-1.0.0/datatables.min.css" />
+
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs-3.3.7/jq-2.2.4/jszip-3.1.3/pdfmake-0.1.27/dt-1.10.15/b-1.3.1/b-html5-1.3.1/b-print-1.3.1/r-2.1.1/rg-1.0.0/datatables.min.js"></script>
+
+
+<script>
+    $('#myTable1').DataTable({
+        language: {
+            info: "Showing _START_ to _END_ of _TOTAL_ entries.",
+            infoEmpty: "No records available.",
+            loadingRecords: "Loading...",
+            zeroRecords: "No matching records found.",
+            search: "Search: ",
+            infoFiltered: "(filtered from _MAX_ total records)",
+            buttons: {
+                copyTitle: "Copied to clipboard",
+                copySuccess: "%d rows copied to clipboard",
+                copy: "Copy",
+                print: "Print",
+            },
+            paginate: {
+                first: "First",
+                previous: "Previous",
+                next: "Next",
+                last: "Last"
+            },
+        },
+        dom: 'bfrtip',
+        "pageLength": 5,
+        buttons: [
+            'copy', 'excel', 'pdf', 'print'
+        ],
+        responsive: true
+    });
+
+    // var searchText = "Search";
+
+    // var searchInput = $('input[type="search"]');
+    // searchInput.attr("placeholder", searchText);
+
+
+
+    $('#myTable2').DataTable({
+        language: {
+            info: "Showing _START_ to _END_ of _TOTAL_ entries.",
+            infoEmpty: "No records available.",
+            loadingRecords: "Loading...",
+            zeroRecords: "No matching records found.",
+            search: "Search:",
+            infoFiltered: "(filtered from _MAX_ total records)",
+            buttons: {
+                copyTitle: "Copied to clipboard",
+                copySuccess: "%d rows copied to clipboard",
+                copy: "Copy",
+                print: "Print",
+            },
+            paginate: {
+                first: "First",
+                previous: "Previous",
+                next: "Next",
+                last: "Last"
+            },
+        },
+        dom: 'bfrtip',
+        "pageLength": 5,
+        buttons: [
+            'copy', 'excel', 'pdf', 'print'
+        ],
+        responsive: true
+    });
+
+    $('#myTable3').DataTable({
+        language: {
+            info: "Showing _START_ to _END_ of _TOTAL_ entries.",
+            infoEmpty: "No records available.",
+            loadingRecords: "Loading...",
+            zeroRecords: "No matching records found.",
+            search: "Search:",
+            infoFiltered: "(filtered from _MAX_ total records)",
+            buttons: {
+                copyTitle: "Copied to clipboard",
+                copySuccess: "%d rows copied to clipboard",
+                copy: "Copy",
+                print: "Print",
+            },
+            paginate: {
+                first: "First",
+                previous: "Previous",
+                next: "Next",
+                last: "Last"
+            },
+        },
+        dom: 'bfrtip',
+        "pageLength": 5,
+        buttons: [
+            'copy', 'excel', 'pdf', 'print'
+        ],
+        responsive: true
+    });
+</script>

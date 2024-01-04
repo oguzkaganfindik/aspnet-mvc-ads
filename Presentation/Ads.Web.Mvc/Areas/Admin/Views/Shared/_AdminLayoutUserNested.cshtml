@@ -3,8 +3,14 @@
 }
 
 <!DOCTYPE html>
-<html lang="tr">
+
+<html lang="tr" class="light-style layout-navbar-fixed layout-menu-fixed layout-compact " dir="ltr" data-theme="theme-default" data-assets-path="/assets/" data-template="vertical-menu-template">
+
 <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+
+    <title>User Details</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com/">
@@ -24,28 +30,20 @@
     <!-- Vendors CSS -->
     <link rel="stylesheet" href="/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
     <link rel="stylesheet" href="/assets/vendor/libs/typeahead-js/typeahead.css" />
-    <link rel="stylesheet" href="/assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css" />
-    <link rel="stylesheet" href="/assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css" />
-    <link rel="stylesheet" href="/assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css" />
-    <link rel="stylesheet" href="/assets/vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.css">
+    <link rel="stylesheet" href="/assets/vendor/libs/animate-css/animate.css" />
     <link rel="stylesheet" href="/assets/vendor/libs/sweetalert2/sweetalert2.css" />
-    <link rel="stylesheet" href="assets/vendor/libs/%40form-validation/umd/styles/index.min.css" />
     <link rel="stylesheet" href="/assets/vendor/libs/select2/select2.css" />
-
-    <!-- Slider -->
-    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
-    <link rel="stylesheet" href="/Slider/owl.carousel.min.css">
-    <link rel="stylesheet" href="/Slider/owl.theme.default.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/4.5.6/css/ionicons.min.css">
-    <link rel="stylesheet" href="/Slider/style.css">
-    <!-- Slider -->
+    <link rel="stylesheet" href="/assets/vendor/libs/%40form-validation/umd/styles/index.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs-3.3.7/jq-2.2.4/jszip-3.1.3/pdfmake-0.1.27/dt-1.10.15/b-1.3.1/b-html5-1.3.1/b-print-1.3.1/r-2.1.1/rg-1.0.0/datatables.min.css" />
 
     <!-- Page CSS -->
+
+    <link rel="stylesheet" href="/assets/vendor/css/pages/page-user-view.css" />
+
     <!-- Helpers -->
     <script src="/assets/vendor/js/helpers.js"></script>
-    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
-    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="/assets/js/config.js"></script>
+
     @RenderSection("Styles", required: false)
 </head>
 <body>
@@ -61,9 +59,9 @@
     <!-- / Layout wrapper -->
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
-    <script src="/assets/vendor/js/core.js"></script>
+
     <script src="/assets/vendor/libs/jquery/jquery.js"></script>
-    <script src="assets/vendor/libs/popper/popper.js"></script>
+    <script src="/assets/vendor/libs/popper/popper.js"></script>
     <script src="/assets/vendor/js/bootstrap.js"></script>
     <script src="/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
     <script src="/assets/vendor/libs/hammer/hammer.js"></script>
@@ -73,32 +71,28 @@
 
     <!-- endbuild -->
     <!-- Vendors JS -->
-    <script src="/assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js"></script>
+    <script src="/assets/vendor/libs/moment/moment.js"></script>
     <script src="/assets/vendor/libs/sweetalert2/sweetalert2.js"></script>
     <script src="/assets/vendor/libs/cleavejs/cleave.js"></script>
     <script src="/assets/vendor/libs/cleavejs/cleave-phone.js"></script>
+    <script src="/assets/vendor/libs/select2/select2.js"></script>
     <script src="/assets/vendor/libs/%40form-validation/umd/bundle/popular.min.js"></script>
     <script src="/assets/vendor/libs/%40form-validation/umd/plugin-bootstrap5/index.min.js"></script>
     <script src="/assets/vendor/libs/%40form-validation/umd/plugin-auto-focus/index.min.js"></script>
-    <script src="/assets/vendor/libs/select2/select2.js"></script>
 
     <!-- Main JS -->
     <script src="/assets/js/main.js"></script>
 
 
     <!-- Page JS -->
-    <script src="/assets/js/app-ecommerce-order-details.js"></script>
-    <script src="/assets/js/modal-add-new-address.js"></script>
     <script src="/assets/js/modal-edit-user.js"></script>
+    <script src="/assets/js/app-user-view.js"></script>
+    <script src="/assets/js/app-user-view-account.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs-3.3.7/jq-2.2.4/jszip-3.1.3/pdfmake-0.1.27/dt-1.10.15/b-1.3.1/b-html5-1.3.1/b-print-1.3.1/r-2.1.1/rg-1.0.0/datatables.min.js"></script>
 
-    <!-- Slider -->
-    <script src="/Slider/jquery.min.js"></script>
-    <script src="/Slider/popper.js"></script>
-    <script src="/Slider/bootstrap.min.js"></script>
-    <script src="/Slider/owl.carousel.min.js"></script>
-    <script src="/Slider/main.js"></script>
-    <script defer src="https://static.cloudflareinsights.com/beacon.min.js/v84a3a4012de94ce1a686ba8c167c359c1696973893317" integrity="sha512-euoFGowhlaLqXsPWQ48qSkBSCFs3DPRyiwVu3FjR96cMPx+Fr+gpWRhIafcHwqwCqWS42RZhIudOvEI+Ckf6MA==" data-cf-beacon='{"rayId":"83cb2ad15cd668b3","version":"2023.10.0","token":"cd0b4b3a733644fc843ef0b185f98241"}' crossorigin="anonymous"></script>
-    <!-- Slider -->
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+
+
+
