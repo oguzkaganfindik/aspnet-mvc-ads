@@ -45,10 +45,6 @@ namespace Ads.Persistence.Services
             await _context.SaveChangesAsync();
         }
 
-
-
-
-
         public async Task UpdateAsync(PageDto pageDto, string pageImagePath, bool pageVisibility)
         {
             var pageToUpdate = await _context.Pages.FindAsync(pageDto.Id);
@@ -69,8 +65,6 @@ namespace Ads.Persistence.Services
                 await _context.SaveChangesAsync();
             }
         }
-        //buraya bak
-
 
         public async Task<PageDto> GetPageByIdAsync(int id)
         {
@@ -97,4 +91,3 @@ namespace Ads.Persistence.Services
         }
     }
 }
-

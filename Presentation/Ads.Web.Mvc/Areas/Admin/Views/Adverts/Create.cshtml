@@ -49,7 +49,7 @@
                 <span asp-validation-for="Price" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="UserId" class="control-label"></label>
+                <label asp-for="UserId" class="control-label">Associated User</label>
                 <select asp-for="UserId" class="form-select" asp-items="ViewBag.UserId"></select>
                 <span asp-validation-for="UserId" class="text-danger"></span>
             </div>
@@ -73,11 +73,6 @@
 
             <div id="selectedCategoriesContainer"></div>
             <div id="selectedSubCategoriesContainer"></div>
-@*             <div class="form-group">
-                <label asp-for="AdvertImages" class="control-label"></label>
-                <input asp-for="AdvertImages" class="form-control" type="file" />
-                <span asp-validation-for="AdvertImages" class="text-danger"></span>
-            </div> *@
             <div class="form-group mt-5">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
@@ -113,10 +108,14 @@
                 });
             });
 
-            $('#subCategory').change(function () {
-                var subCategoryId = $(this).val();
-                $('#selectedSubCategoriesContainer').html('<input type="hidden" name="SelectedSubCategoryIds" value="' + subCategoryId + '">');
-            });
+            // $('#subCategory').change(function () {
+            //     var subCategoryId = $(this).val();
+            //     $('#selectedSubCategoriesContainer').html('<input type="hidden" name="SelectedSubCategoryIds" value="' + subCategoryId + '">');
+            // });
         });
     </script>
 }
+
+
+
+

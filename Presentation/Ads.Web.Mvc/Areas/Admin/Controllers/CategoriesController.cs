@@ -27,7 +27,7 @@ namespace Ads.Web.Mvc.Areas.Admin.Controllers
         public async Task<IActionResult> Details(int id, string categoryName)
         {
             var subCategories = await _service.GetSubCategoriesByCategoryId(id);
-            ViewData["CategoryName"] = categoryName; 
+            ViewData["CategoryName"] = categoryName;
 
             return View(subCategories);
         }
@@ -77,24 +77,24 @@ namespace Ads.Web.Mvc.Areas.Admin.Controllers
         {
             //if (ModelState.IsValid)
             //{
-                try
+            try
+            {
+                await _service.UpdateAsync(categoryDto);
+                return RedirectToAction(nameof(Index));
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!await _service.CategoryExists(categoryDto.Id))
                 {
-                    await _service.UpdateAsync(categoryDto);
-                    return RedirectToAction(nameof(Index));
+                    return NotFound();
                 }
-                catch (DbUpdateConcurrencyException)
+                else
                 {
-                    if (!await _service.CategoryExists(categoryDto.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    throw;
                 }
+            }
             //}
-            return View(categoryDto);          
+            return View(categoryDto);
         }
 
 
