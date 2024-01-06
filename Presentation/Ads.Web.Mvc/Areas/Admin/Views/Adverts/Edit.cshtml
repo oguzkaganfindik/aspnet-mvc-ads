@@ -28,17 +28,14 @@
             </div>
             <div class="form-group">
                 <label asp-for="Type" class="control-label">Is Business?</label>
-
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" asp-for="Type" value="true" id="Business" checked>
+                    <input class="form-check-input" type="radio" asp-for="Type" value="true" id="Business">
                     <label class="form-check-label" for="Business">Yes</label>
                 </div>
-
                 <div class="form-check">
                     <input class="form-check-input" type="radio" asp-for="Type" value="false" id="Person">
                     <label class="form-check-label" for="Person">No</label>
                 </div>
-
                 <span asp-validation-for="Type" class="text-danger"></span>
             </div>
             <div class="form-group form-check">
@@ -63,21 +60,17 @@
             </div>
 
             <div class="form-group mt-2">
-                <label for="Category">Category</label>
-                <select id="Category" name="Category">
-                    @foreach (var category in ViewBag.Categories)
-                    {
-                        <option value="@category.Value">@category.Text</option>
-                    }
+                <label for="selectedCategoryIds">Category</label>
+                <select id="selectedCategoryIds" name="selectedCategoryIds" asp-items="@ViewBag.Categories" class="form-control" multiple>
+                    
                 </select>
-                <label for="subCategory">Subcategory</label>
-                <select id="subCategory" name="subCategory">
-                    <option value="">Lütfen bir kategori seçin</option>
+            </div>
+
+            <div class="form-group mt-2">
+                <label for="selectedSubCategoryIds">Subcategory</label>
+                <select id="selectedSubCategoryIds" name="selectedSubCategoryIds" asp-items="@ViewBag.SubCategories" class="form-control" multiple>
+                   
                 </select>
-
-                <div id="selectedCategoriesContainer"></div>
-                <div id="selectedSubCategoriesContainer"></div>
-
             </div>
 
             <div class="form-group mt-2">
@@ -90,36 +83,43 @@
 <div>
     <a class="btn btn-outline-primary mt-2" asp-action="Index">Back to List</a>
 </div>
-<br />
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script>
-    $(document).ready(function () {
-        $('#Category').change(function () {
-            var categoryId = $(this).val();
-            $('#selectedCategoriesContainer').html('<input type="hidden" name="SelectedCategoryIds" value="' + categoryId + '">');
+@section Scripts {
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#selectedCategoryIds').on('change', function () {
+                var selectedValues = $('#selectedCategoryIds').val();
+                console.log("Seçili gelen category idleri: " + selectedValues);
+                $('#selectedSubCategoryIds').empty();
+                $('#selectedSubCategoryIds').append('<option value="">Select a subcategory</option>');
 
-            $('#subCategory').empty();
-            $('#subCategory').append('<option value="">Alt kategori yükleniyor...</option>');
-            $.ajax({
-                url: '@Url.Action("GetSubCategories", "Adverts")',
-                type: 'GET',
-                data: { categoryId: categoryId },
-                success: function (subCategories) {
-                    $('#subCategory').empty();
-                    $('#subCategory').append('<option value="">Alt kategori seçin</option>');
-                    $.each(subCategories, function (i, subCategory) {
-                        $('#subCategory').append('<option value="' + subCategory.value + '">' + subCategory.text + '</option>');
-                    });
-                },
-                error: function (xhr, status, error) {
-                    console.error("Alt kategori yükleme hatası:", error);
-                }
+                $.each(selectedValues, function (index, mainCategoryId) {
+                    var categoryInfo = {
+                        categoryId: mainCategoryId,
+                        categoryText: $('#selectedCategoryIds option[value="' + mainCategoryId + '"]').text()
+                    };
+                    sendSubcategoriesRequest(categoryInfo);
+                });
             });
-        });
 
-        $('#subCategory').change(function () {
-            var subCategoryId = $(this).val();
-            $('#selectedSubCategoriesContainer').html('<input type="hidden" name="SelectedSubCategoryIds" value="' + subCategoryId + '">');
+            function sendSubcategoriesRequest(categoryInfo) {
+                $.ajax({
+                    url: '@Url.Action("GetSubCategories", "Adverts")',
+                    type: 'GET',
+                    data: {
+                        categoryId: categoryInfo.categoryId                       
+                    },
+                    success: function (subCategories) {
+                        $.each(subCategories, function (i, subCategory) {
+                            $('#selectedSubCategoryIds').append('<option value="' + subCategory.value + '">' + subCategory.text + '(' + categoryInfo.categoryText + ')</option>');
+                        });
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("An error occurred while loading subcategories:", error);
+                    }
+                });
+            }
         });
-    });
-</script>
+    </script>
+}
+

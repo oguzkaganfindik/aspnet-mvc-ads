@@ -32,14 +32,19 @@ namespace Ads.Persistence.Repositories
               .Include(x => x.Advert)
                 .ToListAsync();
         }
-
         public async Task<List<AdvertRating>> GetCustomAdvertRatingList(Expression<Func<AdvertRating, bool>> expression)
         {
             return await _dbSet
-               .Where(expression)
-              .Include(x => x.User)
-              .Include(x => x.Advert)
-               .ToListAsync();
+                .Where(expression)
+                .Include(x => x.User)
+                .Include(x => x.Advert)
+                .ToListAsync();
         }
+        public async Task<AdvertRating> GetByUserIdAndAdvertIdAsync(int userId, int advertId)
+        {
+            return await _context.Set<AdvertRating>()
+                                 .FirstOrDefaultAsync(ar => ar.UserId == userId && ar.AdvertId == advertId);
+        }
+
     }
 }

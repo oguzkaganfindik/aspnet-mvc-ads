@@ -1,0 +1,29 @@
+﻿@model Ads.Application.ViewModels.PopularAdvertsViewModel
+
+
+<div class="star-rating">
+  @{
+    var fullStars = Math.Floor(Model.AverageRating);
+    var halfStar = Model.AverageRating > fullStars;
+  }
+
+  @for (var i = 0; i < fullStars; i++)
+  {
+    <i class="fa fa-star filled" color="gold"></i> <!-- Tam dolu yıldız -->
+  }
+
+  @if (halfStar)
+  {
+    <i class="fa fa-star-half-o filled" color="gold"></i> <!-- Yarım dolu yıldız -->
+  }
+
+  @for (var i = fullStars + (halfStar ? 1 : 0); i < 5; i++)
+  {
+    <i class="fa fa-star" color="grey"></i> <!-- Boş yıldız -->
+  }
+</div>
+
+
+
+
+

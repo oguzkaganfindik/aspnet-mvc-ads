@@ -27,15 +27,16 @@ namespace Ads.Persistence.Services
         public async Task<NavbarViewModel> GetNavbarViewModelAsync()
         {
             var categories = await _context.Categories.ToListAsync();
-            //var pages = await _context.Pages.Where(p => p.IsActive).ToListAsync();
+            var pages = await _context.Pages.Where(p => p.SettingId == 3).ToListAsync();
+
 
             var categoryDtos = _mapper.Map<IEnumerable<CategoryDto>>(categories);
-            //var pageDtos = _mapper.Map<IEnumerable<PageDto>>(pages);
+            var pageDtos = _mapper.Map<IEnumerable<PageDto>>(pages);
 
             var viewModel = new NavbarViewModel
             {
                 Categories = categoryDtos,
-                //Pages = pageDtos
+                Pages = pageDtos
             };
 
             return viewModel;

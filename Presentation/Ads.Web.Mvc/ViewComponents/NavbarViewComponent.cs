@@ -1,7 +1,5 @@
 ﻿using Ads.Application.Services;
-using Ads.Application.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace Ads.Web.Mvc.ViewComponents
 {

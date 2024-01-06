@@ -25,10 +25,10 @@
                                     </a>
                                     <!-- Dropdown list -->
                                     <div class="dropdown-menu">
-                                      @*       @foreach (var pages in Model.Pages)
+                                            @foreach (var pages in Model.Pages)
                                             {
                                             <a class="nav-item nav-link" asp-area="" asp-controller="Page" asp-action="Detail" asp-route-id="@pages.Id">@pages.Name</a>
-                                            }  *@                                        
+                                            }                                         
                                     </div>
                                 </li>
                                 <li class="nav-item dropdown dropdown-slide">
@@ -49,7 +49,7 @@
                                 @if (Context.User.Identity.IsAuthenticated)
                                 {
                                     <li class="nav-item">
-                                        @if (Context.User.IsInRole("Admin") || Context.User.IsInRole("User"))
+                                        @if (Context.User.IsInRole("Admin") || Context.User.IsInRole("Moderator"))
                                         {
                                             <a asp-controller="Admin" asp-action="Main" class="nav-link login-button">Control Panel</a>
                                         }
@@ -74,16 +74,14 @@
 
 
                                 <li class="nav-item">
-                                    @if ((Context.User.IsInRole("Admin") || Context.User.IsInRole("User")))
+                                    @if ((Context.User.IsInRole("Admin") || Context.User.IsInRole("Moderator")))
                                     {
                                         
                                     }
                                     else
                                     {
                                         <a class="nav-link text-white add-button" href="ad-listing.html"><i class="fa fa-plus-circle"></i> Add Listing</a>
-                                    }
-
-                                    
+                                    }                               
                                 </li>
                             </ul>
                         </div>

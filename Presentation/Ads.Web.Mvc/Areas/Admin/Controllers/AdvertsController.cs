@@ -96,6 +96,60 @@ namespace Ads.Web.Mvc.Areas.Admin.Controllers
         }
 
 
+        // GET: Adverts/Edit/5
+        public async Task<IActionResult> Edit(int id)
+        {
+            var advertDto = await _advertService.GetAdvertDetailsAsync(id);
+            if (advertDto == null)
+            {
+                return NotFound();
+            }
+
+            var users = await _userManager.Users.ToListAsync();
+            ViewBag.UserId = new SelectList(users, "Id", "UserName", advertDto.UserId);
+
+            var categories = await _serviceCategory.GetAllAsync();
+            var subCategories = await _serviceSubCategory.GetAllAsync();
+            var advertCategoryList = advertDto.CategoryAdverts.Select(c => c.CategoryId);
+            ViewBag.Categories = new MultiSelectList(categories, "Id", "Name", advertCategoryList);
+            ViewBag.SubCategories = new MultiSelectList(subCategories, "Id", "Name", advertDto.SubCategoryAdverts.Select(sc => sc.SubCategoryId));
+
+            return View(advertDto);
+        }
+
+
+        // POST: Adverts/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, AdvertDto advertDto, List<int> selectedCategoryIds, List<int> selectedSubCategoryIds)
+        {
+            if (id != advertDto.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    await _advertService.UpdateAdvertAsync(advertDto, selectedCategoryIds, selectedSubCategoryIds);
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", "Bir hata oluştu: " + ex.Message);
+                }
+            }
+
+            ViewBag.UserId = new SelectList(await _userManager.Users.ToListAsync(), "Id", "UserName", advertDto.UserId);
+            ViewBag.CategoryId = new SelectList(await _serviceCategory.GetAllAsync(), "Id", "Name", selectedCategoryIds);
+            ViewBag.SubCategoryId = new SelectList(await _serviceSubCategory.GetAllAsync(), "Id", "Name", selectedSubCategoryIds);
+
+            return View(advertDto);
+        }
+
+
+
         // GET: CategoriesController/Delete/5
         public async Task<IActionResult> Delete(int id)
         {

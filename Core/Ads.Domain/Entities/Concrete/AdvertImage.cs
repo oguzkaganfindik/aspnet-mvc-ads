@@ -14,6 +14,6 @@ namespace Ads.Domain.Entities.Concrete
 
         public virtual Advert Advert { get; set; }
 
-        public int AdvertId { get; set; }
+        public int? AdvertId { get; set; }
     }
 }
