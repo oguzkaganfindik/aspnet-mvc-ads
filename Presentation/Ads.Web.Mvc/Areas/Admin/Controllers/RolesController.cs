@@ -1,10 +1,10 @@
 ﻿using Ads.Application.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ads.Web.Mvc.Areas.Admin.Controllers
 {
-    //[Area("Admin"), Authorize(Policy = "UserPolicy")]
-    [Area("Admin")]
+    [Area("Admin"), Authorize(Policy = "Admin")]
     public class RolesController : Controller
     {
         private readonly IRoleService _roleService;

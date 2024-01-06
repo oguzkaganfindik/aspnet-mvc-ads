@@ -12,8 +12,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ads.Web.Mvc.Areas.Admin.Controllers
 {
-    //[Area("Admin"), Authorize(Policy = "UserPolicy")]
-    [Area("Admin")]
+    [Area("Admin"), Authorize(Policy = "Admin")]
     public class AdvertsController : Controller
     {
         private readonly IAdvertService _advertService; private readonly 

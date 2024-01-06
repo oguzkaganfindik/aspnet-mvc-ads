@@ -1,5 +1,9 @@
-﻿using Ads.Application.DTOs.User;
+﻿using Ads.Application.DTOs.Page;
+using Ads.Application.DTOs.User;
 using Ads.Application.Services;
+using Ads.Domain.Entities.Concrete;
+using Ads.Persistence.Contexts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -7,15 +11,21 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ads.Web.Mvc.Areas.Admin.Controllers
 {
-    //[Area("Admin"), Authorize(Policy = "AdminPolicy")]
-    [Area("Admin")]
+    [Area("Admin"), Authorize(Policy = "Admin")]
     public class UsersController : Controller
     {
+        private readonly UserManager<AppUser> _userManager;
+        private readonly RoleManager<AppRole> _roleManager;
         private readonly IUserService _service;
+        private readonly AppDbContext _context;
 
-        public UsersController(IUserService service)
+
+        public UsersController(IUserService service, UserManager<AppUser> userManager, RoleManager<AppRole> roleManager, AppDbContext context)
         {
             _service = service;
+            _userManager = userManager;
+            _roleManager = roleManager;
+            _context = context;
         }
 
         // GET: UsersController
@@ -28,7 +38,7 @@ namespace Ads.Web.Mvc.Areas.Admin.Controllers
         // GET: UsersController/Details/5
         public async Task<IActionResult> Details(int id)
         {
-            var userDto = await _service.GetUserByIdAsync(id);
+            var userDto = await _service.GetUserByIdAsync<UserDto>(id);
             if (userDto == null)
                 return NotFound();
 
@@ -37,8 +47,11 @@ namespace Ads.Web.Mvc.Areas.Admin.Controllers
 
 
         // GET: UsersController/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+
+            var allRoles = await _roleManager.Roles.ToListAsync(); 
+            ViewBag.Roles = new SelectList(allRoles, "Id", "Name");
             return View();
         }
 
@@ -52,7 +65,7 @@ namespace Ads.Web.Mvc.Areas.Admin.Controllers
                 var result = await _service.CreateUserAsync(userDto, UserImagePath);
                 if (result.Succeeded)
                 {
-                    return RedirectToAction(nameof(IndexAsync));
+                    return RedirectToAction(nameof(Index));
                 }
 
                 foreach (var error in result.Errors)
@@ -60,25 +73,60 @@ namespace Ads.Web.Mvc.Areas.Admin.Controllers
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
             }
+            var allRoles = await _roleManager.Roles.ToListAsync();
+            ViewBag.Roles = new SelectList(allRoles, "Name", "Name");
             return View(userDto);
         }
 
 
-        //// GET: UsersController/Edit/5
-        //public async Task<IActionResult> Edit(int id)
-        //{
-        //    var userDto = await _service.GetUserByIdAsync(id);
-        //    if (userDto == null)
-        //    {
-        //        return NotFound();
-        //    }
+        // GET: UsersController/Edit/5
+        public async Task<IActionResult> Edit(int id)
+        {
+            UserEditDto? userEditDto = await _service.GetUserByIdAsync<UserEditDto>(id);
+            if (userEditDto == null)
+            {
+                return NotFound();
+            }
 
-        //    // Rol ve SettingId seçimlerini ViewBag ile taşıyabilirsiniz, eğer formda seçim yapılacaksa.
-        //    ViewBag.RoleId = new SelectList(await _roleManager.Roles.ToListAsync(), "Name", "Name", userDto.Role?.Name);
-        //    ViewBag.SettingId = new SelectList(await _context.Settings.ToListAsync(), "Id", "Name", userDto.SettingId);
+            var allRoles = await _roleManager.Roles.ToListAsync(); // RolManager ile tüm rolleri çek
+            ViewBag.Roles = new SelectList(allRoles, "Id", "Name",userEditDto.Roles.FirstOrDefault());
+            return View(userEditDto);
+        }
 
-        //    return View(userDto);
-        //}
+        [HttpPost]
+        public async Task<IActionResult> Edit(UserEditDto userDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                // Eğer model geçerli değilse, hataları göster ve düzenleme sayfasına geri dön
+                return View(userDto);
+            }
+
+            var result = await _service.UpdateUserAsync(userDto);
+
+            if (result.Succeeded)
+            {
+                // Başarılı güncelleme durumunda, kullanıcıyı başka bir sayfaya yönlendir
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                // Başarısız güncelleme durumunda, hataları göster ve düzenleme sayfasına geri dön
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+                return View("Edit", userDto);
+            }
+            var allRoles = await _roleManager.Roles.ToListAsync(); // RolManager ile tüm rolleri çek
+            ViewBag.Roles = new SelectList(allRoles, "Name", "Name", userDto.Roles.FirstOrDefault());
+
+
+            ModelState.Clear();
+            return View(userDto);
+        }
+
+
 
         //// POST: UsersController/Edit/5
         //[HttpPost]
@@ -90,27 +138,67 @@ namespace Ads.Web.Mvc.Areas.Admin.Controllers
         //        return NotFound();
         //    }
 
-        //    if (ModelState.IsValid)
+        //if (ModelState.IsValid)
+        //{
+        //    var result = await _userManager.UpdateAsync(userDto, userImageFile);
+        //    if (result.Succeeded)
         //    {
-        //        var result = await _service.EditUserAsync(userDto, userImageFile);
-        //        if (result.Succeeded)
-        //        {
-        //            return RedirectToAction(nameof(Index));
-        //        }
-        //        foreach (var error in result.Errors)
-        //        {
-        //            ModelState.AddModelError(string.Empty, error.Description);
-        //        }
+        //        return RedirectToAction(nameof(Index));
         //    }
+        //    foreach (var error in result.Errors)
+        //    {
+        //        ModelState.AddModelError(string.Empty, error.Description);
+        //    }
+        //}
 
-        //    // Rol ve SettingId seçimlerini ViewBag ile taşıyabilirsiniz, eğer formda seçim yapılacaksa.
+        // Rol ve SettingId seçimlerini ViewBag ile taşıyabilirsiniz, eğer formda seçim yapılacaksa.
         //    ViewBag.RoleId = new SelectList(await _roleManager.Roles.ToListAsync(), "Name", "Name", userDto.Role?.Name);
         //    ViewBag.SettingId = new SelectList(await _context.Settings.ToListAsync(), "Id", "Name", userDto.SettingId);
 
         //    return View(userDto);
         //}
 
+        public async Task<IActionResult> DeleteAsync(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return View(user);
+        }
+
+        // POST: UsersController/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var result = await _userManager.DeleteAsync(user);
+            if (result.Succeeded)
+            {
+               
+                return RedirectToAction(nameof(Index));
+            }
+         
+         
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError("", error.Description);
+            }
+            return View(user);
+        }
         //// GET: UsersController/Delete/5
         //public async Task<IActionResult> DeleteAsync(int id)
         //{

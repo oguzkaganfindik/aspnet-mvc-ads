@@ -1,14 +1,15 @@
 ﻿using Ads.Application.DTOs.Category;
 using Ads.Application.Services;
 using Ads.Persistence;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Ads.Web.Mvc.Areas.Admin.Controllers
 {
-    //[Area("Admin"), Authorize(Policy = "UserPolicy")]
-    [Area("Admin")]
-  public class CategoriesController : Controller
+  
+    [Area("Admin"), Authorize(Policy = "Admin")]
+    public class CategoriesController : Controller
   {
     private readonly ICategoryService _service;
 

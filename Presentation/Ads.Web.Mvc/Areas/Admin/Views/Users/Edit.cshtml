@@ -1,34 +1,25 @@
-﻿@* @using Ads.Application.DTOs.User;
-@model UserDto
+﻿@using Ads.Application.DTOs.User;
+@model UserEditDto
 
 
 @{
-    ViewData["Title"] = "User Edit";
-    Layout = "~/Areas/Admin/Views/Shared/_AdminLayoutNested.cshtml";
+    ViewData["Title"] = "Edit User";
 }
 
-<h1>User Edit</h1>
+<h1>Edit User</h1>
 
 
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit" enctype="multipart/form-data">
+        <form asp-action="Edit" method="post" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
-            <input type="hidden" asp-for="CreatedDate" />
-            <input type="hidden" asp-for="UserGuid" />
             <input type="hidden" asp-for="UserImagePath" />
-            <input type="hidden" asp-for="Password" />
             <div class="form-group">
                 <label asp-for="Email" class="control-label"></label>
                 <input asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" type="password" class="form-control" placeholder="Do you want to change the password?" />
-                <span asp-validation-for="Password" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="FirstName" class="control-label"></label>
@@ -56,11 +47,11 @@
                 <span asp-validation-for="Phone" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="UserImagePath" class="control-label"></label>
+                <label asp-for="UserImagePath" class="control-label">Profile Picture</label>
                 <input asp-for="UserImagePath" class="form-control" type="file" />
                 <span asp-validation-for="UserImagePath" class="text-danger"></span>
                 <br />
-                <img src="/Img/UserImages/@Model.UserImagePath" alt="" height="500" />
+                <img src="/Img/UserImages/@Model.UserImagePath" alt="" height="500" /> 
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
@@ -68,17 +59,25 @@
                 </label>
             </div>
             <div class="form-group">
-                <label asp-for="RoleId" class="control-label"></label>
-                <select asp-for="RoleId" class="form-select" asp-items="ViewBag.RoleId"></select>
+                <label asp-for="RoleId" class="control-label">Role</label>
+                <select asp-for="RoleId" class="form-select" asp-items="ViewBag.Roles"></select>
                 <span asp-validation-for="RoleId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="SettingId" class="control-label"></label>
-                <select asp-for="SettingId" class="form-select" asp-items="ViewBag.SettingId"></select>
-                <span asp-validation-for="SettingId" class="text-danger"></span>
+            </div>          
+
+
+            <div class="form-group form-check">
+                @if (Model.Setting != null && Model.Setting.Value == "True")
+                {
+                    <input asp-for="UserTheme" class="form-check-input " checked />
+                }
+                else
+                {
+                    <input asp-for="UserTheme" class="form-check-input " />
+                }
+                <label class="form-check-label">User Theme</label>
             </div>
             <div class="form-group mt-5">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Save" class="btn btn-success" />
             </div>
         </form>
     </div>
@@ -88,4 +87,3 @@
     <a class="btn btn-outline-primary mt-2" asp-action="Index">Back to List</a>
 </div>
 
- *@

@@ -74,5 +74,6 @@ namespace Ads.Domain.Entities.Concrete
         public virtual ICollection<Advert>? Adverts { get; set; }
         public virtual ICollection<AdvertComment>? AdvertComments { get; set; }
         public virtual ICollection<AdvertRating>? AdvertRatings { get; set; }
+     
     }
 }

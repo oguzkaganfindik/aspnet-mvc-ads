@@ -22,6 +22,7 @@ builder.Services.Configure<SecurityStampValidatorOptions>(options =>
 builder.Services.AddIdentityWithExt();
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
 builder.Services.AddScoped<IEmailService, EmailService>();
+
 builder.Services.AddPersistenceServices(builder.Configuration);
 //builder.Services.AddScoped<IMemberService, MemberService>();
 builder.Services.AddAutoMapper(typeof(MappingProfile));
@@ -45,11 +46,12 @@ builder.Services.ConfigureApplicationCookie(opt =>
     opt.SlidingExpiration = true; //cookie süresini müdafaa ediyoruz
 });
 
+
 builder.Services.AddAuthorization(x =>
 {
-    x.AddPolicy("AdminPolicy", policy => policy.RequireClaim(ClaimTypes.Role, "Admin"));
-    x.AddPolicy("UserPolicy", policy => policy.RequireClaim(ClaimTypes.Role, "Admin", "User"));
-    x.AddPolicy("CustomerPolicy", policy => policy.RequireClaim(ClaimTypes.Role, "Admin", "User", "Customer"));
+    x.AddPolicy("Admin", policy => policy.RequireClaim(ClaimTypes.Role, "Admin"));
+    x.AddPolicy("User", policy => policy.RequireClaim(ClaimTypes.Role, "Admin", "User"));
+    x.AddPolicy("Moderator", policy => policy.RequireClaim(ClaimTypes.Role, "Admin", "User", "Customer"));
 });
 
 WebApplication? app = builder.Build();
