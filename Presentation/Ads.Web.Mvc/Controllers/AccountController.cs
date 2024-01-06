@@ -243,6 +243,7 @@ namespace Ads.Web.Mvc.Controllers
 
             var signInResult = await _signInManager.PasswordSignInAsync(hasUser, customerLoginViewModel.Password, customerLoginViewModel.RememberMe, true);
 
+
             if (signInResult.IsLockedOut)
             {
                 ModelState.AddModelErrorList(new List<string>() { "3 dakika boyunca giriş yapamazsınız." });
@@ -435,6 +436,7 @@ namespace Ads.Web.Mvc.Controllers
             if (result.Succeeded)
             {
                 TempData["SuccessMessage"] = "Şifreniz başarıyla yenilenmiştir";
+                await _userManager.UpdateSecurityStampAsync(hasUser);
             }
             else
             {

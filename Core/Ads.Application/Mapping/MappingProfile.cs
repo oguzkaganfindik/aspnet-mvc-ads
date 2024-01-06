@@ -38,6 +38,8 @@ namespace Ads.Application.Mapping
             CreateMap<LoginDto, AppUser>().ReverseMap();
             CreateMap<ForgotPasswordDto, AppUser>().ReverseMap();
             CreateMap<ResetPasswordDto, AppUser>().ReverseMap();
+            CreateMap<ChangeMailDto, AppUser>().ReverseMap();
+            CreateMap<UserEditDto, AppUser>().ReverseMap();
 
 
         }

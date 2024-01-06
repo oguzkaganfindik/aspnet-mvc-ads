@@ -7,8 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Ads.Web.Mvc.Areas.Admin.Controllers
 {
-    //[Area("Admin"), Authorize(Policy = "AdminPolicy")]
-    [Area("Admin")]
+    [Area("Admin"), Authorize(Policy = "Admin")]
+
   public class PagesController : Controller
   {
     private readonly IPageService _service;

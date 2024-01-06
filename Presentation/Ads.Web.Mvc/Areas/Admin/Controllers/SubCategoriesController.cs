@@ -8,9 +8,9 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Ads.Web.Mvc.Areas.Admin.Controllers
 {
-  //[Area("Admin"), Authorize(Policy = "UserPolicy")]
-  [Area("Admin")]
-  public class SubCategoriesController : Controller
+
+    [Area("Admin"), Authorize(Policy = "Admin")]
+    public class SubCategoriesController : Controller
   {
     private readonly ISubCategoryService _service;
     private readonly IService<Category> _serviceCategory;

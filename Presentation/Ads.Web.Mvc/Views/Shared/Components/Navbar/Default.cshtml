@@ -49,7 +49,7 @@
                                 @if (Context.User.Identity.IsAuthenticated)
                                 {
                                     <li class="nav-item">
-                                        @if (Context.User.IsInRole("Admin") || Context.User.IsInRole("User"))
+                                        @if (Context.User.IsInRole("Admin") || Context.User.IsInRole("Moderator"))
                                         {
                                             <a asp-controller="Admin" asp-action="Main" class="nav-link login-button">Control Panel</a>
                                         }

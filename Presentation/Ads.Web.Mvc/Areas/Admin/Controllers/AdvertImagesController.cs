@@ -9,8 +9,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Ads.Web.Mvc.Areas.Admin.Controllers
 {
-    //[Area("Admin"), Authorize(Policy = "UserPolicy")]
-    [Area("Admin")]
+    [Area("Admin"), Authorize(Policy = "Admin")]
+    
     public class AdvertImagesController : Controller
     {
         private readonly IAdvertImageService _service;
