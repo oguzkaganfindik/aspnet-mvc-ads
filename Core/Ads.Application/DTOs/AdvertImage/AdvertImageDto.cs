@@ -1,4 +1,5 @@
 ﻿using Ads.Application.DTOs.Advert;
+using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
 
 namespace Ads.Application.DTOs.AdvertImage
@@ -9,9 +10,10 @@ namespace Ads.Application.DTOs.AdvertImage
 
         public string? AdvertImagePath { get; set; }
 
-        [Required(ErrorMessage = "Advert ID is required.")]
-        public int AdvertId { get; set; }
-        public AdvertDto Advert { get; set; }
+        public IFormFile File { get; set; }
+
+        public int? AdvertId { get; set; }
+        public AdvertDto? Advert { get; set; }
 
         public DateTime CreatedDate { get; set; }
         public DateTime? UpdatedDate { get; set; }

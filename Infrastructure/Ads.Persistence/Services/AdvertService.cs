@@ -1,4 +1,5 @@
 ﻿using Ads.Application.DTOs.Advert;
+using Ads.Application.DTOs.AdvertRating;
 using Ads.Application.Repositories;
 using Ads.Application.Services;
 using Ads.Domain.Entities.Concrete;
@@ -52,6 +53,7 @@ namespace Ads.Persistence.Services
                                        .Include(a => a.AdvertImages)
                                        .Include(a => a.AdvertComments)
                                        .Include(a => a.AdvertRatings)
+                                                    .ThenInclude(ar => ar.User)
                                        .Include(a => a.User)
                                        .FirstOrDefaultAsync(a => a.Id == advertId);
             return advert != null ? _mapper.Map<AdvertDto>(advert) : null;
@@ -79,6 +81,25 @@ namespace Ads.Persistence.Services
             }
         }
 
+        public async Task UpdateAdvertAsync(AdvertDto advertDto, List<int> selectedCategoryIds, List<int> selectedSubCategoryIds)
+        {
+            var advert = await _context.Adverts
+                                       .Include(a => a.CategoryAdverts)
+                                       .Include(a => a.SubCategoryAdverts)
+                                       .FirstOrDefaultAsync(a => a.Id == advertDto.Id);
+
+            if (advert != null)
+            {
+                _mapper.Map(advertDto, advert);
+
+                advert.CategoryAdverts = selectedCategoryIds.Select(id => new CategoryAdvert { AdvertId = advert.Id, CategoryId = id }).ToList();
+                advert.SubCategoryAdverts = selectedSubCategoryIds.Select(id => new SubCategoryAdvert { AdvertId = advert.Id, SubCategoryId = id }).ToList();
+
+                // Diğer alanlar...
+
+                await _context.SaveChangesAsync();
+            }
+        }
 
 
 
@@ -110,6 +131,16 @@ namespace Ads.Persistence.Services
                             .ToListAsync();
 
             return _mapper.Map<IEnumerable<AdvertDto>>(adverts);
+        }
+
+
+        public async Task<IEnumerable<AdvertRatingDto>> GetAdvertRatings(int advertId)
+        {
+            var adverts = await _context.AdvertRatings
+                            .Where(ar => ar.AdvertId == advertId)
+                            .ToListAsync();
+
+            return _mapper.Map<IEnumerable<AdvertRatingDto>>(adverts);
         }
 
     }

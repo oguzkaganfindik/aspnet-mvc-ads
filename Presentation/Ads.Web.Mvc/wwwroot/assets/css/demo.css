@@ -122,3 +122,41 @@
   text-align: center;
   margin-top: 1rem;
 }
+
+.review-summary {
+    font-family: Arial, sans-serif;
+    margin-bottom: 20px;
+}
+
+.average-rating {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.star-rating .rating-bar {
+    background-color: #ffc107;
+    color: white;
+    padding: 5px;
+    margin-bottom: 5px;
+}
+
+.star-rating .fa {
+    color: gray;
+}
+
+.star-rating .filled {
+    color: gold;
+}
+
+<style >
+.average-rating-box {
+    display: inline-block;
+    margin-left: 10px;
+    padding: 3px 6px;
+    border: 1px solid #ddd;
+    background-color: #f8f8f8;
+    font-weight: bold;
+    border-radius: 4px;
+    font-size: 0.9em;
+}
+</style >

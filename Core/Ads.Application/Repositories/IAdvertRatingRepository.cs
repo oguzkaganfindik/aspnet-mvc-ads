@@ -8,5 +8,6 @@ namespace Ads.Application.Repositories
         Task<List<AdvertRating>> GetCustomAdvertRatingList();
         Task<List<AdvertRating>> GetCustomAdvertRatingList(Expression<Func<AdvertRating, bool>> expression);
         Task<AdvertRating> GetCustomAdvertRating(int id);
+        Task<AdvertRating> GetByUserIdAndAdvertIdAsync(int userId, int advertId);
     }
 }

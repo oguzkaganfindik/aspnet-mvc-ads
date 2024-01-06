@@ -41,4 +41,8 @@
     <Folder Include="wwwroot\Img\PageImages\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="Views\Shared\Components\AdvertStar\Default.cshtml" />
+  </ItemGroup>
+
 </Project>

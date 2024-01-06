@@ -11,6 +11,7 @@ namespace Ads.Persistence.Repositories
         public AdvertImageRepository(AppDbContext context) : base(context)
         {
         }
+
         public async Task<AdvertImage> GetCustomAdvertImage(int id)
         {
             return await _dbSet
@@ -34,6 +35,11 @@ namespace Ads.Persistence.Repositories
                .Include(x => x.Advert)
                 .ThenInclude(ai => ai.Title)
                .ToListAsync();
+        }
+
+        public async Task<AdvertImage> GetByIdAsync(int id)
+        {
+            return await _dbSet.FindAsync(id);
         }
     }
 }
