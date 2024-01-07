@@ -1,0 +1,27 @@
+﻿@using Ads.Application.DTOs.Category
+@model IEnumerable<CategoryDto>
+
+@{
+    ViewData["Title"] = "Category Details and SubCategory Management";
+    var categoryName = ViewData["CategoryName"]?.ToString();
+}
+
+<partial name="~/Views/Advert/Search.cshtml" />
+
+
+<section class="section-sm">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="search-result bg-gray">
+
+                    <h2>Results For "@(Model.Any() ? Model.First().Name : "")"</h2>
+
+                </div>
+            </div>
+        </div>
+
+        <partial name="~/Views/Category/index.cshtml" />
+        
+    </div>
+</section>
