@@ -15,5 +15,6 @@ namespace Ads.Application.Services
         Task<List<SubCategoryDto>> GetSubCategoriesByCategoryId(int categoryId);
         Task<IEnumerable<PopularCategoryViewModel>> GetPopularCategoriesAsync();
         Task DeleteAsync(int id);
+        Task<AllCategoriesViewModel> GetAllCategoriesViewModelAsync();
     }
 }

@@ -112,5 +112,20 @@ namespace Ads.Persistence.Services
                 await _context.SaveChangesAsync();
             }
         }
+
+
+        public async Task<AllCategoriesViewModel> GetAllCategoriesViewModelAsync()
+        {
+            var categories = await _context.Categories.Include(c => c.SubCategories).ToListAsync();
+
+            var categoryDtos = _mapper.Map<IEnumerable<CategoryDto>>(categories);
+
+            var viewModel = new AllCategoriesViewModel
+            {
+                Categories = categoryDtos
+            };
+
+            return viewModel;
+        }
     }
 }

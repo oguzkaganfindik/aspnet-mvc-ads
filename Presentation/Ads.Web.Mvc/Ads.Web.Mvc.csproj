@@ -43,6 +43,7 @@
 
   <ItemGroup>
     <None Include="Views\Shared\Components\AdvertStar\Default.cshtml" />
+    <None Include="Views\Shared\Components\AllCategories\Default.cshtml" />
   </ItemGroup>
 
 </Project>
