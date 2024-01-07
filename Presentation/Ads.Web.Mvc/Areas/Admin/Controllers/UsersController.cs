@@ -1,6 +1,7 @@
 ﻿using Ads.Application.DTOs.Page;
 using Ads.Application.DTOs.User;
 using Ads.Application.Services;
+using Ads.Application.ViewModels;
 using Ads.Domain.Entities.Concrete;
 using Ads.Persistence.Contexts;
 using Microsoft.AspNetCore.Authorization;
@@ -50,7 +51,7 @@ namespace Ads.Web.Mvc.Areas.Admin.Controllers
         public async Task<IActionResult> Create()
         {
 
-            var allRoles = await _roleManager.Roles.ToListAsync(); 
+            var allRoles = await _roleManager.Roles.ToListAsync();
             ViewBag.Roles = new SelectList(allRoles, "Id", "Name");
             return View();
         }
@@ -89,20 +90,27 @@ namespace Ads.Web.Mvc.Areas.Admin.Controllers
             }
 
             var allRoles = await _roleManager.Roles.ToListAsync(); // RolManager ile tüm rolleri çek
-            ViewBag.Roles = new SelectList(allRoles, "Id", "Name",userEditDto.Roles.FirstOrDefault());
-            return View(userEditDto);
+            ViewBag.Roles = new SelectList(allRoles, "Id", "Name", userEditDto.Roles.FirstOrDefault());
+
+            userEditDto.RoleId = allRoles.FirstOrDefault(x => x.Name == userEditDto.Roles.FirstOrDefault()).Id;
+
+            EditUserViewModel editUserViewModel = new()
+            {
+                UserEditDto = userEditDto,
+            };
+            return View(editUserViewModel);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(UserEditDto userDto)
+        public async Task<IActionResult> Edit(EditUserViewModel editUserViewModel)
         {
             if (!ModelState.IsValid)
             {
                 // Eğer model geçerli değilse, hataları göster ve düzenleme sayfasına geri dön
-                return View(userDto);
+                return View(editUserViewModel);
             }
 
-            var result = await _service.UpdateUserAsync(userDto);
+            var result = await _service.UpdateUserAsync(editUserViewModel.UserEditDto, editUserViewModel.File);
 
             if (result.Succeeded)
             {
@@ -116,14 +124,13 @@ namespace Ads.Web.Mvc.Areas.Admin.Controllers
                 {
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
-                return View("Edit", userDto);
+
+                var allRoles = await _roleManager.Roles.ToListAsync(); // RolManager ile tüm rolleri çek
+                ViewBag.Roles = new SelectList(allRoles, "Name", "Name", editUserViewModel.UserEditDto.Roles.FirstOrDefault());
+
+                return View("Edit", editUserViewModel);
+
             }
-            var allRoles = await _roleManager.Roles.ToListAsync(); // RolManager ile tüm rolleri çek
-            ViewBag.Roles = new SelectList(allRoles, "Name", "Name", userDto.Roles.FirstOrDefault());
-
-
-            ModelState.Clear();
-            return View(userDto);
         }
 
 
@@ -188,11 +195,11 @@ namespace Ads.Web.Mvc.Areas.Admin.Controllers
             var result = await _userManager.DeleteAsync(user);
             if (result.Succeeded)
             {
-               
+
                 return RedirectToAction(nameof(Index));
             }
-         
-         
+
+
             foreach (var error in result.Errors)
             {
                 ModelState.AddModelError("", error.Description);

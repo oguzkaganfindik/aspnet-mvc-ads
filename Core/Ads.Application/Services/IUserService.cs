@@ -10,6 +10,6 @@ namespace Ads.Application.Services
         Task<IEnumerable<UserDto>> GetAllUsersAsync();
         Task<TDto> GetUserByIdAsync<TDto>(int id) where TDto : BaseUserDto;
         Task<IdentityResult> CreateUserAsync(UserDto userDto, IFormFile? userImageFile);
-        Task<IdentityResult> UpdateUserAsync(UserEditDto userDto);
+        Task<IdentityResult> UpdateUserAsync(UserEditDto userDto , IFormFile? userImageFile);
     }
 }

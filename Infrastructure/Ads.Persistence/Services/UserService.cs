@@ -126,7 +126,7 @@ public class UserService : IUserService
         // Diğer hataları döndür
         return result;
     }
-    public async Task<IdentityResult> UpdateUserAsync(UserEditDto userDto)
+    public async Task<IdentityResult> UpdateUserAsync(UserEditDto userDto , IFormFile? file)
     {
         var existingUser = await _userManager.FindByIdAsync(userDto.Id.ToString());
         if (existingUser == null)
@@ -142,10 +142,10 @@ public class UserService : IUserService
 
         appUser.SettingId = userDto.UserTheme ? 1 : 2;
 
-        // Profil resmini güncelle eğer yeni bir dosya yüklendiyse
-        if (userDto.UserImagePath != null)
+        //Profil resmini güncelle eğer yeni bir dosya yüklendiyse
+        if (file != null)
         {
-            var imagePath = await FileHelper.FileLoaderAsync(userDto.UserImagePath, "/Img/UserImages/");
+            var imagePath = await FileHelper.FileLoaderAsync(file, "/Img/UserImages/");
             appUser.UserImagePath = imagePath;
         }
 

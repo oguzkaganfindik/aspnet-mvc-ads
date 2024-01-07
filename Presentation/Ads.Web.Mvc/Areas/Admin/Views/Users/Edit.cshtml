@@ -1,5 +1,5 @@
-﻿@using Ads.Application.DTOs.User;
-@model UserEditDto
+﻿@using Ads.Application.ViewModels;
+@model EditUserViewModel
 
 
 @{
@@ -14,65 +14,65 @@
     <div class="col-md-4">
         <form asp-action="Edit" method="post" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <input type="hidden" asp-for="UserImagePath" />
+            <input type="hidden" asp-for="UserEditDto.Id" />
+            <input type="hidden" asp-for="UserEditDto.UserImagePath" />
             <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
+                <label asp-for="UserEditDto.Email" class="control-label"></label>
+                <input asp-for="UserEditDto.Email" class="form-control" />
+                <span asp-validation-for="UserEditDto.Email" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="FirstName" class="control-label"></label>
-                <input asp-for="FirstName" class="form-control" />
-                <span asp-validation-for="FirstName" class="text-danger"></span>
+                <label asp-for="UserEditDto.FirstName" class="control-label"></label>
+                <input asp-for="UserEditDto.FirstName" class="form-control" />
+                <span asp-validation-for="UserEditDto.FirstName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="LastName" class="control-label"></label>
-                <input asp-for="LastName" class="form-control" />
-                <span asp-validation-for="LastName" class="text-danger"></span>
+                <label asp-for="UserEditDto.LastName" class="control-label"></label>
+                <input asp-for="UserEditDto.LastName" class="form-control" />
+                <span asp-validation-for="UserEditDto.LastName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="UserName" class="control-label"></label>
-                <input asp-for="UserName" class="form-control" />
-                <span asp-validation-for="UserName" class="text-danger"></span>
+                <label asp-for="UserEditDto.UserName" class="control-label"></label>
+                <input asp-for="UserEditDto.UserName" class="form-control" />
+                <span asp-validation-for="UserEditDto.UserName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Address" class="control-label"></label>
-                <input asp-for="Address" class="form-control" />
-                <span asp-validation-for="Address" class="text-danger"></span>
+                <label asp-for="UserEditDto.Address" class="control-label"></label>
+                <input asp-for="UserEditDto.Address" class="form-control" />
+                <span asp-validation-for="UserEditDto.Address" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Phone" class="control-label"></label>
-                <input asp-for="Phone" class="form-control" />
-                <span asp-validation-for="Phone" class="text-danger"></span>
+                <label asp-for="UserEditDto.Phone" class="control-label"></label>
+                <input asp-for="UserEditDto.Phone" class="form-control" />
+                <span asp-validation-for="UserEditDto.Phone" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="UserImagePath" class="control-label">Profile Picture</label>
-                <input asp-for="UserImagePath" class="form-control" type="file" />
-                <span asp-validation-for="UserImagePath" class="text-danger"></span>
+                <label asp-for="File" class="control-label">Profile Picture</label>
+                <input asp-for="File" class="form-control" type="file" />
+                <span asp-validation-for="File" class="text-danger"></span>
                 <br />
-                <img src="/Img/UserImages/@Model.UserImagePath" alt="" height="500" /> 
+                <img src="/Img/UserImages/@Model.UserEditDto.UserImagePath" alt="" height="500" />
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)
+                    <input class="form-check-input" asp-for="UserEditDto.IsActive" /> @Html.DisplayNameFor(model => model.UserEditDto.IsActive)
                 </label>
             </div>
             <div class="form-group">
-                <label asp-for="RoleId" class="control-label">Role</label>
-                <select asp-for="RoleId" class="form-select" asp-items="ViewBag.Roles"></select>
-                <span asp-validation-for="RoleId" class="text-danger"></span>
+                <label asp-for="UserEditDto.RoleId" class="control-label">Role</label>
+                <select asp-for="UserEditDto.RoleId" class="form-select" asp-items="ViewBag.Roles"></select>
+                <span asp-validation-for="UserEditDto.RoleId" class="text-danger"></span>
             </div>          
 
 
             <div class="form-group form-check">
-                @if (Model.Setting != null && Model.Setting.Value == "True")
+                @if (Model.UserEditDto.Setting != null && Model.UserEditDto.Setting.Value == "True")
                 {
-                    <input asp-for="UserTheme" class="form-check-input " checked />
+                    <input asp-for="UserEditDto.UserTheme" class="form-check-input " checked />
                 }
                 else
                 {
-                    <input asp-for="UserTheme" class="form-check-input " />
+                    <input asp-for="UserEditDto.UserTheme" class="form-check-input " />
                 }
                 <label class="form-check-label">User Theme</label>
             </div>
