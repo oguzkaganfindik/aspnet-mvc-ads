@@ -52,6 +52,7 @@ namespace Ads.Persistence.Services
                                                    .ThenInclude(ca => ca.SubCategory)
                                        .Include(a => a.AdvertImages)
                                        .Include(a => a.AdvertComments)
+                                                     .ThenInclude(ar => ar.User)
                                        .Include(a => a.AdvertRatings)
                                                     .ThenInclude(ar => ar.User)
                                        .Include(a => a.User)

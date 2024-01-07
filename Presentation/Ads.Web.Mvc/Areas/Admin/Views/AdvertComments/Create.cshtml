@@ -1,17 +1,18 @@
-﻿@model Ads.Domain.Entities.Concrete.AdvertComment
+﻿@model Ads.Web.Mvc.Areas.Admin.ViewModels.AdvertCommentCreationViewModel
 
 @{
-    ViewData["Title"] = "Advert Comment Create";
+    ViewData["Title"] = "Add Advert Comment";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayoutNested.cshtml";
 }
 
-<h1>Advert Comment Create</h1>
+<h1>Add Advert Comment</h1>
 
 
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
+            <input type="hidden" asp-for="AdvertId" />
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Comment" class="control-label"></label>
@@ -24,12 +25,11 @@
                 </label>
             </div>
             <div class="form-group">
-                <label asp-for="AdvertId" class="control-label">Advert Title</label>
-                <select asp-for="AdvertId" class ="form-control" asp-items="ViewBag.AdvertId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="UserId" class="control-label">Username</label>
-                <select asp-for="UserId" class ="form-control" asp-items="ViewBag.UserId"></select>
+                <label asp-for="UserId" class="control-label">User</label>
+                <select asp-for="UserId" asp-items="Model.Users" class="form-select">
+                    <option value="">Select a user</option>
+                </select>
+                <span asp-validation-for="UserId" class="text-danger"></span>
             </div>
 
             <div class="form-group mt-5">
