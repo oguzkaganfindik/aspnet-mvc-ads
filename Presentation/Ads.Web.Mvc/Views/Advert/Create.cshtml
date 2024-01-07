@@ -1,0 +1,155 @@
+﻿@using Ads.Application.DTOs.Advert
+@model AdvertDto
+
+@{
+    ViewData["Title"] = "Add Advert";
+}
+
+<section class="ad-post bg-gray py-5">
+    <div class="container">
+        <form asp-controller="Advert" asp-action="Create" enctype="multipart/form-data">
+            @* <div asp-validation-summary="ModelOnly" class="text-danger"> *@
+            <!-- Post Your ad start -->
+            <fieldset class="border border-gary p-4 mb-5">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h3>Post Your ad</h3>
+                    </div>
+                    <div class="col-lg-6">
+
+                        <!-- Title -->
+                        <h6 class="font-weight-bold pt-4 pb-1">Title Of Ad:</h6>
+                        <div class="form-group">
+                            <input asp-for="Title" class="border w-100 p-2 bg-white text-capitalize" placeholder="Ad title go There" />
+                            <span asp-validation-for="Title" class="text-danger"></span>
+                        </div>
+                        <!-- Title -->
+                        <!-- Person or Business -->
+                        <h6 class="font-weight-bold pt-4 pb-1">Ad Type:</h6>
+
+                        <div class="form-group">
+                            <div class="row px-3">
+                                <div class="col-lg-4 mr-lg-4 my-2 rounded bg-white ">
+                                    <input type="radio" asp-for="Type" asp-for="Type" value="true" id="Business" checked>
+                                    <label for="business" class="py-2">Business</label>
+                                </div>
+                                <div class="col-lg-4 mr-lg-4 my-2 rounded bg-white">
+                                    <input type="radio" asp-for="Type" asp-for="Type" value="false" id="Person">
+                                    <label for="personal" class="py-2">Personal</label>
+                                </div>
+                                <span asp-validation-for="Type" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <!-- Person or Business -->
+                        <!-- Description -->
+                        <div class="form-group">
+                            <h6 class="font-weight-bold pt-4 pb-1">Description:</h6>
+                            <textarea name="Description" asp-for="Description" id="Description" class="border p-3 w-100" rows="7" placeholder="Write details about your product"></textarea>
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+                        <!-- Description -->
+
+                    </div>
+
+
+                    <!-- Category and SubCategory Select -->
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <h6 class="font-weight-bold pt-4 pb-1">Select Ad Category:</h6>
+                            <label class="font-weight-bold pt-4 pb-1" for="Category">Category</label>
+                            <select id="Category" name="SelectedCategoryIds">
+                                <option value="">Select a category</option>
+                                @foreach (var category in ViewBag.CategoryId as SelectList)
+                                {
+                                    <option value="@category.Value">@category.Text</option>
+                                }
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="font-weight-bold pt-4 pb-1" for="subCategory">Subcategory</label>
+                            <select id="subCategory" name="SelectedSubCategoryIds">
+                                <option value="">Please select a category first</option>
+                            </select>
+                        </div>
+
+                        <div id="selectedCategoriesContainer"></div>
+                        <div id="selectedSubCategoriesContainer"></div>
+                        <!-- Category and SubCategory Select -->
+                        <!-- Price -->
+                        <div class="form-group">
+                            <div class="price">
+                                <h6 class="font-weight-bold pt-4 pb-1">Item Price ($ USD):</h6>
+                                <div class="row px-3">
+                                    <div class="col-lg-4 mr-lg-4 rounded bg-white my-2 ">
+                                        <input type="text" name="price" class="border-0 py-2 w-100 price" placeholder="Price" id="price">
+                                        <span asp-validation-for="Price" class="text-danger"></span>
+                                    </div>
+                                    <div class="col-lg-4 mrx-4 rounded bg-white my-2">
+                                        <input asp-for="OnSale" value="OnSale" id="OnSale">
+                                        <label for="OnSale" class="py-2">On Sale?</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Price -->
+                        <!-- Image -->
+                        <form asp-controller="AdvertImages" asp-action="Create" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <div class="choose-file text-center my-4 py-4 rounded">
+                                <label for="file-upload">
+                                    <span class="d-block font-weight-bold text-dark">Drop files anywhere to upload</span>
+                                    <span class="d-block">or</span>
+                                    <span class="d-block btn bg-primary text-white my-3 select-files">Select files</span>
+                                        @* <input asp-for="AdvertImagePath" class="form-control" type="file" />
+                                    <span asp-validation-for="AdvertImagePath" class="text-danger"></span> *@
+                                </label>
+                            </div>
+                        </div>
+                        </form>
+                        <!-- Image -->
+
+                    </div>
+                </div>
+            </fieldset>
+            <!-- Post Your ad end -->
+            <!-- submit button -->
+            <button type="submit" class="btn btn-primary d-block mt-2">Post Your Ad</button>
+            @* </div> *@
+        </form>
+    </div>
+</section>
+
+
+@section Scripts {
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#Category').change(function () {
+                var categoryId = $(this).val();
+                $('#subCategory').empty();
+                $('#subCategory').append('<option value="">Subcategory loading...</option>');
+                $.ajax({
+                    url: '@Url.Action("GetSubCategories", "Adverts")',
+                    type: 'GET',
+                    data: { categoryId: categoryId },
+                    success: function (subCategories) {
+                        $('#subCategory').empty();
+                        $('#subCategory').append('<option value="">Select a subcategory</option>');
+                        $.each(subCategories, function (i, subCategory) {
+                            $('#subCategory').append('<option value="' + subCategory.value + '">' + subCategory.text + '</option>');
+                        });
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("An error occurred while loading subcategories:", error);
+                    }
+                });
+            });
+
+            // $('#subCategory').change(function () {
+            //     var subCategoryId = $(this).val();
+            //     $('#selectedSubCategoriesContainer').html('<input type="hidden" name="SelectedSubCategoryIds" value="' + subCategoryId + '">');
+            // });
+        });
+    </script>
+}

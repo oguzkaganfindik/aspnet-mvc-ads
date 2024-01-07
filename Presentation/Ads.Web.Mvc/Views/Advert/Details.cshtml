@@ -1,0 +1,435 @@
+﻿@model Ads.Application.DTOs.Advert.AdvertDto
+
+@{
+    ViewData["Title"] = "Advert Details";
+}
+
+<partial name="~/Views/Advert/Search.cshtml" />
+
+
+<section class="section bg-gray">
+    <!-- Container Start -->
+    <div class="container">
+        <div class="row">
+            <!-- Left sidebar -->
+            <div class="col-md-8">
+                <div class="product-details">
+                    <h1 class="product-title">@Model.Title</h1>
+                    <div class="product-meta">
+                        <ul class="list-inline">
+                            <li class="list-inline-item">
+                                <i class="fa fa-user-o"></i> By <a href="">
+                                    
+                                    @(Model.User.FirstName != null ? Model.User.FirstName : "") @(Model.User.LastName != null ? Model.User.LastName : "")
+                                    
+                                </a></li>
+
+                            <li class="list-inline-item"><i class="fa fa-folder-open-o"></i> Category<a href="">
+
+                                    @if (Model.CategoryAdverts != null && Model.CategoryAdverts.Any())
+                                    {
+                                        foreach (var categoryAdvert in Model.CategoryAdverts)
+                                        {
+                                            @categoryAdvert.Category?.Name <span> - </span>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <text>No Category</text>
+                                    }
+                                
+                            </a></li>
+
+                            <li class="list-inline-item"><i class="fa fa-folder-open-o"></i> Sub Category<a href="">
+
+                                    @if (Model.SubCategoryAdverts != null && Model.SubCategoryAdverts.Any())
+                                    {
+                                        foreach (var subCategoryAdvert in Model.SubCategoryAdverts)
+                                        {
+                                            @subCategoryAdvert.SubCategory?.Name <span> - </span>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <text>No SubCategory</text>
+                                    }
+
+                                </a></li><br />
+
+
+                            <li class="list-inline-item">
+                                <i class="fa fa-location-arrow"></i> Location<a href="">
+
+                                    @(Model.User.Address != null ? Model.User.Address : "")
+
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <br />
+
+                    <!-- Slider -->
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <section class="section">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="featured-carousel owl-carousel">
+
+                                                @if (Model.AdvertImages != null)
+                                                {
+                                                    var imageCounter = 1;
+                                                    foreach (var advertImage in Model.AdvertImages)
+                                                    {
+                                                        var modalId = $"imageModal_{imageCounter}";
+                                                        <div class="item">
+                                                            <div class="work">
+                                                                <div class="img d-flex align-items-center justify-content-center rounded" style="background-image: url(/Img/AdvertImages/@advertImage.AdvertImagePath)">
+                                                                    <div class="d-flex justify-content-between">
+                                                                        <a href="javascript:void(0)" class="icon d-flex align-items-center justify-content-center" data-bs-toggle="modal" data-bs-target="#@modalId">
+                                                                            <span class="ion-ios-search"></span>
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        imageCounter++;
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <div class="item">
+                                                        <div class="work">
+                                                            <div class="img d-flex align-items-center justify-content-center rounded">
+                                                                <p>No images available</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                <!-- Slider -->
+
+                <!--/ ZoomImage Modal -->
+                @if (Model.AdvertImages != null)
+                {
+                    var imageCounter = 1;
+                    foreach (var advertImage in Model.AdvertImages)
+                    {
+                        var modalId = $"imageModal_{imageCounter}";
+                        <div class="modal fade" id="@modalId" tabindex="-1" aria-hidden="true">
+                            <div class="modal-dialog modal-lg modal-simple modal-edit-user">
+                                <div class="modal-content p-3 p-md-5">
+                                    <div class="modal-body">
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        <div class="text-center mb-4">
+                                            <img src="/Img/AdvertImages/@advertImage.AdvertImagePath" height="500" max-width="100%" object-fit="contain" class="img-fluid">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        imageCounter++;
+                    }
+                }
+
+                <!--/ ZoomImage Modal -->
+
+                    <div class="content pt-5">
+                        <ul class="nav nav-pills  justify-content-center" id="pills-tab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home"
+                                   aria-selected="true">Advert Details</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile"
+                                   aria-selected="false">Specifications</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact"
+                                   aria-selected="false">Reviews</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="pills-tabContent">
+                            <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                                <h3 class="tab-title">Advert Description</h3>
+                                <p>
+                                    @(Model.Description != null ? Model.Description : "")
+                                </p>
+
+                            </div>
+                            <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+                                <h3 class="tab-title">Advert Specifications</h3>
+                                <table class="table table-bordered product-table">
+                                    <tbody>
+                                        <tr>
+                                            <td>Categories</td>
+                                            <td>
+                                                @if (Model.CategoryAdverts != null && Model.CategoryAdverts.Any())
+                                                {
+                                                    foreach (var categoryAdvert in Model.CategoryAdverts)
+                                                    {
+                                                        @categoryAdvert.Category?.Name <span> - </span>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <text>No Category</text>
+                                                }
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Sub Categories</td>
+                                            <td>
+                                                @if (Model.SubCategoryAdverts != null && Model.SubCategoryAdverts.Any())
+                                                {
+                                                    foreach (var subCategoryAdvert in Model.SubCategoryAdverts)
+                                                    {
+                                                        @subCategoryAdvert.SubCategory?.Name <span> - </span>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <text>No SubCategory</text>
+                                                }
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Seller Price</td>
+                                            <td>$@(Model.Price != null ? Model.Price : "")</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Added</td>
+                                            <td>@(Model.CreatedDate != null ? Model.CreatedDate : "")</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Updated</td>
+                                            <td>
+                                                @if (Model.UpdatedDate != null)
+                                                {
+                                                    @Model.UpdatedDate
+                                                }
+                                                else
+                                                {
+                                                    <span>Not yet updated</span>
+                                                }
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Is On Sale?</td>
+                                            <td>@(Model.OnSaleString != null ? Model.OnSaleString : "")</td>
+                                        </tr>
+                                        <tr>
+                                            <td>State</td>
+                                            <td>@(Model.TypeString != null ? Model.TypeString : "")</td>
+                                        </tr>
+                                        <tr>
+                                            <td>E-mail</td>
+                                            <td>@(Model.User.Email != null ? Model.User.Email : "")</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Phone</td>
+                                            <td>@(Model.User.Phone != null ? Model.User.Phone : "")</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Address</td>
+                                            <td>@(Model.User.Address != null ? Model.User.Address : "")</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
+                                <h3 class="tab-title">Advert Review</h3>
+                                <div class="product-review">
+                                    <div class="media">
+                                        <!-- Avatar -->
+                                        <div class="media-body">
+                                            @* <!-- Ratings -->
+                                            <div class="ratings">
+                                            <ul class="list-inline">
+                                            <li class="list-inline-item">
+                                            <i class="fa fa-star"></i>
+                                            </li>
+                                            <li class="list-inline-item">
+                                            <i class="fa fa-star"></i>
+                                            </li>
+                                            <li class="list-inline-item">
+                                            <i class="fa fa-star"></i>
+                                            </li>
+                                            <li class="list-inline-item">
+                                            <i class="fa fa-star"></i>
+                                            </li>
+                                            <li class="list-inline-item">
+                                            <i class="fa fa-star"></i>
+                                            </li>
+                                            </ul>
+                                            </div> *@
+                                            <div class="card-body mt-3">
+                                                @if (Model.AdvertRatings != null && Model.AdvertRatings.Any())
+                                                {
+                                                    @foreach (var item in Model.AdvertRatings)
+                                                    {
+                                                        <div>
+                                                            <span style="font-size: 24px;">
+                                                                @if (item.User != null && !string.IsNullOrEmpty(item.User.UserName))
+                                                                {
+                                                                    @item.User.UserName
+                                                                }
+                                                                else
+                                                                {
+                                                                    <span>No User Data</span>
+                                                                }
+                                                            </span>
+
+                                                            <div class="star-rating" data-rating="@item.Rating">
+                                                                @for (int i = 1; i <= item.Rating; i++)
+                                                                {
+                                                                    <span class="filled" style="color: gold; font-size: 36px;">&#9733;</span>
+                                                                    <!-- Altın rengi yıldız sembolü -->
+                                                                }
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <text>Puan Yok</text>
+                                                }
+                                            </div>
+
+
+                                            <div class="card-body mt-3">
+                                                @if (Model.AdvertComments != null && Model.AdvertComments.Any())
+                                                {
+                                                    foreach (var comment in Model.AdvertComments)
+                                                    {
+                                                        if (comment != null && comment.User != null)  // Null kontrolü ekleyin
+                                                        {
+                                                            <div class="name">
+                                                                <h5>@comment.User.FirstName @comment.User.LastName</h5>
+                                                            </div>
+                                                            <div class="date">
+                                                                <p>@comment.User.CreatedDate</p>
+                                                            </div>
+                                                            <div class="review-comment">
+                                                                <p>
+                                                                    @comment.Comment
+                                                                </p>
+                                                            </div>
+                                                        }
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <text>No Comments</text>
+                                                }
+                                            </div>
+
+                                            @* yorumlar gelmiyor *@
+
+
+
+
+
+
+                                        </div>
+                                    </div>
+                                    <div class="review-submission">
+                                        <h3 class="tab-title">Submit your review</h3>
+                                        <!-- Rate -->
+                                        <div class="rate">
+                                            <div class="starrr"></div>
+                                        </div>
+                                        <div class="review-submit">
+                                            <form action="#" class="row">
+                                                <div class="col-lg-6">
+                                                    <input type="text" name="name" id="name" class="form-control" placeholder="Name">
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <input type="email" name="email" id="email" class="form-control" placeholder="Email">
+                                                </div>
+                                                <div class="col-12">
+                                                    <textarea name="review" id="review" rows="10" class="form-control" placeholder="Message"></textarea>
+                                                </div>
+                                                <div class="col-12">
+                                                    <button type="submit" class="btn btn-main">Sumbit</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="sidebar">
+                    <div class="widget price text-center">
+                        <h4>Price</h4>
+                        <p>$@Model.Price</p>
+                    </div>
+                    <!-- User Profile widget -->
+                    <div class="widget user text-center">
+                        @if (Model.User.UserImagePath != null)
+                        {
+                            <img class="rounded-circle img-fluid mb-5 px-5" src="/Img/UserImages/@Model.User.UserImagePath" alt="">
+                        }
+                        <h4><a href="">@(Model.User.FirstName != null ? Model.User.FirstName : "") @(Model.User.LastName != null ? Model.User.LastName : "")</a></h4>
+                        <p class="member-time">Member Since @Model.User.CreatedDate</p>
+                        <a href="">See all ads</a>
+                        <ul class="list-inline mt-20">
+                            <li class="list-inline-item"><a href="mailto:@Model.User.Email" class="btn btn-contact d-inline-block  btn-primary px-lg-5 my-1 px-md-3">E-Mail</a></li>
+                        </ul>
+                    </div>
+                    <!-- Map Widget -->
+                    <div class="widget map">
+                        <div class="map">
+                            <div id="map_canvas" data-latitude="39.925533" data-longitude="32.866287"></div>
+                        </div>
+                    </div>
+                    <!-- Rate Widget -->
+                    <div class="widget rate">
+                        <!-- Heading -->
+                        <h5 class="widget-header text-center">
+                            What would you rate
+                            <br>
+                            this product
+                        </h5>
+                        <!-- Rate -->
+                        <div class="starrr"></div>
+                    </div>
+                    <!-- Safety tips widget -->
+                    <div class="widget disclaimer">
+                        <h5 class="widget-header">Safety Tips</h5>
+                        <ul>
+                            <li>Meet seller at a public place</li>
+                            <li>Check the item before you buy</li>
+                            <li>Pay only after collecting the item</li>
+                        </ul>
+                    </div>
+                    <!-- Coupon Widget -->
+                    <div class="widget coupon text-center">
+                        <!-- Coupon description -->
+                        <p>
+                            Have a great product to post ? Share it with
+                            your fellow users.
+                        </p>
+                        <!-- Submii button -->
+                        <a href="/Advert/Create" class="btn btn-transparent-white">Submit Listing</a>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- Container End -->
+</section>
