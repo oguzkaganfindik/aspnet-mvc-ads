@@ -130,7 +130,7 @@
                 $('#subCategory').empty();
                 $('#subCategory').append('<option value="">Subcategory loading...</option>');
                 $.ajax({
-                    url: '@Url.Action("GetSubCategories", "Adverts")',
+                    url: '@Url.Action("GetSubCategories", "Advert")',
                     type: 'GET',
                     data: { categoryId: categoryId },
                     success: function (subCategories) {

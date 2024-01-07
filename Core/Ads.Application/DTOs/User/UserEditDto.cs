@@ -1,13 +1,4 @@
-﻿using Ads.Application.DTOs.Advert;
-using Ads.Application.DTOs.AdvertComment;
-using Ads.Application.DTOs.AdvertRating;
-using Ads.Application.DTOs.Role;
-using Ads.Application.DTOs.Setting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Ads.Application.DTOs.Setting;
 
 namespace Ads.Application.DTOs.User
 {

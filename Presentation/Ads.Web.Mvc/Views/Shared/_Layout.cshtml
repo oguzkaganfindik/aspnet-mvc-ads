@@ -73,7 +73,7 @@
     <script src="~/dist/plugins/google-map/gmap.js"></script>
     <script src="~/dist/js/script.js"></script>
 
-    @await RenderSectionAsync("Scripts", required: false)
+    
     <!-- Slider -->
     <script src="/assets/vendor/js/bootstrap.js"></script>
     <script src="/Slider/jquery.min.js"></script>
@@ -83,5 +83,6 @@
     <script src="/Slider/main.js"></script>
     <script defer src="https://static.cloudflareinsights.com/beacon.min.js/v84a3a4012de94ce1a686ba8c167c359c1696973893317" integrity="sha512-euoFGowhlaLqXsPWQ48qSkBSCFs3DPRyiwVu3FjR96cMPx+Fr+gpWRhIafcHwqwCqWS42RZhIudOvEI+Ckf6MA==" data-cf-beacon='{"rayId":"83cb2ad15cd668b3","version":"2023.10.0","token":"cd0b4b3a733644fc843ef0b185f98241"}' crossorigin="anonymous"></script>
     <!-- Slider -->
+    @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

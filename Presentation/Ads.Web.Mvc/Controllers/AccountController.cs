@@ -1,13 +1,18 @@
 ﻿using Ads.Application.DTOs.User;
 using Ads.Application.Services;
+using Ads.Application.ViewModels;
 using Ads.Domain.Entities.Concrete;
 using Ads.Infrastructure.Services;
+using Ads.Persistence.Services;
 using Ads.Web.Mvc.Extensions;
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using System.Security.Claims;
 
@@ -19,14 +24,16 @@ namespace Ads.Web.Mvc.Controllers
 
 
         private readonly IService<Setting> _serviceSetting;
+        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IMapper _mapper;
         private readonly RoleManager<AppRole> _roleManager;
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly IEmailService _emailService;
+        private readonly IUserService _service;
 
 
-        public AccountController(IService<Setting> serviceSetting, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IEmailService emailService, IMapper mapper, RoleManager<AppRole> roleManager)
+        public AccountController(IService<Setting> serviceSetting, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IEmailService emailService, IMapper mapper, RoleManager<AppRole> roleManager, IUserService service, IHttpContextAccessor httpContextAccessor)
         {
             _serviceSetting = serviceSetting;
 
@@ -35,6 +42,8 @@ namespace Ads.Web.Mvc.Controllers
             _emailService = emailService;
             _mapper = mapper;
             _roleManager = roleManager;
+            _service = service;
+            _httpContextAccessor = httpContextAccessor;
         }
 
 
@@ -78,7 +87,7 @@ namespace Ads.Web.Mvc.Controllers
 
             }
             TempData["SuccessMessage"] = "Üyelik kayıt işlemi başarı ile gerçekleşmiştir.";
-            return RedirectToAction(nameof(AccountController.Register));
+            return RedirectToAction(nameof(Login));
 
         }
 
@@ -89,8 +98,9 @@ namespace Ads.Web.Mvc.Controllers
 
         //Details
         //[Authorize(Policy = "CustomerPolicy")]
-        public async Task<IActionResult> DetailsAsync(string userId)
+        public async Task<IActionResult> Details()
         {
+            string userId = _httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.NameIdentifier).Value;
             if (string.IsNullOrEmpty(userId))
             {
                 return NotFound();
@@ -98,119 +108,55 @@ namespace Ads.Web.Mvc.Controllers
 
             var user = await _userManager.FindByIdAsync(userId);
 
-            if (user != null)
+            var userEditDto = _mapper.Map<UserEditDto>(user);
+
+            EditUserViewModel editUserViewModel = new()
             {
-                return View(user);
-            }
+                UserEditDto = userEditDto,
 
-            return NotFound();
+            };
 
+            return View(editUserViewModel);
+            
 
         }
 
 
-
-        ////UserUpdate
-        //[RequestFormLimits(MultipartBodyLengthLimit = 10485760)]
-        //[RequestSizeLimit(10485760)] // 10 MB
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //[Authorize(Policy = "CustomerPolicy")]
-        //public async Task<IActionResult> UserUpdateAsync(AppUser user, IFormFile UserImagePath)
-        //{
-        //    try
-        //    {
-        //        var email = User.FindFirst(ClaimTypes.Email)?.Value;
-        //        var uguid = User.FindFirst(ClaimTypes.UserData)?.Value;
-        //        if (!string.IsNullOrEmpty(email) && !string.IsNullOrEmpty(uguid))
-
-        //        {
-        //            var updatedUser = _service.Get(k => k.Email == email && k.UserGuid.ToString() == uguid);
-        //            if (updatedUser != null)
-        //            {
-        //                updatedUser.Username = user.Username;
-        //                updatedUser.FirstName = user.FirstName;
-        //                updatedUser.LastName = user.LastName;
-        //                updatedUser.Phone = user.Phone;
-        //                updatedUser.Address = user.Address;
-        //                updatedUser.IsActive = user.IsActive;
-        //                updatedUser.CreatedDate = user.CreatedDate;
-
-        //                if (UserImagePath != null && UserImagePath.Length > 1)
-        //                {
-
-        //                    user.UserImagePath = await FileHelper.FileLoaderAsync(UserImagePath, "/Img/UserImages/");
-
-        //                    //var imagePath = "/Img/UserImages/" + Guid.NewGuid() + Path.GetExtension(UserImagePath.FileName);
-        //                    //var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", imagePath);
-        //                    //using (var stream = new FileStream(filePath, FileMode.Create))
-        //                    //{
-        //                    //    await UserImagePath.CopyToAsync(stream);
-        //                    //}
-
-        //                    updatedUser.UserImagePath = user.UserImagePath;
-        //                }
-        //                _service.Update(updatedUser);
-        //                await _service.SaveAsync();
-        //            }
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        ModelState.AddModelError("", "Hata Oluştu: " + ex.Message);
-        //    }
-        //    return RedirectToAction("Details", "Account");
-        //}
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Policy = "CustomerPolicy")]
-        public async Task<IActionResult> UserUpdateAsync(AppUser model)
+        [Authorize(Policy = "User")]
+        public async Task<IActionResult> UserUpdateAsync(EditUserViewModel editUserViewModel)
         {
-            try
+            if (!ModelState.IsValid)
             {
-                if (ModelState.IsValid)
+                // Eğer model geçerli değilse, hataları göster ve düzenleme sayfasına geri dön
+                return View(editUserViewModel);
+            }
+
+            var result = await _service.UpdateUserAsync(editUserViewModel.UserEditDto , editUserViewModel.File);
+
+            if (result.Succeeded)
+            {
+                // Başarılı güncelleme durumunda, kullanıcıyı başka bir sayfaya yönlendir
+                return RedirectToAction("Index" , "Home");
+            }
+            else
+            {
+                // Başarısız güncelleme durumunda, hataları göster ve düzenleme sayfasına geri dön
+                foreach (var error in result.Errors)
                 {
-                    var user = await _userManager.GetUserAsync(User); // Kullanıcıyı al
-
-                    if (user != null)
-                    {
-                        user.UserName = model.UserName;
-                        user.FirstName = model.FirstName;
-                        user.LastName = model.LastName;
-                        user.PhoneNumber = model.Phone;
-                        user.Address = model.Address;
-                        user.IsActive = model.IsActive;
-                        user.CreatedDate = model.CreatedDate;
-
-                        if (model.UserImagePath != null && model.UserImagePath.Length > 0)
-                        {
-                            user.UserImagePath = await FileHelper.FileLoaderAsync(model.UserImagePath, "/Img/UserImages/");
-                            // Kullanıcı resmini güncelleme
-                        }
-
-                        var result = await _userManager.UpdateAsync(user); // Kullanıcıyı güncelle
-
-                        if (result.Succeeded)
-                        {
-                            return RedirectToAction("Details", "Account");
-                        }
-                        else
-                        {
-                            foreach (var error in result.Errors)
-                            {
-                                ModelState.AddModelError("", error.Description);
-                            }
-                        }
-                    }
+                    ModelState.AddModelError(string.Empty, error.Description);
                 }
-            }
-            catch (Exception ex)
-            {
-                ModelState.AddModelError("", "Hata Oluştu: " + ex.Message);
+
+                var allRoles = await _roleManager.Roles.ToListAsync(); // RolManager ile tüm rolleri çek
+                ViewBag.Roles = new SelectList(allRoles, "Name", "Name", editUserViewModel.UserEditDto.Roles.FirstOrDefault());
+                ModelState.Clear();
+                return View("Edit", editUserViewModel);
             }
 
-            return RedirectToAction("Details", "Account");
         }
+
+
 
         public IActionResult Login()
         {
@@ -221,7 +167,7 @@ namespace Ads.Web.Mvc.Controllers
         [HttpPost]
         public async Task<IActionResult> LoginAsync(LoginDto customerLoginViewModel, string? returnUrl = null)
         {
-            returnUrl = returnUrl ?? Url.Action("Index", "Home");
+            returnUrl ??= Url.Action("Index", "Home");
 
             //Bunları niye silmediniz :)
 
@@ -254,6 +200,8 @@ namespace Ads.Web.Mvc.Controllers
                 ModelState.AddModelErrorList(new List<string>() { $"Email veya şifre yanlış.", $"Başarısız giriş sayısı: {await _userManager.GetAccessFailedCountAsync(hasUser)}" });
                 return View(customerLoginViewModel);
             }
+
+            //Response.Cookies.Append("UserId", hasUser.Id.ToString());
             //if (hasUser.BirthDate.HasValue)
             //{
             //    await _signInManager.SignInWithClaimsAsync(hasUser, customerLoginViewModel.RememberMe, new[] { new Claim("birthdate", hasUser.BirthDate.Value.ToString()) });

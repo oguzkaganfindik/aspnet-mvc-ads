@@ -18,9 +18,6 @@ namespace Ads.Infrastructure.Services
             return fileName;
         }
 
-        public static Task<string?> FileLoaderAsync(string userImagePath, string v)
-        {
-            throw new NotImplementedException();
-        }
+  
     }
 }

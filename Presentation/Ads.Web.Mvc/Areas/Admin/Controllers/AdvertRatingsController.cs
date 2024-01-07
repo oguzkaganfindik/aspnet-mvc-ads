@@ -2,6 +2,7 @@
 using Ads.Application.Services;
 using Ads.Domain.Entities.Concrete;
 using Ads.Web.Mvc.Areas.Admin.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
