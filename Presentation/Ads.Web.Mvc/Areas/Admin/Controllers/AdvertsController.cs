@@ -1,5 +1,6 @@
 ﻿using Ads.Application.DTOs.Advert;
 using Ads.Application.DTOs.AdvertImage;
+using Ads.Application.DTOs.AdvertRating;
 using Ads.Application.Services;
 using Ads.Domain.Entities.Concrete;
 using Ads.Persistence.Services;
@@ -132,11 +133,12 @@ namespace Ads.Web.Mvc.Areas.Admin.Controllers
                 try
                 {
                     await _advertService.UpdateAdvertAsync(advertDto, selectedCategoryIds, selectedSubCategoryIds);
-                    return RedirectToAction(nameof(Index));
+                    
                 }
                 catch (Exception ex)
                 {
                     ModelState.AddModelError("", "Bir hata oluştu: " + ex.Message);
+                    return RedirectToAction(nameof(Index));
                 }
             }
 
@@ -144,7 +146,7 @@ namespace Ads.Web.Mvc.Areas.Admin.Controllers
             ViewBag.CategoryId = new SelectList(await _serviceCategory.GetAllAsync(), "Id", "Name", selectedCategoryIds);
             ViewBag.SubCategoryId = new SelectList(await _serviceSubCategory.GetAllAsync(), "Id", "Name", selectedSubCategoryIds);
 
-            return View(advertDto);
+            return RedirectToAction("Details", "Adverts", new { id = advertDto.Id });
         }
 
 

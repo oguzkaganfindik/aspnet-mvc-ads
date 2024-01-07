@@ -29,6 +29,7 @@ namespace Ads.Persistence
             services.AddScoped<IPageService, PageService>();
             services.AddScoped<IAdvertImageRepository, AdvertImageRepository>();
             services.AddScoped<IAdvertRatingRepository, AdvertRatingRepository>();
+            services.AddScoped<IAdvertCommentRepository, AdvertCommentRepository>();
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Ads.Application.Repositories;
+﻿using Ads.Application.DTOs.AdvertComment;
+using Ads.Application.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,5 +10,6 @@ namespace Ads.Application.Services
 {
     public interface IAdvertCommentService : IAdvertCommentRepository
     {
+        Task AddAdvertCommentAsync(AdvertCommentDto advertCommentDto);
     }
 }

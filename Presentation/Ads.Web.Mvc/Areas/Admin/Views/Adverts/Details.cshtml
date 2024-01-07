@@ -200,7 +200,6 @@
                         <div class="card mb-4">
                             <div class="card-header">
                                 <a class="btn btn-success" asp-area="Admin" asp-controller="AdvertImages" asp-action="Create" asp-route-advertId="@Model.Id">Add Image</a>
-
                             </div>
                             <div class="card-body">
                                 <section class="section">
@@ -250,6 +249,71 @@
                                         </div>
                                     </div>
                                 </section>
+                            </div>
+                        </div>
+
+                        <!-- Her bir ilan için yorumları göster -->
+
+                        <div class="card mb-4">
+                            <div class="card-header d-flex justify-content-between">
+                                <h6 class="card-title m-0">Advert Comments</h6>
+                                <!-- Buttons -->
+                                <div class="d-flex align-content-center flex-wrap gap-2">
+                                    <!-- Create Comment Button -->
+                                    <div class="d-flex justify-content-center flex-wrap gap-2">
+                                        <a class="btn btn-success" asp-controller="AdvertComments" asp-action="Create" asp-route-advertId="@Model.Id">Add Comment</a>
+                                    </div>
+                                    <!-- Create Comment Button -->
+                                    <!-- Edit Comment Button -->
+                                    @* <div class="d-flex justify-content-center flex-wrap gap-2">
+                                    <a class="btn btn-outline-primary edit-order" asp-action="Edit" asp-route-id="@Model.Id">Comment Edit</a>
+                                    </div>
+                                    <!-- Edit Comment Button -->
+                                    <!-- Delete Comment Button -->
+                                    <div class="d-flex justify-content-center flex-wrap gap-2">
+                                    <a class="btn btn-outline-danger delete-order" asp-action="Delete" asp-route-id="@Model.Id">Comment Delete</a>
+                                    </div> *@
+                                    <!-- Delete Comment Button -->
+                                </div>
+                                <!-- Buttons -->
+                            </div>
+                            <div class="card-body mt-3">
+                                @if (Model.AdvertComments != null && Model.AdvertComments.Any())
+                                {
+                                    <table id="myTable1" class="table table-responsive">
+                                        <thead>
+                                            <tr>
+                                                <th>Username</th>
+                                                <th>Comment</th>
+                                                <th>Commented Date</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var comment in Model.AdvertComments)
+                                            {
+                                                <tr>
+                                                    <td>@comment.User.UserName</td>
+                                                    <td>
+                                                        @comment.Comment
+                                                    </td>
+                                                    <td>@comment.CreatedDate.ToString("dd/MM/yyyy")</td>
+                                                    <td>
+                                                        <div class="d-flex justify-content-center flex-wrap gap-2">
+                                                            <button class="btn btn-danger delete-order delete-advert-comment" data-advertid="@comment.AdvertId">Delete</button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                }
+                                else
+                                {
+                                    <div class="text-center">
+                                        <p>No Comment</p>
+                                    </div>
+                                }
                             </div>
                         </div>
                     </div>
@@ -375,86 +439,50 @@
 
                         </div>
                         <!-- Yıldızları gösteren blok -->
-                        <!-- Her bir ilan için yorumları göster -->
-
-                        <div class="card mb-4">
-                            <div class="card-header d-flex justify-content-between">
-                                <h6 class="card-title m-0">Advert Comments</h6>
-                                <!-- Buttons -->
-                                <div class="d-flex align-content-center flex-wrap gap-2">
-                                    <!-- Edit Comment Button -->
-                                    <div class="d-flex justify-content-center flex-wrap gap-2">
-                                        <a class="btn btn-outline-primary edit-order" asp-action="Edit" asp-route-id="@Model.Id">Comment Edit</a>
-                                    </div>
-                                    <!-- Edit Comment Button -->
-                                    <!-- Delete Comment Button -->
-                                    <div class="d-flex justify-content-center flex-wrap gap-2">
-                                        <a class="btn btn-outline-danger delete-order" asp-action="Delete" asp-route-id="@Model.Id">Comment Delete</a>
-                                    </div>
-                                    <!-- Delete Comment Button -->
-                                </div>
-                                <!-- Buttons -->
-                            </div>
-                            <div class="card-body mt-3">
-                                @if (Model.AdvertComments != null && Model.AdvertComments.Any())
-                                {
-                                    foreach (var comment in Model.AdvertComments)
-                                    {
-                                        <!-- Her bir yorumu bağımsız olarak göster -->
-                                        <li>
-                                            <strong>@(comment.Advert?.Title)</strong> - @Html.DisplayFor(modelItem => comment.Comment)
-                                        </li>
-                                        <hr />
-                                    }
-                                }
-                                else
-                                {
-                                    <text>No Comments</text>
-                                }
-                            </div>
-                        </div>
 
                     </div>
+
                 </div>
-                <!-- Her bir ilan için yorumları göster -->
-                <!--/ ZoomImage Modal -->
-                @if (Model.AdvertImages != null)
+            </div>
+            <!-- Her bir ilan için yorumları göster -->
+            <!--/ ZoomImage Modal -->
+            @if (Model.AdvertImages != null)
+            {
+                var imageCounter = 1;
+                foreach (var advertImage in Model.AdvertImages)
                 {
-                    var imageCounter = 1;
-                    foreach (var advertImage in Model.AdvertImages)
-                    {
-                        var modalId = $"imageModal_{imageCounter}";
-                        <div class="modal fade" id="@modalId" tabindex="-1" aria-hidden="true">
-                            <div class="modal-dialog modal-lg modal-simple modal-edit-user">
-                                <div class="modal-content p-3 p-md-5">
-                                    <div class="modal-body">
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        <div class="text-center mb-4">
-                                            <img src="/Img/AdvertImages/@advertImage.AdvertImagePath" height="500" max-width="100%" object-fit="contain" class="img-fluid">
-                                        </div>
+                    var modalId = $"imageModal_{imageCounter}";
+                    <div class="modal fade" id="@modalId" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-lg modal-simple modal-edit-user">
+                            <div class="modal-content p-3 p-md-5">
+                                <div class="modal-body">
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    <div class="text-center mb-4">
+                                        <img src="/Img/AdvertImages/@advertImage.AdvertImagePath" height="500" max-width="100%" object-fit="contain" class="img-fluid">
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        imageCounter++;
-                    }
+                    </div>
+                    imageCounter++;
                 }
+            }
 
-                <!--/ ZoomImage Modal -->
+            <!--/ ZoomImage Modal -->
 
 
-                <div class="content-backdrop fade"></div>
-            </div>
-            <!-- Content wrapper -->
-            <!-- / Layout page -->
+            <div class="content-backdrop fade"></div>
         </div>
+        <!-- Content wrapper -->
+        <!-- / Layout page -->
+    </div>
 
-        <!-- Overlay -->
-        <div class="layout-overlay layout-menu-toggle"></div>
+    <!-- Overlay -->
+    <div class="layout-overlay layout-menu-toggle"></div>
 
 
-        <!-- Drag Target Area To SlideIn Menu On Small Screens -->
-        <div class="drag-target"></div>
+    <!-- Drag Target Area To SlideIn Menu On Small Screens -->
+    <div class="drag-target"></div>
 
     </div>
     <!-- / Layout wrapper -->

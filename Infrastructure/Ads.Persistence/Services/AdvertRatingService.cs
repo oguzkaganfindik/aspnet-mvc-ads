@@ -29,9 +29,7 @@ namespace Ads.Persistence.Services
             await _repository.SaveAsync();
         }
         public async Task<int?> DeleteAdvertRatingAsync(int userId, int advertId)
-        {
-            //Buraya advertid den userıd buacak olan method?
-            
+        {           
             var advertRating = await _repository.GetByUserIdAndAdvertIdAsync(userId, advertId);
             if (advertRating != null)
             {
